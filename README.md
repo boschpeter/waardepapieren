@@ -3,6 +3,10 @@
 This project provides a full implementation example of how Discipl components can be used to issue and
 verify claims. In particular, how municipalities can issue
 
+
+
+The whole concept of containerization is all about taking away the pain of building, shipping, and running applications. In this post, we’ve learned how to write Dockerfile as well as build, tag, and publish Docker images. Now it’s time to build on this knowledge and learn about how to automate the entire process using continuous integration and delivery. Here are a few good posts about setting up continuous integration and delivery pipelines to get you started:
+
 ## Preparation
 
 In order to make everything functional, we need to generate valid certificates for demo NLX environments and
