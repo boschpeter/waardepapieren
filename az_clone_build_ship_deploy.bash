@@ -4,7 +4,7 @@
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
-#   Peter Bosch       20200101        hacking into containers
+#   Peter Bosch       20200101        hacking into containers 16:00
 #   Peter Bosch       31.12.2019      processing technical dept .20:00
 #   Peter Bosch       20.12.2019      processing technical dept
 #   Peter Bosch       05.12.2019      Initial version.
@@ -1083,12 +1083,12 @@ git init
 #git config --global credential.helper store
 #git config user.name "BoschPeter"
 
+git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
 git config --global user.name "BoschPeter"
 git config --global user.password "Peter\!2020"
 
-# git config --global user.name "ezahr"
-#git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git
+#git clone https://github.com/boschpeter/waardepapieren.git
 #cd into 
 }
 
