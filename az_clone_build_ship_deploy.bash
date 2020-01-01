@@ -4,6 +4,7 @@
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
+#   Peter Bosch       20200101        hacking into containers
 #   Peter Bosch       31.12.2019      processing technical dept .20:00
 #   Peter Bosch       20.12.2019      processing technical dept
 #   Peter Bosch       05.12.2019      Initial version.
@@ -1104,13 +1105,11 @@ git init
 #Initialized empty Git repository in /home/boscp08/Dropbox/Github/.git/
 git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
-#git config --global user.name "BoschPeter"
-git config --global user.name "datamohikaan"
+git config --global user.name "boschpeter"
 git config --global user.password "Peter\!2020"  #mind macos keyring
 git config --list
 git config --get remote.origin.Uittreksel
-git config credential.username --global "Ezahr"
-git config credential.password --global "Peter\!2020"
+
 }
 
 ##################################################################
