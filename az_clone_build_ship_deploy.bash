@@ -75,9 +75,10 @@ if  [ `uname` = 'Darwin' ]
    echo "MacOs"
 fi
 
-if  [ `uname` = 'MING64_NT-10.0-18362' ]
-    then  HOME_DIR=/c/Users/`whoami`    
-   echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren^"
+if  [ `uname` = 'CYGWIN_NT-10.0' ] 
+    then  HOME_DIR=/home/`whoami`   
+   echo "Windows10 #neds cygwin installed. "
+   # aka C:\cygwin64\home\Gebruiker\Projects\scratch\virtual-insanity
 fi
 
 
