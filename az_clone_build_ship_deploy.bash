@@ -77,7 +77,7 @@ fi
 
 if  [ `uname` = 'MING64_NT-10.0-18362' ]
     then  HOME_DIR=/c/Users/`whoami`    
-   echo "Windows10  ... "
+   echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren^"
 fi
 
 
