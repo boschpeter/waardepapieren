@@ -1,0 +1,33 @@
+20200101_13_38 - BEGIN JOB:
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+<code>
+***  Welcome to  docker build  20200101_13_38 
+#######################
+## variables
+#######################
+PROJECT_DIR=/Users/boscp08/Projects/scratch/virtual-insanity
+GIT_USER=BoschPeter
+GIT_REPO=waardepapieren
+GITHUB_DIR=/Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
+DOCKER_USER=boscp08
+COMPOSE_BUILD_FLAG= --build
+MOCK_NLX_IMAGE=waardepapieren_mock-nlx
+SERVICE_IMAGE=waardepapieren_waardepapieren-service
+CLERK_FRONTEND_IMAGE=waardepapieren_clerk-frontend
+DOCKERHUB_MOCK_NLX_IMAGE=waardepapieren-mock-nlx
+DOCKERHUB_SERVICE_IMAGE=waardepapieren-waardepapieren-service
+DOCKERHUB_CLERK_FRONTEND_IMAGE=waardepapieren-clerk-frontend
+DOCKER_VERSION_TAG=4.0
+AZ_RESOURCE_GROUP=Discipl_Wigo4it_DockerGroup4
+AZ_DNSNAMELABEL=discipl
+TARGET_HOST=linux_VM
+AZ_TLD=cloudapp.azure.com
+TIMEZONE=
+CERT_HOST_IP=discipl.westeurope.cloudapp.azure.com
+CERT_HOST_IP_WP_SERVICE_HOSTNAME=discipl.westeurope.cloudapp.azure.com
+#######################
+## variables
+#######################
+</code>

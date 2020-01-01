@@ -1634,14 +1634,12 @@ echo "</code>"                                                               >> 
 # Return: fil
 ##################################################################
 get_all_dockerfiles(){
-
+#
 cd $LOG_DIR
 curl -o $LOG_START_DATE_TIME_menu.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/az_clone_build_ship_deploy.bash
-cd $GITHUB_DIR
-curl -o docker-compose_travis_orig.yml  https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
-
-
-)
+#cd $GITHUB_DIR
+#curl -o docker-compose_travis_orig.yml  https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
+}
 
 
 
