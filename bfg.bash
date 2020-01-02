@@ -139,75 +139,39 @@ EPHEMERAL_RETENTION_TIME_CONFIG=2592022 #30 dagen
 # Arguments:  on the top right corner you can see the option to open the file in raw mode. 
 # Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
 ##################################################################
-get_curl (){
 
-echo $1 
-cd $1  # 
-#Now use curl command in command line to download the file.
-#echo "curl -o $2 $3 "  #curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash"
-curl -o $2 $3 
-#curl -o  bfg.bash "https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash"
-#curl -o  docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
-cd $GITHUB_DIR
-
-}
-
-##################################################################
-# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
-# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
-# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
-##################################################################
 get_curl_waardepapieren (){
 
-#docker-compose-travis.yml  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
-RAW_DIR=${GITHUB_DIR}
-RAW_FILE=docker-compose-travis.yml  
-RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+create_logfile_header
+clear
+echo "-- Running:"${FUNCNAME[0]}" $@"   >> "${LOG_FILE}"
+curl -o ${GITHUB_DIR}/docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
+stat ${GITHUB_DIR}/docker-compose-travis.yml                           >> "${LOG_FILE}"
 
-#TT_DIRECTORY=${GITHUB_DIR}/mock-nlx  TT_INSPECT_FILE=Dockerfile  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile
-RAW_DIR=${GITHUB_DIR}/mock-nlx  
-RAW_FILE=Dockerfile  
-RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+curl -o ${GITHUB_DIR}/mock-nlx/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
+stat    ${GITHUB_DIR}/mock-nlx/Dockerfile                              >> "${LOG_FILE}"
 
+curl -o ${GITHUB_DIR}/clerk-frontend/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
+stat    ${GITHUB_DIR}/clerk-frontend/Dockerfile                        >> "${LOG_FILE}"
 
-#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend  TT_INSPECT_FILE=Dockerfile  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile
-RAW_DIR=${GITHUB_DIR}/clerk-frontend  
-RAW_FILE=Dockerfile  
-RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf"
+stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG_FILE}"
 
-#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx TT_INSPECT_FILE=nginx.conf RAW_URL=https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf
-RAW_DIR=${GITHUB_DIR}/clerk-frontend/nginx 
-RAW_FILE=nginx.conf 
-RAW_URL="https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
+stat    ${GITHUB_DIR}/waardepapieren-service/Dockerfile                 >> "${LOG_FILE}"
 
-#TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service TT_INSPECT_FILE=Dockerfile RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile
-RAW_DIR=${GITHUB_DIR}/waardepapieren-service 
-RAW_FILE=Dockerfile 
-RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json  "https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json                  >> "${LOG_FILE}"
 
-# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
-RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
-RAW_FILE=waardepapieren-config-compose.json 
-RAW_URL="https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json                           >> "${LOG_FILE}"
 
-# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config.json RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json
-RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
-RAW_FILE=waardepapieren-config.json 
-RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
-get_curl $RAW_DIR $RAW_FILE $RAW_URL
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/boschpeter/test-repo/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
+clear
 
+create_logfile_footer
 
-#### HUH?  TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose-travis.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
-RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
-RAW_FILE=waardepapieren-config-compose-travis.json 
-RAW_URL="https://raw.githubusercontent.com/boschpeter/test-repo/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
-#get_curl $RAW_DIR $RAW_FILE $RAW_URL
 }
 
 
@@ -981,7 +945,7 @@ fi
 ##################################################################
 create_directories() {
 make_folder ${PROJECT_DIR}     
-make_folder ${LOG_FILE}
+make_folder ${LOG_DIR}
 }
 
 ##################################################################
@@ -1693,7 +1657,7 @@ echo "<code>"                                                                   
 echo "***"                                                                             >> "${LOG_FILE}"  
 echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                 >> "${LOG_FILE}"  
 echo "***"                                                                             >> "${LOG_FILE}"  
-echo "***  bfg.bash $@   "                                                             >> "${LOG_FILE}"  
+echo "***  bfg.bash    "                                                             >> "${LOG_FILE}"  
 echo "***  ${GITHUB_DIR}  "                                                            >> "${LOG_FILE}" 
 echo "***  to build new waardepapieren images and containers "                         >> "${LOG_FILE}"  
 echo "***  FQDN = https://${CERT_HOST_IP} "                                            >> "${LOG_FILE}"  
@@ -1730,13 +1694,15 @@ echo "## variables"                                                             
 echo "#######################"                                                          >> "${LOG_FILE}"
 echo "</code>"                                                                         >> "${LOG_FILE}"
 clear 
-echo "***"   
-echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
-echo "***"   
-echo "*** You are about to start to build new waardepapieren images and containers "
-echo "***  FQDN = https://${CERT_HOST_IP} "
-echo "***  docker-tag = ${DOCKER_VERSION_TAG}"
-echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}" 
+echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                
+echo "***"                                                                            
+echo "***  bfg.bash   "                                                            
+echo "***  ${GITHUB_DIR}  "                                                           
+echo "***  to build new waardepapieren images and containers "                        
+echo "***  FQDN = https://${CERT_HOST_IP} "                                           
+echo "***  docker-tag = ${DOCKER_VERSION_TAG}"                                        
+echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}"                              
+echo "***  LOGFILE=${LOG_FILE}"                                                       
 echo "***" 
 echo "#######################"
 echo "## variables"
@@ -1855,15 +1821,7 @@ set_all_dockerfiles
 # Return: 
 ##################################################################
 show_main_menu(){
-clear
-echo "***"   
-echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
-echo "***"   
-echo "*** You are about to start to build new waardepapieren images and containers "
-echo "***  FQDN = https://${CERT_HOST_IP} "
-echo "***  docker-tag = ${DOCKER_VERSION_TAG}"
-echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}" 
-echo "***" 
+clear 
 
 # A menu driven shell script 
 #"A menu is nothing but a list of commands presented to a user by a shell script"
@@ -1984,7 +1942,7 @@ done
 #######################
 create_directories  
 create_logdir
-
+clear 
 
 BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
 LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
