@@ -159,8 +159,6 @@ cd $GITHUB_DIR
 ##################################################################
 get_curl_waardepapieren (){
 
-GITHUB_DIR=$PWD
-
 #docker-compose-travis.yml  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
 RAW_DIR=${GITHUB_DIR}
 RAW_FILE=docker-compose-travis.yml  
@@ -205,10 +203,10 @@ RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560
 get_curl $RAW_DIR $RAW_FILE $RAW_URL
 
 
-#### HUH?  TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose_travis.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
-#RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
-#RAW_FILE=waardepapieren-config-compose_travis.json 
-#RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+#### HUH?  TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose-travis.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
+RAW_FILE=waardepapieren-config-compose-travis.json 
+RAW_URL="https://raw.githubusercontent.com/boschpeter/test-repo/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
 #get_curl $RAW_DIR $RAW_FILE $RAW_URL
 }
 
@@ -223,6 +221,11 @@ echo "-- Running:${FUNCNAME[0]} $@"
 TT_DIRECTORY=${GITHUB_DIR}
 TT_INSPECT_FILE=docker-compose-travis.yml 
 enter_touch ${FUNCNAME[0]} $@
+
+#echo "hai...."
+#echo $TT_DIRECTORY
+#echo "TT_INSPECT_FILE=$TT_INSPECT_FILE"
+#enter_cont
 
 echo "version: '3'
 services:
@@ -272,7 +275,7 @@ services:
     
     #networks:
     #test:
-    #driver: bridge" >  ${TT_INSPECT_FILE} 
+    #driver: bridge" >  "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -288,6 +291,9 @@ echo "Running: ${FUNCNAME[0]} $@ "
 TT_DIRECTORY=${GITHUB_DIR}
 TT_INSPECT_FILE=docker-compose-travis.yml 
 enter_touch ${FUNCNAME[0]} $@
+
+cd $TT_DIRECTORY
+enter_cont
 
 echo "version: '3'
 services:
@@ -323,7 +329,9 @@ services:
   mock-nlx:
     build: mock-nlx/
     ports:
-      - 80:80" > ${TT_INSPECT_FILE} 
+      - 80:80" > "${TT_INSPECT_FILE}" 
+
+cat     "${TT_INSPECT_FILE}"   
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -338,7 +346,7 @@ echo "Running: ${FUNCNAME[0]} $@"
 TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
 TT_INSPECT_FILE=Dockerfile
 enter_touch ${FUNCNAME[0]} $@
-#enter_cont
+cd $TT_DIRECTORY
 
 echo "FROM node:10
 RUN mkdir /app
@@ -349,7 +357,7 @@ $APT_GET_UPDATE
 $APT_GET_INSTAL
 $APT_GET_INSTALL_IPUTILS_PING
 
-RUN npm install --production" > ${TT_INSPECT_FILE} 
+RUN npm install --production" > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -364,7 +372,7 @@ echo "Running: ${FUNCNAME[0]} $@"
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
 enter_touch ${FUNCNAME[0]} $@
-
+cd $TT_DIRECTORY
 echo "FROM node:10
 RUN mkdir /app
 ADD package.json package-lock.json /app/
@@ -386,7 +394,7 @@ RUN npm run build
 
 FROM nginx:1.15.8
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=0 /app/build /usr/share/nginx/html"  > ${TT_INSPECT_FILE} #Dockerfile
+COPY --from=0 /app/build /usr/share/nginx/html"  > "${TT_INSPECT_FILE}" #Dockerfile
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -401,6 +409,8 @@ echo "Running: ${FUNCNAME[0]} $@ "
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
 enter_touch ${FUNCNAME[0]} $@
+
+cd $TT_DIRECTORY
 echo "FROM node:10
 RUN mkdir /app
 ADD package.json package-lock.json /app/
@@ -430,7 +440,7 @@ RUN apt-get install -y iputils-ping
 RUN apt-get install -y net-tools
 
 ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
-ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > ${TT_INSPECT_FILE} 
+ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -445,6 +455,8 @@ echo "Running: ${FUNCNAME[0]} $@"
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx
 TT_INSPECT_FILE=nginx.conf
 enter_touch ${FUNCNAME[0]} $@
+
+cd $TT_DIRECTORY
 echo "events {
     worker_connections  1024;
 }
@@ -492,7 +504,7 @@ http {
             include /etc/nginx/mime.types;
         }
     }
-}" > ${TT_INSPECT_FILE} 
+}" > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@ 
 
@@ -509,6 +521,7 @@ TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
 enter_touch ${FUNCNAME[0]} $@
 
+cd $TT_DIRECTORY
 echo "FROM node:10enter
 RUN mkdir /app
 ADD .babelrc package.json package-lock.json /app/
@@ -521,7 +534,7 @@ $APT_GET_INSTAL
 $APT_GET_INSTALL_IPUTILS_PING
 WORKDIR /app
 RUN npm install --production
-CMD npm start"   > ${TT_INSPECT_FILE} 
+CMD npm start"   > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -537,6 +550,7 @@ TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
 enter_touch ${FUNCNAME[0]} $@
 
+cd $TT_DIRECTORY
 echo "FROM node:10
 RUN mkdir /app
 ADD .babelrc package.json package-lock.json /app/
@@ -565,7 +579,7 @@ $APT_GET_INSTAL
 $APT_GET_INSTALL_IPUTILS_PING
 
 RUN npm install --production
-CMD npm start"  > ${TT_INSPECT_FILE} 
+CMD npm start"  > "${TT_INSPECT_FILE}" 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
 
@@ -577,9 +591,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 set_waardepapieren_service_config_compose_travis_json() {
 echo "Running: ${FUNCNAME[0]} $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
-TT_INSPECT_FILE=waardepapieren-config-compose_travis.json
+TT_INSPECT_FILE=waardepapieren-config-compose-travis.json
 enter_touch ${FUNCNAME[0]} $@
 
+cd $TT_DIRECTORY
 echo " {
    \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
@@ -601,7 +616,7 @@ echo " {
     {\"Burgerservicenummer (BSN)\" : \"burgerservicenummer\"},
     {\"Woonplaats verblijfadres\" : \"verblijfadres.woonplaats\"}
   ]
-} " > ${TT_INSPECT_FILE} 
+} " > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -617,6 +632,7 @@ TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
 TT_INSPECT_FILE=waardepapieren-config-compose.json
 enter_touch ${FUNCNAME[0]} $@
 
+cd $TT_DIRECTORY
 echo " {
    \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
@@ -638,7 +654,7 @@ echo " {
     {\"Burgerservicenummer (BSN)\" : \"burgerservicenummer\"},
     {\"Woonplaats verblijfadres\" : \"verblijfadres.woonplaats\"}
   ]
-} " > ${TT_INSPECT_FILE} # waardepapieren-config-compose-travis.json
+} " > "${TT_INSPECT_FILE}" # waardepapieren-config-compose-travis.json
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -654,6 +670,7 @@ TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
 TT_INSPECT_FILE=waardepapieren-config.json
 enter_touch ${FUNCNAME[0]} $@
 
+cd $TT_DIRECTORY
 echo " {
    \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
@@ -675,7 +692,7 @@ echo " {
     {\"Burgerservicenummer (BSN)\" : \"burgerservicenummer\"},
     {\"Woonplaats verblijfadres\" : \"verblijfadres.woonplaats\"}
   ]
-} " > ${TT_INSPECT_FILE} 
+} " > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -778,7 +795,7 @@ properties:
     - protocol: tcp
       port: '8880'      
 tags: null
-type: Microsoft.ContainerInstance/containerGroups" > ${TT_INSPECT_FILE} 
+type: Microsoft.ContainerInstance/containerGroups" > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
@@ -881,7 +898,7 @@ fi
 ##################################################################
 enter_touch() {
 cd ${TT_DIRECTORY}
-touch ${TT_INSPECT_FILE}
+touch "${TT_INSPECT_FILE}"
 }
 
 ##################################################################
@@ -908,20 +925,20 @@ TT_INSPECT_FILE=""
 enter_inspect() {
 clear
 
-if [ -f "${TT_INSPECT_FILE}" ]; 
+if [ -f ""${TT_INSPECT_FILE}"" ]; 
 then
  
-echo "| ${LOG_START_DATE_TIME} | ${TT_INSPECT_FILE}|"                                >> "${LOG_FILE}" 
+echo "| ${LOG_START_DATE_TIME} | "${TT_INSPECT_FILE}"|"                                >> "${LOG_FILE}" 
 echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> "${LOG_FILE}"
 echo "<code>"                                                                        >> "${LOG_FILE}"
-cat  ${TT_INSPECT_FILE}                                                              >> "${LOG_FILE}"
+cat  "${TT_INSPECT_FILE}"                                                              >> "${LOG_FILE}"
 echo "</code>"                                                                       >> "${LOG_FILE}"
 create_logfile_footer
 
 else 
 cd ${GITHUB_DIR}
 clear
-echo "File ${TT_INSPECT_FILE} is missing or cannot be executed"   
+echo "File "${TT_INSPECT_FILE}" is missing or cannot be executed"   
 enter_cont
 fi
 
@@ -932,7 +949,7 @@ clear
 echo ""
 echo "========="
 pathname=${TT_DIRECTORY}
-echo "enter inspect : ${TT_INSPECT_FILE} " 
+echo "enter inspect : "${TT_INSPECT_FILE}" " 
 echo "folder        = $(basename $pathname) "
 echo "directory     = $pathname "
 echo "repo          = $GITHUB_DIR "
@@ -940,11 +957,11 @@ echo "function      = $1 "
 echo "========="
 echo ""
 cd ${TT_DIRECTORY}
-cat ${TT_INSPECT_FILE} 
+cat "${TT_INSPECT_FILE}" 
 echo ""
 echo "========="
 pathname=${TT_DIRECTORY}
-echo "enter inspect : ${TT_INSPECT_FILE} " 
+echo "enter inspect : "${TT_INSPECT_FILE}" " 
 echo "folder        = $(basename $pathname) "
 echo "directory     = $pathname "
 echo "repo          = $GITHUB_DIR "
@@ -1857,18 +1874,16 @@ show_menus() {
 	echo " M A I N - M E N U"
 	echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "10. docker_system_prune                                     "  
-  echo "14. set_mock_nlx_dockerfile                                 " 
-  echo "15. set_docker_compose_travis_yml_without_volumes           "  
-  echo "16. set_clerk_frontend_dockerfile_without_volumes           "
-  echo "17. set_waardepapieren_service_dockerfile_without_volumes   " 
-  echo "18. set_docker_compose_travis_yml_without_volumes           "  
-  echo "19. set_clerk_frontend_dockerfile_without_volumes           "
-  echo "20. set_waardepapieren_service_dockerfile_without_volumes   " 
-  echo "21. set_clerk_frontend_nginx_conf                           "
-  echo "22. set_waardepapieren_service_config_compose_travis_json   "  
-  echo "23. set_waardepapieren_service_config_compose_json          "
-  echo "24. set_waardepapieren_service_config_json                  "  
-  echo "29. set_all_dockerfiles          $CERT_HOST_IP              "                         
+  echo "11. get_curl_waardepapieren  "
+  echo "20. set_mock_nlx_dockerfile                                 " 
+  echo "21. set_docker_compose_travis_yml_without_volumes           "  
+  echo "22. set_clerk_frontend_dockerfile_without_volumes           "
+  echo "23. set_waardepapieren_service_dockerfile_without_volumes   " 
+  echo "24. set_clerk_frontend_nginx_conf                           "
+  echo "25. set_waardepapieren_service_config_compose_travis_json   "  
+  echo "26. set_waardepapieren_service_config_compose_json          "
+  echo "27. set_waardepapieren_service_config_json                  "  
+  echo "28. set_all_dockerfiles          $CERT_HOST_IP              "                         
   echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
   echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
@@ -1886,7 +1901,10 @@ show_menus() {
   echo "63. https://$CERT_HOST_IP:443                 " 
   echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
 	echo "#  sjebang "
-  echo "90 the_whole_sjebang                                        "
+  echo "90. set_docker_compose_travis_yml_with_volumes  "  
+  echo "91. set_clerk_frontend_dockerfile_with_volumes  "
+  echo "92. set_waardepapieren_service_dockerfile_with_volumes "
+  echo "93. the_whole_sjebang                     "
   echo "99. Exit"
 }
 # read input from the keyboard and take a action
@@ -1899,17 +1917,15 @@ read_options(){
 	read -p "Enter choice [ 1 - 99] " choice
 	case $choice in
         10) docker_system_prune                                     ;;  
-        14) set_mock_nlx_dockerfile                                 ;;
-        15) set_docker_compose_travis_yml_without_volumes           ;;  
-        16) set_clerk_frontend_dockerfile_without_volumes           ;;
-        17) set_waardepapieren_service_dockerfile_without_volumes   ;; 
-        18) set_docker_compose_travis_yml_with_volumes              ;;  
-        19) set_clerk_frontend_dockerfile_with_volumes              ;;
-        20) set_waardepapieren_service_dockerfile_with_volumes      ;; 
-        21) set_clerk_frontend_nginx_conf                           ;;
-        22) set_waardepapieren_service_config_compose_travis_json   ;;  
-        23) set_waardepapieren_service_config_compose_json          ;;
-        24) set_waardepapieren_service_config_json                  ;;
+        11) get_curl_waardepapieren                                 ;;
+        20) set_mock_nlx_dockerfile                                 ;;
+        21) set_docker_compose_travis_yml_without_volumes           ;;  
+        22) set_clerk_frontend_dockerfile_without_volumes           ;;
+        23) set_waardepapieren_service_dockerfile_without_volumes   ;; 
+        24) set_clerk_frontend_nginx_conf                           ;;
+        25) set_waardepapieren_service_config_compose_travis_json   ;;  
+        26) set_waardepapieren_service_config_compose_json          ;;
+        27) set_waardepapieren_service_config_json                  ;;
         29) set_all_dockerfiles                                     ;;                        
         40) docker_compose_images                                   ;; 
         41) docker_build_images                                     ;;  
@@ -1928,7 +1944,10 @@ read_options(){
         63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
         64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
         #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
-        90) the_whole_sjebang                                       ;; 
+        90) set_docker_compose_travis_yml_with_volumes              ;;  
+        91) set_clerk_frontend_dockerfile_with_volumes              ;;
+        92) set_waardepapieren_service_dockerfile_with_volumes      ;;
+        93) the_whole_sjebang                                       ;; 
         99) Exit                                                    ;;
 		*) echo -e "${RED}Error...${STD}" && sleep 1
 	esac
