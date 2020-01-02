@@ -1855,6 +1855,7 @@ set_all_dockerfiles
 # Return: 
 ##################################################################
 show_main_menu(){
+clear
 echo "***"   
 echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
 echo "***"   
@@ -1865,7 +1866,7 @@ echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}"
 echo "***" 
 
 # A menu driven shell script 
-#echo "A menu is nothing but a list of commands presented to a user by a shell script"
+#"A menu is nothing but a list of commands presented to a user by a shell script"
 
 # ----------------------------------
 # Step: User defined function
@@ -1875,7 +1876,7 @@ pause(){
 } 
 # function to display menus
 show_menus() {
-	clear
+	
 	echo "~~~~~~~~~~~~~~~~~~~~~"	
 	echo " M A I N - M E N U"
 	echo "~~~~~~~~~~~~~~~~~~~~~"
