@@ -143,7 +143,7 @@ EPHEMERAL_RETENTION_TIME_CONFIG=2592022 #30 dagen
 
 get_curl_waardepapieren (){
 
-create_logfile_header
+create_logfile_header "${FUNCNAME[0]}" $@
 clear
 echo "-- Running:"${FUNCNAME[0]}" $@"   >> "${LOG_FILE}"
 curl -o ${GITHUB_DIR}/docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
@@ -171,7 +171,7 @@ curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
 clear
 
-create_logfile_footer
+create_logfile_footer "${FUNCNAME[0]}" $@
 
 }
 
@@ -668,8 +668,6 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 set_all_dockerfiles() {
 echo "Running: "${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-TT_PROMPT=$PROMPT
-PROMPT=false
 
 echo "set_docker_compose_travis_yml_without_volumes" 
 echo "set_clerk_frontend_dockerfile_without_volumes" 
@@ -693,7 +691,6 @@ set_waardepapieren_service_config_compose_json
 set_waardepapieren_service_config_json
 set_azure_deploy_aci_yaml
 
-PROMPT=$TT_PROMPT
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
@@ -714,7 +711,7 @@ properties:
   containers:
   - name: mock-nlx
     properties:
-      image: ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -723,7 +720,7 @@ properties:
       - port: 80
   - name: waardepapieren-service
     properties:
-      image: ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -733,7 +730,7 @@ properties:
       - port: 3233
   - name: clerk-frontend
     properties:
-      image: ${DOCKER_USER}/${${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${GIT_REPO}_${CLERK_FRONTEND}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
