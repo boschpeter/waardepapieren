@@ -1158,11 +1158,12 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 ##################################################################
 docker_compose_images() {
 echo "Running:"${FUNCNAME[0]}" $@"
+
 cd ${GITHUB_DIR}
 create_logfile_header "${FUNCNAME[0]}" $@
 echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> "${LOG_FILE}"
 
-docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG
+docker-compose -f docker-compose-travis.yml up --build
 
 create_logfile_footer  "${FUNCNAME[0]}" $@
 
@@ -1655,7 +1656,7 @@ echo "<code>"                                                                   
 echo "***"                                                                             >> "${LOG_FILE}"  
 echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                 >> "${LOG_FILE}"  
 echo "***"                                                                             >> "${LOG_FILE}"  
-echo "***  bfg.bash    "                                                             >> "${LOG_FILE}"  
+echo "***  bfg.bash    "                                                               >> "${LOG_FILE}"  
 echo "***  ${GITHUB_DIR}  "                                                            >> "${LOG_FILE}" 
 echo "***  to build new waardepapieren images and containers "                         >> "${LOG_FILE}"  
 echo "***  FQDN = https://${CERT_HOST_IP} "                                            >> "${LOG_FILE}"  
