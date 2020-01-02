@@ -4,7 +4,7 @@
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
-#   Peter Bosch       20200101        bash file generator 
+#   Peter Bosch       20200101        bash file generator   20:45
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash   
@@ -1847,7 +1847,7 @@ show_menus() {
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
   echo "26. set_waardepapieren_service_config_compose_json          "
   echo "27. set_waardepapieren_service_config_json                  "  
-  echo "28. set_all_dockerfiles          $CERT_HOST_IP              "                         
+  echo "28. set_all_dockerfiles          $CERT_HOST_IP               "                         
   echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
   echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
