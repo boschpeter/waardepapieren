@@ -1891,7 +1891,7 @@ read_options(){
         25) set_waardepapieren_service_config_compose_travis_json   ;;  
         26) set_waardepapieren_service_config_compose_json          ;;
         27) set_waardepapieren_service_config_json                  ;;
-        29) set_all_dockerfiles                                     ;;                        
+        28) set_all_dockerfiles                                     ;;                        
         40) docker_compose_images                                   ;; 
         41) docker_build_images                                     ;;  
         42) docker_tag_images                                       ;; 
