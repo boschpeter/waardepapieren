@@ -4,18 +4,16 @@
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
-#   Peter Bosch       31.12.2019      processing technical dept .20:00
-#   Peter Bosch       20.12.2019      processing technical dept
-#   Peter Bosch       05.12.2019      Initial version.
+#   Peter Bosch       20200101        bash file generator 
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
-#  File:            :az_aci_clone_build_ship_deploy.bash
-#  version          :20191204 v0
+#  File:            :bfg.bash
+#  version          :20200101 v0
 #  File Type        :Bash is a command processor that typically runs in a text window 
 #                    Bash can also read and execute commands from a file, called a shell script.
 #  Purpose          :download - Clone - Build - Ship - Deploy  @datafluisteraar
 #  Title:           :cloutuh  
-#  Category         :CI CD
+#  Category         :CI CD  bash file genererator
 #  Identificatie    :https://github.com/BoschPeter/AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io
 #  main purpose of this script to show configuration for containers spinning in the cloud. 
 #  https://waardepapieren-demo.discipl.org/    BSN=663678651
@@ -30,8 +28,8 @@
 # 1. enter your variable ...
 # 2. run a menu driven shell. 
 # 3. run this script as follows 
-#     chmod +x az_clone_build_ship_deploy.bash  
-#     ./az_clone_build_ship_deploy.bash
+#     chmod +x bfg.bash 
+#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu v4 FQDN)
 
 # forked from https://github.com/discipl/waardepapieren.git read.ME
 # Running
@@ -74,9 +72,10 @@ if  [ `uname` = 'Darwin' ]
    echo "MacOs"
 fi
 
-if  [ `uname` = 'MING64_NT-10.0-18362' ]
+if  [ `uname` = 'CYGWIN_NT-10.0' ]
     then  HOME_DIR=/c/Users/`whoami`    
-   echo "Windows10  ... "
+   echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren"
+   # a.k.a 
 fi
 
 
@@ -1082,12 +1081,12 @@ git init
 #git config --global credential.helper store
 #git config user.name "BoschPeter"
 
+git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
 git config --global user.name "BoschPeter"
 git config --global user.password "Peter\!2020"
 
-# git config --global user.name "ezahr"
-#git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git
+#git clone https://github.com/boschpeter/waardepapieren.git
 #cd into 
 }
 
@@ -1104,13 +1103,11 @@ git init
 #Initialized empty Git repository in /home/boscp08/Dropbox/Github/.git/
 git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
-#git config --global user.name "BoschPeter"
-git config --global user.name "datamohikaan"
+git config --global user.name "boschpeter"
 git config --global user.password "Peter\!2020"  #mind macos keyring
 git config --list
 git config --get remote.origin.Uittreksel
-git config credential.username --global "Ezahr"
-git config credential.password --global "Peter\!2020"
+
 }
 
 ##################################################################
@@ -1493,6 +1490,12 @@ if  [ `uname` = 'Darwin' ]
     then  open -a Firefox $1
    #echo "MacOs"
 fi
+
+if  [ `uname` = 'CYGWIN_NT-10.0' ]
+    then  cygstart  $1  #this way you get the user's preferred web browser
+   #echo "MacOs"
+fi
+
 }
 
 
@@ -1628,6 +1631,24 @@ cat  ${GITHUB_DIR}/menu.bash                                                 >> 
 echo "</code>"                                                               >> ${LOG_FILE}
 
 }
+
+##################################################################
+# Purpose: Procedure to download raw contents
+# Arguments: https://raw.githubusercontent.com/boschpeter/waardepapieren/master/az_clone_build_ship_deploy.bash  
+# Return: fil
+##################################################################
+get_all_dockerfiles(){
+#
+cd $LOG_DIR
+curl -o $LOG_START_DATE_TIME_menu.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/az_clone_build_ship_deploy.bash
+#cd $GITHUB_DIR
+#curl -o docker-compose_travis_orig.yml  https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
+}
+
+
+
+
+
 #######################
 ## M A I N
 # program starts here actually
