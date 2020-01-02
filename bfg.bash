@@ -217,16 +217,16 @@ RAW_URL="https://raw.githubusercontent.com/boschpeter/test-repo/master/waardepap
 # Return: 
 ##################################################################
 set_docker_compose_travis_yml_with_volumes() {
-echo "-- Running:${FUNCNAME[0]} $@"
+echo "-- Running:"${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}
 TT_INSPECT_FILE=docker-compose-travis.yml 
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 #echo "hai...."
 #echo $TT_DIRECTORY
 #echo "TT_INSPECT_FILE=$TT_INSPECT_FILE"
 #enter_cont
-
+cd $TT_DIRECTORY
 echo "version: '3'
 services:
   waardepapieren-service:
@@ -277,7 +277,7 @@ services:
     #test:
     #driver: bridge" >  "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -286,15 +286,13 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_docker_compose_travis_yml_without_volumes() {
-echo "Running: ${FUNCNAME[0]} $@ "
+echo "Running: "${FUNCNAME[0]}" $@ "
 
 TT_DIRECTORY=${GITHUB_DIR}
 TT_INSPECT_FILE=docker-compose-travis.yml 
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
-enter_cont
-
 echo "version: '3'
 services:
   waardepapieren-service:
@@ -333,7 +331,7 @@ services:
 
 cat     "${TT_INSPECT_FILE}"   
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -342,10 +340,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_mock_nlx_dockerfile() {  
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
 TT_INSPECT_FILE=Dockerfile
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 cd $TT_DIRECTORY
 
 echo "FROM node:10
@@ -359,7 +357,7 @@ $APT_GET_INSTALL_IPUTILS_PING
 
 RUN npm install --production" > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -368,10 +366,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_clerk_frontend_dockerfile_with_volumes() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 cd $TT_DIRECTORY
 echo "FROM node:10
 RUN mkdir /app
@@ -396,7 +394,7 @@ FROM nginx:1.15.8
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=0 /app/build /usr/share/nginx/html"  > "${TT_INSPECT_FILE}" #Dockerfile
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -405,10 +403,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_clerk_frontend_dockerfile_without_volumes() {
-echo "Running: ${FUNCNAME[0]} $@ "
+echo "Running: "${FUNCNAME[0]}" $@ "
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "FROM node:10
@@ -442,7 +440,7 @@ RUN apt-get install -y net-tools
 ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
 ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -451,10 +449,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_clerk_frontend_nginx_conf() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx
 TT_INSPECT_FILE=nginx.conf
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "events {
@@ -506,7 +504,7 @@ http {
     }
 }" > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@ 
+check_check_doublecheck  "${FUNCNAME[0]}" $@ 
 
 } 
 
@@ -516,10 +514,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_waardepapieren_service_dockerfile_with_volumes() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "FROM node:10enter
@@ -536,7 +534,7 @@ WORKDIR /app
 RUN npm install --production
 CMD npm start"   > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -545,10 +543,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_waardepapieren_service_dockerfile_without_volumes() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "FROM node:10
@@ -580,7 +578,7 @@ $APT_GET_INSTALL_IPUTILS_PING
 
 RUN npm install --production
 CMD npm start"  > "${TT_INSPECT_FILE}" 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 #################################################################
@@ -589,10 +587,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_waardepapieren_service_config_compose_travis_json() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
 TT_INSPECT_FILE=waardepapieren-config-compose-travis.json
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo " {
@@ -618,7 +616,7 @@ echo " {
   ]
 } " > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -627,10 +625,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_waardepapieren_service_config_compose_json() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
 TT_INSPECT_FILE=waardepapieren-config-compose.json
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo " {
@@ -656,7 +654,7 @@ echo " {
   ]
 } " > "${TT_INSPECT_FILE}" # waardepapieren-config-compose-travis.json
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -665,10 +663,10 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_waardepapieren_service_config_json() {
-echo "Running: ${FUNCNAME[0]} $@"
+echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
 TT_INSPECT_FILE=waardepapieren-config.json
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo " {
@@ -694,7 +692,7 @@ echo " {
   ]
 } " > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -703,8 +701,8 @@ check_check_doublecheck  ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_all_dockerfiles() {
-echo "Running: ${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running: "${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 TT_PROMPT=$PROMPT
 PROMPT=false
 
@@ -731,7 +729,7 @@ set_waardepapieren_service_config_json
 set_azure_deploy_aci_yaml
 
 PROMPT=$TT_PROMPT
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -740,10 +738,10 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 set_azure_deploy_aci_yaml() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}
 TT_INSPECT_FILE=deploy-aci.yaml
-enter_touch ${FUNCNAME[0]} $@
+enter_touch "${FUNCNAME[0]}" $@
 
 echo "location: westeurope
 name: $AZ_RESOURCE_GROUP
@@ -797,7 +795,7 @@ properties:
 tags: null
 type: Microsoft.ContainerInstance/containerGroups" > "${TT_INSPECT_FILE}" 
 
-check_check_doublecheck  ${FUNCNAME[0]} $@
+check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 # -----------------------------------
 # Main logic  below
@@ -925,13 +923,13 @@ TT_INSPECT_FILE=""
 enter_inspect() {
 clear
 
-if [ -f ""${TT_INSPECT_FILE}"" ]; 
+if [ -f "${TT_INSPECT_FILE}" ]; 
 then
  
-echo "| ${LOG_START_DATE_TIME} | "${TT_INSPECT_FILE}"|"                                >> "${LOG_FILE}" 
+echo "| ${LOG_START_DATE_TIME} | "${TT_INSPECT_FILE}"|"                              >> "${LOG_FILE}" 
 echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> "${LOG_FILE}"
 echo "<code>"                                                                        >> "${LOG_FILE}"
-cat  "${TT_INSPECT_FILE}"                                                              >> "${LOG_FILE}"
+cat  "${TT_INSPECT_FILE}"                                                            >> "${LOG_FILE}"
 echo "</code>"                                                                       >> "${LOG_FILE}"
 create_logfile_footer
 
@@ -996,8 +994,8 @@ make_folder ${LOG_FILE}
 # Return: 
 ##################################################################
 show_version() {
-create_logfile_header ${FUNCNAME[0]} $@
-echo "Running:${FUNCNAME[0]} $@"
+create_logfile_header "${FUNCNAME[0]}" $@
+echo "Running:"${FUNCNAME[0]}" $@"
  echo "git --version"
  git --version
 
@@ -1019,7 +1017,7 @@ echo "Running:${FUNCNAME[0]} $@"
 # Return: 
 ##################################################################
 install_docker_cli() {
-echo "-Running: ${FUNCNAME[0]} $@ "
+echo "-Running: "${FUNCNAME[0]}" $@ "
 
 #description	command
 #1	install docker download	sudo install -y docker docker-common docker-client docker-compose
@@ -1037,7 +1035,7 @@ echo "-Running: ${FUNCNAME[0]} $@ "
 # Return: 
 ##################################################################
 install_azure_cli() {
-echo "-Running: ${FUNCNAME[0]} $@"
+echo "-Running: "${FUNCNAME[0]}" $@"
 sudo apt-get update
   sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
 
@@ -1080,7 +1078,7 @@ GIT_PWD=Peter\!2020
 # Return: 
 ##################################################################
 git_init() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 
 #boscp08@boscp08-HP-Compaq-8510p:~/Dropbox/Github$ git init
 #Initialized empty Git repository in /home/boscp08/Dropbox/Github/.git/
@@ -1107,7 +1105,7 @@ git config --global user.password "Peter\!2020"
 ##################################################################
 
 git_init() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 cd $GITHUB_DIR
 git init
 #Initialized empty Git repository in /home/boscp08/Dropbox/Github/.git/
@@ -1127,8 +1125,8 @@ git config --get remote.origin.Uittreksel
 ##################################################################
 
 git_clone() {
- echo "Running:${FUNCNAME[0]} $@"
- create_logfile_header ${FUNCNAME[0]} $@
+ echo "Running:"${FUNCNAME[0]}" $@"
+ create_logfile_header "${FUNCNAME[0]}" $@
  echo "rm -rf ${PROJECT_DIR}/$1 sure?"
  enter_cont
  cd ${PROJECT_DIR}
@@ -1151,7 +1149,7 @@ git_clone() {
 # Return:   remove all docker objects  starting from scratch... 
 ##################################################################
 docker_system_prune() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 docker system prune -a   
 }
 
@@ -1161,7 +1159,7 @@ docker system prune -a
 # Return: 
 ##################################################################
 docker_stop() {
-echo "-Running:${FUNCNAME[0]} $@"
+echo "-Running:"${FUNCNAME[0]}" $@"
 docker stop  $(docker ps -a -q)
 }
 
@@ -1171,11 +1169,11 @@ docker stop  $(docker ps -a -q)
 # Return:   
 ##################################################################
 docker_remove_images() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 echo "docker rm $(docker ps -a -q) && docker rmi $(docker images -q)"   >> ${LOG_DIR}
 
 docker rm $(docker ps -a -q) && docker rmi $(docker images -q)
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 
 }
 
@@ -1185,13 +1183,13 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 docker_container_prune() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 
 echo "docker container prune -a "  >> ${LOG_DIR}
 docker container prune -a   
 
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 
 }
 
@@ -1201,14 +1199,14 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: 3 containers  
 ##################################################################
 docker_compose_images() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 cd ${GITHUB_DIR}
-create_logfile_header ${FUNCNAME[0]} $@
+create_logfile_header "${FUNCNAME[0]}" $@
 echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> "${LOG_FILE}"
 
 docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG
 
-create_logfile_footer  ${FUNCNAME[0]} $@
+create_logfile_footer  "${FUNCNAME[0]}" $@
 
 }
 #################################################################
@@ -1219,8 +1217,8 @@ create_logfile_footer  ${FUNCNAME[0]} $@
 ##################################################################
 
 docker_build_image() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 arg1=$1 #mock-nlx
 arg1=$2 #${DOCKER_USER}
 arg2=$3 #${${GIT_REPO}_${MOCK_NLX}}
@@ -1236,12 +1234,12 @@ cd ${GITHUB_DIR}  #cd -
 # Return: 
 ##################################################################
 docker_build_images() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 docker_build_image mock-nlx  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
 docker_build_image waardepapieren-service ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
 docker_build_image clerk-frontend ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
 
@@ -1251,8 +1249,8 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 docker_build_waardepapierenservice()  {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 cd ${GITHUB_DIR}/waardepapieren-service
 docker build -t ${DOCKER_USER}/waardepapieren-service .  #NB [.] periode means from this directory 
 }
@@ -1263,11 +1261,11 @@ docker build -t ${DOCKER_USER}/waardepapieren-service .  #NB [.] periode means f
 # Return: 
 ##################################################################
 docker_build_clerkfrontend() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 cd ${GITHUB_DIR}/clerk-frontend
 docker build -t ${DOCKER_USER}/clerk-frontend .  #NB [.] directory containing Dockerfile and other files needed in image
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
 
@@ -1277,12 +1275,12 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: 
 ##################################################################
 docker_run_image() {
-echo "Running:${FUNCNAME[0]} $@"
+echo "Running:"${FUNCNAME[0]}" $@"
 #-p 8080:80
 #-d detatched 
-create_logfile_header ${FUNCNAME[0]} $@
+create_logfile_header "${FUNCNAME[0]}" $@
 docker run -it $1 bash
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 }
 #################################################################
 # Purpose:  Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
@@ -1290,8 +1288,8 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: image
 ##################################################################
 docker_tag_image() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
 #docker tag ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
@@ -1309,14 +1307,14 @@ arg4=$4 #${DOCKER_VERSION_TAG}
 # Return: 
 ##################################################################
 docker_tag_images() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
 docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}  ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
 docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
 docker images | grep  ${DOCKER_VERSION_TAG}   
 docker images | grep  ${DOCKER_VERSION_TAG}      >> ${LOG_DIR}
-create_logfile_footer ${FUNCNAME[0]} $@
+create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
 #################################################################
@@ -1325,8 +1323,8 @@ create_logfile_footer ${FUNCNAME[0]} $@
 # Return: image
 ##################################################################
 docker_push_image() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
 #docker tag ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
@@ -1341,8 +1339,8 @@ docker push  $1/$2:$3
 # Return: Ship to docker registry docker.hub.com
 ##################################################################
 docker_push_images() {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
 docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
 docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG} 
@@ -1355,8 +1353,8 @@ create_logfile_footer
 # Return: Ship to docker registry docker.hub.com
 ##################################################################
 docker_commit () {
-echo "Running:${FUNCNAME[0]} $@"
-#create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+#create_logfile_header "${FUNCNAME[0]}" $@
 #docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}  
 ##docker commit ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG} 
 #docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}          
@@ -1369,8 +1367,8 @@ create_logfile_footer
 # Return: Ship to docker registry docker.hub.com
 ##################################################################
 docker_commit_containers () {
-echo "Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}  
 docker commit ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG} 
 docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}          
@@ -1387,8 +1385,8 @@ create_logfile_footer
 # Return: 
 ##################################################################
 azure_create_resourcegroup() {
-echo "-- Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "-- Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 az login -u $AZURE_USER  -p $AZURE_PWD
 #az group create --name $AZ_RESOURCE_GROUP --location westeurope
 az group create --name $AZ_RESOURCE_GROUP --location westeurope
@@ -1401,8 +1399,8 @@ enter_cont
 # Return: 
 ##################################################################
 azure_delete_resourcegroup() {
-echo "-- Running:${FUNCNAME[0]} $@ "
-create_logfile_header ${FUNCNAME[0]} $@
+echo "-- Running:"${FUNCNAME[0]}" $@ "
+create_logfile_header "${FUNCNAME[0]}" $@
 az login -u $AZURE_USER  -p $AZURE_PWD
 #az group delete --name $AZ_RESOURCE_GROUP
 az group delete --name $AZ_RESOURCE_GROUP
@@ -1415,8 +1413,8 @@ enter_cont
 # Return: 
 ##################################################################
 azure_create_containergroup() {
-echo "-- Running:${FUNCNAME[0]} $@"
-create_logfile_header ${FUNCNAME[0]} $@
+echo "-- Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 az login -u $AZURE_USER  -p $AZURE_PWD
 enter_cont
 cd ${GITHUB_DIR}
