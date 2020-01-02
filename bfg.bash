@@ -124,8 +124,9 @@ COMPOSE_BUILD_FLAG=" --build"
 #EPHEMERAL_RETENTION_TIME=86400  #24h 
 #/waardepapieren-service/configuration  ??
 EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen  
-EPHEMERAL_RETENTION_TIME_COMPOSE=2592021 #30 dagen
-EPHEMERAL_RETENTION_TIME_CONFIG=2592022 #30 dagen
+
+#EPHEMERAL_RETENTION_TIME_COMPOSE=2592021 #30 dagen
+#EPHEMERAL_RETENTION_TIME_CONFIG=2592022 #30 dagen
 
 #'********** end of parameters **********
 #'Below the functions that are called by other functions
@@ -155,7 +156,9 @@ stat    ${GITHUB_DIR}/mock-nlx/Dockerfile                              >> "${LOG
 curl -o ${GITHUB_DIR}/clerk-frontend/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
 stat    ${GITHUB_DIR}/clerk-frontend/Dockerfile                        >> "${LOG_FILE}"
 
-curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf"
+
+
+curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/nginx/nginx.conf"
 stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG_FILE}"
 
 curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
@@ -386,6 +389,7 @@ ADD public /app/public
 ADD src /app/src
 ARG CERTIFICATE_HOST
 ENV REACT_APP_CERTIFICATE_HOST=http://${CERT_HOST_IP}:8880
+
 $TIMEZONE
 $APT_GET_UPDATE
 $APT_GET_INSTAL
@@ -564,7 +568,7 @@ echo " {
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
    \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"https://${CERT_HOST_IP}:443\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -602,7 +606,7 @@ echo " {
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
    \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"https://${CERT_HOST_IP}:443\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -676,20 +680,23 @@ echo "set_waardepapieren_service_dockerfile_without_volumes"
 echo "set_mock_nlx_dockerfile"       
 echo "set_clerk_frontend_nginx_conf" 
 echo "set_waardepapieren_service_config_compose_travis_json"
-echo "set_waardepapieren_service_config_compose_json"
-echo "set_waardepapieren_service_config_json"
+#echo "set_waardepapieren_service_config_compose_json"
+#echo "set_waardepapieren_service_config_json"
 echo "set_azure_deploy_aci_yaml"
 echo "okay ?"
 echo enter
 
-set_docker_compose_travis_yml_without_volumes 
-set_clerk_frontend_dockerfile_without_volumes 
-set_waardepapieren_service_dockerfile_without_volumes 
+#set_docker_compose_travis_yml_without_volumes 
+#set_clerk_frontend_dockerfile_without_volumes 
+#set_waardepapieren_service_dockerfile_without_volumes 
+set_docker_compose_travis_yml_with_volumes 
+set_clerk_frontend_dockerfile_with_volumes 
+set_waardepapieren_service_dockerfile_with_volumes 
 set_mock_nlx_dockerfile       
 set_clerk_frontend_nginx_conf 
 set_waardepapieren_service_config_compose_travis_json
-set_waardepapieren_service_config_compose_json
-set_waardepapieren_service_config_json
+#set_waardepapieren_service_config_compose_json
+#set_waardepapieren_service_config_json
 set_azure_deploy_aci_yaml
 
 create_logfile_footer "${FUNCNAME[0]}" $@
@@ -1636,7 +1643,10 @@ curl -o $LOG_START_DATE_TIME_menu.bash https://raw.githubusercontent.com/boschpe
 # Arguments: 
 # Return: additional cookbook lines in Dockerfile 
 ##################################################################
-specify_additional_modifications_in_dockerfiles () {
+
+specify_additional_modifications_in_dockerfiles() {
+
+echo ".."
 
 TIMEZONE="ENV TZ=Europe/Amsterdam"
 APT_GET_UPDATE="RUN apt-get update"
@@ -1686,8 +1696,8 @@ echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                         
 echo "TIMEZONE=$TIMEZONE"                                                              >> "${LOG_FILE}"
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> "${LOG_FILE}"
 echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" >> "${LOG_FILE}"
-echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE"               >> "${LOG_FILE}"
-echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"                 >> "${LOG_FILE}"
+#echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE"               >> "${LOG_FILE}"
+#echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"                 >> "${LOG_FILE}"
 echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> "${LOG_FILE}"
 echo "#######################"                                                          >> "${LOG_FILE}"
 echo "## variables"                                                                     >> "${LOG_FILE}"
@@ -1725,8 +1735,8 @@ echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                     
 echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                 #=discipl  
 echo "TIMEZONE=$TIMEZONE"                                                               #=""
 echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" 
-echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE"               
-echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"                
+#echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE"               
+#echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"                
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                       #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
 echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"               #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
 echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                                       #=true  #cat content modified files to ${LOG_DIR}
@@ -1847,9 +1857,9 @@ show_menus() {
   echo "23. set_waardepapieren_service_dockerfile_without_volumes   " 
   echo "24. set_clerk_frontend_nginx_conf                           "
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
-  echo "26. set_waardepapieren_service_config_compose_json          "
-  echo "27. set_waardepapieren_service_config_json                  "  
-  echo "28. set_all_dockerfiles          $CERT_HOST_IP               "                         
+ # echo "26. set_waardepapieren_service_config_compose_json          "
+ # echo "27. set_waardepapieren_service_config_json                  "  
+  echo "30. set_all_dockerfiles          $CERT_HOST_IP               "                         
   echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
   echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
@@ -1891,9 +1901,9 @@ read_options(){
         23) set_waardepapieren_service_dockerfile_without_volumes   ;; 
         24) set_clerk_frontend_nginx_conf                           ;;
         25) set_waardepapieren_service_config_compose_travis_json   ;;  
-        26) set_waardepapieren_service_config_compose_json          ;;
-        27) set_waardepapieren_service_config_json                  ;;
-        28) set_all_dockerfiles                                     ;;                        
+#        26) set_waardepapieren_service_config_compose_json          ;;
+#        27) set_waardepapieren_service_config_json                  ;;
+        30) set_all_dockerfiles                                     ;;                        
         40) docker_compose_images                                   ;; 
         41) docker_build_images                                     ;;  
         42) docker_tag_images                                       ;; 
