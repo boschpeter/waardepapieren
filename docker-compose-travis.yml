@@ -19,7 +19,7 @@ services:
     build:
       context: clerk-frontend/
       args:
-        - CERTIFICATE_HOST=http://$CERT_HOST_IP:8880
+        - CERTIFICATE_HOST=http://localhost:8880
     links:
       - waardepapieren-service
     ports:

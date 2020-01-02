@@ -326,28 +326,29 @@ TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
 enter_touch "${FUNCNAME[0]}" $@
 cd $TT_DIRECTORY
+
 echo "FROM node:10
 RUN mkdir /app
 ADD package.json package-lock.json /app/
-ENV REACT_APP_EPHEMERAL_ENDPOINT=https://${CERT_HOST_IP}:443/api/eph
-ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://${CERT_HOST_IP}:443/api/eph-ws
+ENV REACT_APP_EPHEMERAL_ENDPOINT=https://localhost:443/api/eph
+ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://localhost:443/api/eph-ws
 WORKDIR /app
 RUN npm install --unsafe-perm
 ADD public /app/public
 ADD src /app/src
 ARG CERTIFICATE_HOST
 ENV REACT_APP_CERTIFICATE_HOST=${CERTIFICATE_HOST}
+RUN npm run build
 
 $TIMEZONE
 $APT_GET_UPDATE
 $APT_GET_INSTAL
 $APT_GET_INSTALL_IPUTILS_PING
 
-RUN npm run build
 
 FROM nginx:1.15.8
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=0 /app/build /usr/share/nginx/html"  > "${TT_INSPECT_FILE}" #Dockerfile
+COPY --from=0 /app/build /usr/share/nginx/html" > "${TT_INSPECT_FILE}" #Dockerfile
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
