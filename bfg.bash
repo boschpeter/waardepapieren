@@ -4,7 +4,7 @@
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
-#   Peter Bosch       20200101        bash file generator   20:45
+#   Peter Bosch       20200101        bash file generator   21:30
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash   
