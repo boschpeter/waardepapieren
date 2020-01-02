@@ -29,7 +29,7 @@
 
   <meta name="viewport" content="width=device-width">
   
-  <title>waardepapieren/nginx.conf at master · discipl/waardepapieren · GitHub</title>
+  <title>waardepapieren/waardepapieren-config-compose.json at ddd9d45750e560b594454cfd3274e2bfa0215208 · discipl/waardepapieren · GitHub</title>
     <meta name="description" content="project for consortium of municipalities digitizing PoE services - discipl/waardepapieren">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
   <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
@@ -42,7 +42,7 @@
   
   
 
-    <meta name="request-id" content="C863:1B668:FB6EC9D:17F469E7:5E0DE4CD" data-pjax-transient>
+    <meta name="request-id" content="C84F:22338:3696DAE:53268C6:5E0DE409" data-pjax-transient>
 
 
 
@@ -54,7 +54,7 @@
     <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
 
-    <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="C863:1B668:FB6EC9D:17F469E7:5E0DE4CD" /><meta name="octolytics-dimension-region_edge" content="ams" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-dimension-ga_id" content="" class="js-octo-ga-id" /><meta name="octolytics-dimension-visitor_id" content="2024258499530056910" />
+    <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="C84F:22338:3696DAE:53268C6:5E0DE409" /><meta name="octolytics-dimension-region_edge" content="ams" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-dimension-ga_id" content="" class="js-octo-ga-id" /><meta name="octolytics-dimension-visitor_id" content="2546997560376943626" />
 
 <meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
 
@@ -74,23 +74,23 @@
 
       <meta name="expected-hostname" content="github.com">
 
-      <meta name="js-proxy-site-detection-payload" content="NmMyMDZlY2I5OTUxN2VhNjgyNjIzYTA3NTZhYWM1NGQwYjg0Yjc0MjM2OGYwNThmNGQ1ZjVkMjlhM2E0ODVhYnx7InJlbW90ZV9hZGRyZXNzIjoiODUuMTU5Ljk3LjcxIiwicmVxdWVzdF9pZCI6IkM4NjM6MUI2Njg6RkI2RUM5RDoxN0Y0NjlFNzo1RTBERTRDRCIsInRpbWVzdGFtcCI6MTU3Nzk2ODg0NiwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+      <meta name="js-proxy-site-detection-payload" content="ZjgyY2U2MDg0NGY4OThmZGE4ZmFiNGU2OGY2Mzc5NmExNmY1NTA5OWVlMzE2ZGE3NjFkNDc2NTY3MWJkNTkwNXx7InJlbW90ZV9hZGRyZXNzIjoiODUuMTU5Ljk3LjcxIiwicmVxdWVzdF9pZCI6IkM4NEY6MjIzMzg6MzY5NkRBRTo1MzI2OEM2OjVFMERFNDA5IiwidGltZXN0YW1wIjoxNTc3OTY4NjUwLCJob3N0IjoiZ2l0aHViLmNvbSJ9">
 
     <meta name="enabled-features" content="MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PENDING_INSTALLATIONS">
 
-    <meta name="html-safe-nonce" content="866933bab9e3de1592592ed6715f0f77fcdce016">
+    <meta name="html-safe-nonce" content="fc4473a5385dd51b7639f26b591644022e4490d3">
 
   <meta http-equiv="x-pjax-version" content="88749827de37e0e1ebd70bc0919cebf3">
   
 
-      <link href="https://github.com/discipl/waardepapieren/commits/master.atom" rel="alternate" title="Recent Commits to waardepapieren:master" type="application/atom+xml">
+      <link href="https://github.com/discipl/waardepapieren/commits/ddd9d45750e560b594454cfd3274e2bfa0215208.atom" rel="alternate" title="Recent Commits to waardepapieren:ddd9d45750e560b594454cfd3274e2bfa0215208" type="application/atom+xml">
 
   <meta name="go-import" content="github.com/discipl/waardepapieren git https://github.com/discipl/waardepapieren.git">
 
   <meta name="octolytics-dimension-user_id" content="25100310" /><meta name="octolytics-dimension-user_login" content="discipl" /><meta name="octolytics-dimension-repository_id" content="156837216" /><meta name="octolytics-dimension-repository_nwo" content="discipl/waardepapieren" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="false" /><meta name="octolytics-dimension-repository_network_root_id" content="156837216" /><meta name="octolytics-dimension-repository_network_root_nwo" content="discipl/waardepapieren" /><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false" />
 
 
-    <link rel="canonical" href="https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf" data-pjax-transient>
+    <link rel="canonical" href="https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json" data-pjax-transient>
 
 
   <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
@@ -144,7 +144,7 @@
         <div class="d-flex flex-items-center">
             <a href="/join?source=header-repo"
               class="d-inline-block d-lg-none f5 text-white no-underline border border-gray-dark rounded-2 px-2 py-1 mr-3 mr-sm-5"
-              data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="09d24654bde17785f413b93aa65be95b53946342b8c870832e2cf06faacbcb86"
+              data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="16101b730ba06a18dcbe0d17384fa7a4a065f2d55bfc38eca31b256e875badc5"
               data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">
               Sign&nbsp;up
             </a>
@@ -284,7 +284,7 @@
           aria-autocomplete="list"
           aria-controls="jump-to-results"
           aria-label="Search"
-          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=2aqZJHXwiYGT8rINN6T/Hd/mS7orBBstcyiVQqdEEvBfCGM6ZPEumb1WchsnCPuvPtBKeztjeh/FER/HB+T7AA=="
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=Mn6cOClsr/vpoVNAn+GRhIFqrotT4KDTYammMlKcx7mJDgX0EvRkSxaoY5MipnvpeiHSNPAxcBx2AKtgBy6xSQ=="
           spellcheck="false"
           autocomplete="off"
           >
@@ -409,15 +409,15 @@
 
           </div>
 
-        <a href="/login?return_to=%2Fdiscipl%2Fwaardepapieren%2Fblob%2Fmaster%2Fclerk-frontend%2Fnginx%2Fnginx.conf"
+        <a href="/login?return_to=%2Fdiscipl%2Fwaardepapieren%2Fblob%2Fddd9d45750e560b594454cfd3274e2bfa0215208%2Fwaardepapieren-service%2Fconfiguration%2Fwaardepapieren-config-compose.json"
           class="HeaderMenu-link no-underline mr-3"
-          data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="0f82f3f63bf6ae05e33aaf7a2f82c068ca47db398e9508fb348f51d0faa3581b"
+          data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="dd714ee41431c8de3131e7407814a83087b684109a68c18e44565b440aeb1769"
           data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in">
           Sign&nbsp;in
         </a>
           <a href="/join?source=header-repo&amp;source_repo=discipl%2Fwaardepapieren"
             class="HeaderMenu-link d-inline-block no-underline border border-gray-dark rounded-1 px-2 py-1"
-            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="0f82f3f63bf6ae05e33aaf7a2f82c068ca47db398e9508fb348f51d0faa3581b"
+            data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="dd714ee41431c8de3131e7407814a83087b684109a68c18e44565b440aeb1769"
             data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">
             Sign&nbsp;up
           </a>
@@ -467,7 +467,7 @@
 
   <li>
     
-  <a class="tooltipped tooltipped-s btn btn-sm btn-with-count" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4d583030aaae4b34feb9c505822f597297c9e7d943c148e463b170f4acb50caa" href="/login?return_to=%2Fdiscipl%2Fwaardepapieren">
+  <a class="tooltipped tooltipped-s btn btn-sm btn-with-count" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="f0e4aed049f5c26abfd157bef4d331c5c19ab73c6704768e1cfae82c3680f815" href="/login?return_to=%2Fdiscipl%2Fwaardepapieren">
     <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
     Watch
 </a>    <a class="social-count" href="/discipl/waardepapieren/watchers"
@@ -478,7 +478,7 @@
   </li>
 
   <li>
-        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:156837216,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="3f73fd2df266e52899075628ed8b8284b9588ac911aab9a975c45da9b4a51743" href="/login?return_to=%2Fdiscipl%2Fwaardepapieren">
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:156837216,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="a0e98fa0ba810f9cfb5031c1c7122a76bc6524a53a60ec1c42a8eb3734d5b584" href="/login?return_to=%2Fdiscipl%2Fwaardepapieren">
       <svg aria-label="star" height="16" class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" role="img"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
 
       Star
@@ -491,7 +491,7 @@
   </li>
 
   <li>
-      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:156837216,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="ccea8381ba185e87f57c46520be9ef231ad72151bd46cb14b92b5473ae4884ae" href="/login?return_to=%2Fdiscipl%2Fwaardepapieren">
+      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:156837216,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="3baf845e1bc10841b1b1f5edec2436810a1aa6876e8e2d4297f8d7c1164d3bb3" href="/login?return_to=%2Fdiscipl%2Fwaardepapieren">
         <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 00-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 002 1a1.993 1.993 0 00-1 3.72V6.5l3 3v1.78A1.993 1.993 0 005 15a1.993 1.993 0 001-3.72V9.5l3-3V4.72A1.993 1.993 0 008 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
         Fork
 </a>
@@ -626,19 +626,19 @@
   
 
 
-    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/discipl/waardepapieren/blob/84c8bad64845c8a6fbb059045cb7b147fb0c15fc/clerk-frontend/nginx/nginx.conf">Permalink</a>
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json">Permalink</a>
 
-    <!-- blob contrib key: blob_contributors:v21:052e6617bf9f11860e6f38fdfb96a4e8 -->
+    <!-- blob contrib key: blob_contributors:v21:caf404f7fca1c698d10357f245cbbfef -->
           <div class="signup-prompt-bg rounded-1">
       <div class="signup-prompt p-4 text-center mb-4 rounded-1">
         <div class="position-relative">
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/prompt_dismissals/signup" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="OyOM1aj6W0FAC+4pQeJYuEvAkGUHSHaJFQJQzsBSjWp868aml2cig4Bq8qfWP4bn9J4ynYiUSVj6jYGXBF+6Mg==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/prompt_dismissals/signup" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="LiDcyFww/1usUYh62hxbuQti33qOMCDJk4D1imj74wmKueWRfFvW3xMI9FYMqkXOsDTyq3dGV+Uq5sizP6D3rA==" />
             <button type="submit" class="position-absolute top-0 right-0 btn-link link-gray" data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss">
               Dismiss
             </button>
 </form>          <h3 class="pt-2">Join GitHub today</h3>
           <p class="col-6 mx-auto">GitHub is home to over 40 million developers working together to host and review code, manage projects, and build software together.</p>
-          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C863:1B668:FB6EC9D:17F469E7:5E0DE4CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="5975d3d7cecfffc22100a7d2bf67472926a52380b0b78d62237bade3b0612c6f" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="/join?source=prompt-blob-show&amp;source_repo=discipl%2Fwaardepapieren">Sign up</a>
+          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;C84F:22338:3696DAE:53268C6:5E0DE409&quot;,&quot;originating_url&quot;:&quot;https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="9febb08c1fa1cdca7b376fa6dd5ae9380c5a41da943b8bfe40c90755ab59191c" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="/join?source=prompt-blob-show&amp;source_repo=discipl%2Fwaardepapieren">Sign up</a>
         </div>
       </div>
     </div>
@@ -651,11 +651,11 @@
   <summary class="btn btn-sm select-menu-button css-truncate"
            data-hotkey="w"
            title="Switch branches or tags">
-    <i>Branch:</i>
-    <span class="css-truncate-target" data-menu-button>master</span>
+    <i>Tree:</i>
+    <span class="css-truncate-target" data-menu-button>ddd9d45750</span>
   </summary>
 
-  <details-menu class="select-menu-modal hx_rsm-modal position-absolute" style="z-index: 99;" src="/discipl/waardepapieren/refs/master/clerk-frontend/nginx/nginx.conf?source_action=show&amp;source_controller=blob" preload>
+  <details-menu class="select-menu-modal hx_rsm-modal position-absolute" style="z-index: 99;" src="/discipl/waardepapieren/refs/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json?source_action=show&amp;source_controller=blob" preload>
     <include-fragment class="select-menu-loading-overlay anim-pulse">
       <svg height="32" class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"/></svg>
     </include-fragment>
@@ -663,29 +663,29 @@
 </details>
 
         <div class="BtnGroup flex-shrink-0 d-md-none">
-          <a href="/discipl/waardepapieren/find/master"
+          <a href="/discipl/waardepapieren/find/ddd9d45750e560b594454cfd3274e2bfa0215208"
                 class="js-pjax-capture-input btn btn-sm BtnGroup-item"
                 data-pjax
                 data-hotkey="t">
             Find file
           </a>
-          <clipboard-copy value="clerk-frontend/nginx/nginx.conf" class="btn btn-sm BtnGroup-item">
+          <clipboard-copy value="waardepapieren-service/configuration/waardepapieren-config-compose.json" class="btn btn-sm BtnGroup-item">
             Copy path
           </clipboard-copy>
         </div>
       </span>
       <h2 id="blob-path" class="breadcrumb flex-auto min-width-0 text-normal flex-md-self-center ml-md-2 mr-md-3 my-2 my-md-0">
-        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="/discipl/waardepapieren"><span>waardepapieren</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/discipl/waardepapieren/tree/master/clerk-frontend"><span>clerk-frontend</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/discipl/waardepapieren/tree/master/clerk-frontend/nginx"><span>nginx</span></a></span><span class="separator">/</span><strong class="final-path">nginx.conf</strong>
+        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" rel="nofollow" href="/discipl/waardepapieren/tree/ddd9d45750e560b594454cfd3274e2bfa0215208"><span>waardepapieren</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" rel="nofollow" href="/discipl/waardepapieren/tree/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service"><span>waardepapieren-service</span></a></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" rel="nofollow" href="/discipl/waardepapieren/tree/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration"><span>configuration</span></a></span><span class="separator">/</span><strong class="final-path">waardepapieren-config-compose.json</strong>
       </h2>
 
       <div class="BtnGroup flex-shrink-0 d-none d-md-inline-block">
-        <a href="/discipl/waardepapieren/find/master"
+        <a href="/discipl/waardepapieren/find/ddd9d45750e560b594454cfd3274e2bfa0215208"
               class="js-pjax-capture-input btn btn-sm BtnGroup-item"
               data-pjax
               data-hotkey="t">
           Find file
         </a>
-        <clipboard-copy value="clerk-frontend/nginx/nginx.conf" class="btn btn-sm BtnGroup-item">
+        <clipboard-copy value="waardepapieren-service/configuration/waardepapieren-config-compose.json" class="btn btn-sm BtnGroup-item">
           Copy path
         </clipboard-copy>
       </div>
@@ -702,12 +702,12 @@
           <a rel="contributor" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/users/pimotte/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/pimotte"><img class="avatar" src="https://avatars2.githubusercontent.com/u/5917458?s=40&amp;v=4" width="20" height="20" alt="@pimotte" /></a>
           <a class="text-bold link-gray-dark lh-default v-align-middle" rel="contributor" data-hovercard-type="user" data-hovercard-url="/users/pimotte/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/pimotte">pimotte</a>
             <span class="lh-default v-align-middle">
-              <a data-pjax="true" title="Internal https to ephemeral" class="link-gray" href="/discipl/waardepapieren/commit/cd94df30e3f68f6c0c8a4ed0d9cd726d0b154dc9">Internal https to ephemeral</a>
+              <a data-pjax="true" title="Improve configurability of wp-service, re-enable service test on travis (using offline mock)" class="link-gray" href="/discipl/waardepapieren/commit/ddd9d45750e560b594454cfd3274e2bfa0215208">Improve configurability of wp-service, re-enable service test on trav…</a>
             </span>
         </span>
         <span class="d-inline-block flex-shrink-0 v-align-bottom f6 mt-2 mt-md-0">
-          <a class="pr-2 text-mono link-gray" href="/discipl/waardepapieren/commit/cd94df30e3f68f6c0c8a4ed0d9cd726d0b154dc9" data-pjax>cd94df3</a>
-          <relative-time datetime="2019-06-06T12:01:54Z" class="no-wrap">Jun 6, 2019</relative-time>
+          <a class="pr-2 text-mono link-gray" href="/discipl/waardepapieren/commit/ddd9d45750e560b594454cfd3274e2bfa0215208" data-pjax>ddd9d45</a>
+          <relative-time datetime="2019-05-09T09:41:30Z" class="no-wrap">May 9, 2019</relative-time>
         </span>
       </div>
 
@@ -719,7 +719,7 @@
         <details-dialog
           class="Box Box--overlay d-flex flex-column anim-fade-in fast"
           aria-label="Users who have contributed to this file"
-          src="/discipl/waardepapieren/contributors-list/master/clerk-frontend/nginx/nginx.conf" preload>
+          src="/discipl/waardepapieren/contributors-list/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json" preload>
           <div class="Box-header">
             <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog>
               <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
@@ -743,17 +743,17 @@
 <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
   <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
 
-      44 lines (35 sloc)
+      18 lines (18 sloc)
       <span class="file-info-divider"></span>
-    948 Bytes
+    815 Bytes
   </div>
 
   <div class="d-flex py-1 py-md-0 flex-auto flex-order-1 flex-md-order-2 flex-sm-grow-0 flex-justify-between">
 
     <div class="BtnGroup">
-      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/discipl/waardepapieren/raw/master/clerk-frontend/nginx/nginx.conf">Raw</a>
-        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/discipl/waardepapieren/blame/master/clerk-frontend/nginx/nginx.conf">Blame</a>
-      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/discipl/waardepapieren/commits/master/clerk-frontend/nginx/nginx.conf">History</a>
+      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/discipl/waardepapieren/raw/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json">Raw</a>
+        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/discipl/waardepapieren/blame/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json">Blame</a>
+      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/discipl/waardepapieren/commits/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json">History</a>
     </div>
 
 
@@ -776,193 +776,80 @@
 
       
 
-  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-nginx ">
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-json ">
       
 <table class="highlight tab-size js-file-line-container" data-tab-size="8">
       <tr>
         <td id="L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">events</span> {</td>
+        <td id="LC1" class="blob-code blob-code-inner js-file-line">{</td>
       </tr>
       <tr>
         <td id="L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="LC2" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">worker_connections</span>  <span class="pl-s">1024</span>;</td>
+        <td id="LC2" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>EPHEMERAL_ENDPOINT<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>http://localhost:3232<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="LC3" class="blob-code blob-code-inner js-file-line">}</td>
+        <td id="LC3" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>EPHEMERAL_WEBSOCKET_ENDPOINT<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>ws://localhost:3233<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="LC4" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>NLX_OUTWAY_ENDPOINT<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>http://mock-nlx:4080<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="LC5" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC5" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>NLX_CERT<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>/certs/org.crt<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="LC6" class="blob-code blob-code-inner js-file-line"><span class="pl-k">http</span> {</td>
+        <td id="LC6" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>NLX_KEY<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>/certs/org.key<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="LC7" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC7" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>PRODUCT_NEED<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>BRP_UITTREKSEL_NEED<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">map</span> <span class="pl-smi">$http_upgrade</span> <span class="pl-smi">$connection_upgrade</span> {</td>
+        <td id="LC8" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>SOURCE_NLX_PATH<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="LC9" class="blob-code blob-code-inner js-file-line">       <span class="pl-c1"> default</span> upgrade;</td>
+        <td id="LC9" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>SOURCE_ARGUMENT<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>BSN<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="LC10" class="blob-code blob-code-inner js-file-line">        <span class="pl-s">&#39;&#39;</span> close;</td>
+        <td id="LC10" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>PRODUCT_ACCEPT<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>BRP_UITTREKSEL_ACCEPT<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="LC11" class="blob-code blob-code-inner js-file-line">    }</td>
+        <td id="LC11" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>PRODUCT_NAME<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>Gewaarmerkt digitaal afschrift van gegevens uit de basisregistratie personen (BRP)<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="LC12" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC12" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>PRODUCT_DESCRIPTION<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>Uittreksel Basis Registratie Persoonsgegevens<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-c"># Http server to obtain NLX certificate</span></td>
+        <td id="LC13" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>PRODUCT_PURPOSE<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>Bewijs verblijfadres in woonplaats<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">server</span> {</td>
+        <td id="LC14" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>SOURCE_DATA_SELECTION<span class="pl-pds">&quot;</span></span> : [</td>
       </tr>
       <tr>
         <td id="L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="LC15" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">listen</span> <span class="pl-s">8880</span>;</td>
+        <td id="LC15" class="blob-code blob-code-inner js-file-line">    {<span class="pl-s"><span class="pl-pds">&quot;</span>Burgerservicenummer (BSN)<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>burgerservicenummer<span class="pl-pds">&quot;</span></span>},</td>
       </tr>
       <tr>
         <td id="L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="LC16" class="blob-code blob-code-inner js-file-line">
-</td>
+        <td id="LC16" class="blob-code blob-code-inner js-file-line">    {<span class="pl-s"><span class="pl-pds">&quot;</span>Woonplaats verblijfadres<span class="pl-pds">&quot;</span></span> : <span class="pl-s"><span class="pl-pds">&quot;</span>verblijfadres.woonplaats<span class="pl-pds">&quot;</span></span>}</td>
       </tr>
       <tr>
         <td id="L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="LC17" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">location</span> <span class="pl-en">/ </span>{</td>
+        <td id="LC17" class="blob-code blob-code-inner js-file-line">  ]</td>
       </tr>
       <tr>
         <td id="L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="LC18" class="blob-code blob-code-inner js-file-line">           <span class="pl-k">root</span> /usr/share/nginx/html;</td>
-      </tr>
-      <tr>
-        <td id="L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="LC19" class="blob-code blob-code-inner js-file-line">           <span class="pl-k">include</span> /etc/nginx/mime.types;</td>
-      </tr>
-      <tr>
-        <td id="L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="LC20" class="blob-code blob-code-inner js-file-line">        }</td>
-      </tr>
-      <tr>
-        <td id="L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="LC21" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="LC22" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="LC23" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">server</span> {</td>
-      </tr>
-      <tr>
-        <td id="L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="LC24" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">listen</span> <span class="pl-s">443</span> ssl;</td>
-      </tr>
-      <tr>
-        <td id="L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="LC25" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="LC26" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">ssl_certificate</span> /etc/nginx/certs/org.crt;</td>
-      </tr>
-      <tr>
-        <td id="L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="LC27" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">ssl_certificate_key</span> /etc/nginx/certs/org.key;</td>
-      </tr>
-      <tr>
-        <td id="L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="LC28" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="LC29" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">location</span> <span class="pl-en">/api/eph/ </span>{</td>
-      </tr>
-      <tr>
-        <td id="L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="LC30" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">proxy_pass</span> https://waardepapieren-service:3232/;</td>
-      </tr>
-      <tr>
-        <td id="L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="LC31" class="blob-code blob-code-inner js-file-line">        }</td>
-      </tr>
-      <tr>
-        <td id="L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="LC32" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="LC33" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">location</span> <span class="pl-en">/api/eph-ws </span>{</td>
-      </tr>
-      <tr>
-        <td id="L34" class="blob-num js-line-number" data-line-number="34"></td>
-        <td id="LC34" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">proxy_pass</span> https://waardepapieren-service:3232;</td>
-      </tr>
-      <tr>
-        <td id="L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="LC35" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">proxy_http_version</span> <span class="pl-c1">1.1</span>;</td>
-      </tr>
-      <tr>
-        <td id="L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="LC36" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">proxy_set_header</span> Upgrade <span class="pl-smi">$http_upgrade</span>;</td>
-      </tr>
-      <tr>
-        <td id="L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="LC37" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">proxy_set_header</span> Connection <span class="pl-s">&quot;Upgrade&quot;</span>;</td>
-      </tr>
-      <tr>
-        <td id="L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="LC38" class="blob-code blob-code-inner js-file-line">        }</td>
-      </tr>
-      <tr>
-        <td id="L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="LC39" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">location</span> <span class="pl-en">/ </span>{</td>
-      </tr>
-      <tr>
-        <td id="L40" class="blob-num js-line-number" data-line-number="40"></td>
-        <td id="LC40" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">root</span> /usr/share/nginx/html;</td>
-      </tr>
-      <tr>
-        <td id="L41" class="blob-num js-line-number" data-line-number="41"></td>
-        <td id="LC41" class="blob-code blob-code-inner js-file-line">            <span class="pl-k">include</span> /etc/nginx/mime.types;</td>
-      </tr>
-      <tr>
-        <td id="L42" class="blob-num js-line-number" data-line-number="42"></td>
-        <td id="LC42" class="blob-code blob-code-inner js-file-line">        }</td>
-      </tr>
-      <tr>
-        <td id="L43" class="blob-num js-line-number" data-line-number="43"></td>
-        <td id="LC43" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="L44" class="blob-num js-line-number" data-line-number="44"></td>
-        <td id="LC44" class="blob-code blob-code-inner js-file-line">}</td>
+        <td id="LC18" class="blob-code blob-code-inner js-file-line">}</td>
       </tr>
 </table>
 
@@ -982,7 +869,7 @@
             Copy permalink
           </clipboard-copy>
         </li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/discipl/waardepapieren/blame/84c8bad64845c8a6fbb059045cb7b147fb0c15fc/clerk-frontend/nginx/nginx.conf">View git blame</a></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/discipl/waardepapieren/blame/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json">View git blame</a></li>
           <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/discipl/waardepapieren/issues/new/choose">Reference in new issue</a></li>
       </ul>
     </details-menu>

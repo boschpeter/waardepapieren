@@ -134,15 +134,16 @@ EPHEMERAL_RETENTION_TIME=2592020 #30 dagen
 ##################################################################
 get_curl (){
 
+echo $1 
 cd $1  # 
 #Now use curl command in command line to download the file.
-curl -o $2 $3  #curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+#echo "curl -o $2 $3 "  #curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash"
+curl -o $2 $3 
+#curl -o  bfg.bash "https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash"
+#curl -o  docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
 cd $GITHUB_DIR
 
-
 }
-
-
 
 ##################################################################
 # Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
@@ -151,25 +152,57 @@ cd $GITHUB_DIR
 ##################################################################
 get_curl_waardepapieren (){
 
+GITHUB_DIR=$PWD
 
-#${GITHUB_DIR} docker-compose-travis.yml 
+#docker-compose-travis.yml  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
+RAW_DIR=${GITHUB_DIR}
+RAW_FILE=docker-compose-travis.yml  
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
 
-#TT_DIRECTORY=${GITHUB_DIR}/mock-nlx  TT_INSPECT_FILE=Dockerfile
-
-#TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service TT_INSPECT_FILE=Dockerfile
-
-#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend   TT_INSPECT_FILE=Dockerfile 
-
-#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx TT_INSPECT_FILE=nginx.conf
-
-# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose_travis.json
-
-# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose.json
-
-# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config.json
+#TT_DIRECTORY=${GITHUB_DIR}/mock-nlx  TT_INSPECT_FILE=Dockerfile  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile
+RAW_DIR=${GITHUB_DIR}/mock-nlx  
+RAW_FILE=Dockerfile  
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
 
 
+#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend  TT_INSPECT_FILE=Dockerfile  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile
+RAW_DIR=${GITHUB_DIR}/clerk-frontend  
+RAW_FILE=Dockerfile  
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
 
+#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx TT_INSPECT_FILE=nginx.conf RAW_URL=https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf
+RAW_DIR=${GITHUB_DIR}/clerk-frontend/nginx 
+RAW_FILE=nginx.conf 
+RAW_URL="https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+#TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service TT_INSPECT_FILE=Dockerfile RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service 
+RAW_FILE=Dockerfile 
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
+RAW_FILE=waardepapieren-config-compose.json 
+RAW_URL="https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config.json RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json
+TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration 
+RAW_FILE=waardepapieren-config.json 
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+
+#### HUH?  TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose_travis.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+#RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
+#RAW_FILE=waardepapieren-config-compose_travis.json 
+#RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+#get_curl $RAW_DIR $RAW_FILE $RAW_URL
 }
 
 
