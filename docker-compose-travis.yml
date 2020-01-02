@@ -2,9 +2,9 @@ version: '3'
 services:
   waardepapieren-service:
     volumes:
-      - ./waardepapieren-service/system-test/certs:/certs:ro
-      - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
-      - ./waardepapieren-service/configuration/:/app/configuration:ro
+      #- ./waardepapieren-service/system-test/certs:/certs:rw
+      #- ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:rw
+      - ./waardepapieren-service/configuration/:/app/configuration2:rw  #FAKE
     build: waardepapieren-service/.
     links:
       - mock-nlx
@@ -19,7 +19,7 @@ services:
     build:
       context: clerk-frontend/
       args:
-        - CERTIFICATE_HOST=http://$CERT_HOST_IP:8880
+        - CERTIFICATE_HOST=http://waardepapieren-demo.westeurope.cloudapp.azure.com:8880
     links:
       - waardepapieren-service
     ports:
@@ -27,8 +27,8 @@ services:
       - 8880:8880
     healthcheck:
       test: service nginx status
-    volumes:
-      - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
+  #  volumes:
+  #    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
   mock-nlx:
     build: mock-nlx/
     ports:

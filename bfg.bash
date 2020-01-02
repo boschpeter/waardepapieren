@@ -7,7 +7,7 @@
 #   Peter Bosch       20200101        bash file generator 
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
-#  File:            :bfg.bash
+#  File:            :bfg.bash   
 #  version          :20200101 v0
 #  File Type        :Bash is a command processor that typically runs in a text window 
 #                    Bash can also read and execute commands from a file, called a shell script.
@@ -15,7 +15,8 @@
 #  Title:           :cloutuh  
 #  Category         :CI CD  bash file genererator
 #  Identificatie    :https://github.com/BoschPeter/AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io
-#  main purpose of this script to show configuration for containers spinning in the cloud. 
+#                    curl -o bfg.bash  https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+
 #  https://waardepapieren-demo.discipl.org/    BSN=663678651
 #  example Pim Otte
 #  10dec 2:35 PM @Bas Als het goed is werkt https://waardepapieren-demo.discipl.org/
@@ -1686,9 +1687,9 @@ echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                         
 echo "TIMEZONE=$TIMEZONE"                                                              >> "${LOG_FILE}"
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> "${LOG_FILE}"
 echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" >> "${LOG_FILE}"
-echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS"        >> "${LOG_FILE}"
-echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME_CONFIG"                        >> "${LOG_FILE}"
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"               >> "${LOG_FILE}"
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE"               >> "${LOG_FILE}"
+echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"                 >> "${LOG_FILE}"
+echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> "${LOG_FILE}"
 echo "#######################"                                                          >> "${LOG_FILE}"
 echo "## variables"                                                                     >> "${LOG_FILE}"
 echo "#######################"                                                          >> "${LOG_FILE}"
@@ -1724,9 +1725,9 @@ echo "AZURE_USER=$AZURE_USER"                                                   
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                             #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
 echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                 #=discipl  
 echo "TIMEZONE=$TIMEZONE"                                                               #=""
-echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" #=2592001 #30 dagen
-echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS"        #=2592001 #30 dagen
-echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME_CONFIG"                        #=2592001 #30 dagen
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" 
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE"               
+echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"                
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                       #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
 echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"               #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
 echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                                       #=true  #cat content modified files to ${LOG_DIR}
