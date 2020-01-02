@@ -834,13 +834,7 @@ if ! [ "$the_world_is_flat" = true ] ; then
     echo 'Be careful not to fall off!'
 fi
 
-### barf  
-enter_cont() {
-    echo
-    echo
-    echo -n "Press enter to Continue"
-    read
-}
+
 
 # /////////////////////////////////////////////////////////////////////////////////
 #  Create a Header in the logfile

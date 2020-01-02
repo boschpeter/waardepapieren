@@ -24,10 +24,6 @@
 #  https://waardepapieren-demo.westeurope.azurecontainer.io ACI
 #  https://waardepapieren-demo.westeurope.azurecontainer.io ACI
 
-# ===== INSTRUCTIONS ======
-# 1. SET your variable ... from menu
-# 2. run this script as follows 
-#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu docker_tagversion:4 target_FQDN)
 
 # forked from https://github.com/discipl/waardepapieren.git read.ME
 # Running
@@ -58,6 +54,27 @@
 # Naming your containers
 
 
+# ===== INSTRUCTIONS ======
+# 1. SET your variable ... from menu
+# 2. run this script as follows 
+#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu docker_tagversion:4 target_FQDN)
+
+# if [ ${PROMPT} = true ] 
+# then
+# echo "arg1="$1  # mm 
+# echo "arg2="$2  # 4
+# echo "arg3="$3  # discipl.westeurope.cloudapp.azure.com  (Azure VM)
+#                 # discipl.westeurope.azurecontainer.io   (Azure Container Instance)
+# fi 
+
+### barf  
+enter_cont() {
+    echo
+    echo
+    echo -n "Press enter to Continue"
+    read
+}
+
 # here we go
 # ----------------------------------
 # Step : Define variables
@@ -71,19 +88,7 @@ GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waarde
 DOUBLE_CHECK=true  
 WRITE_CODE=true
 PROMPT=true # echo parameters
-
-if [ ${PROMPT} = true ] 
-then
-echo "arg1="$1  # mm 
-echo "arg2="$2  # 4
-echo "arg3="$3  #discipl.westeurope.cloudapp.azure.com  (Azure VM)
-                #discipl.westeurope.azurecontainer.io   (Azure Container Instance)
-fi                
-
-
-echo "arg1="$1
-echo "arg2="$2
-echo "arg3="$3
+            
 if [ "$1" = "mm" ]
    then
     MENU=true
@@ -95,44 +100,78 @@ if [ "$1" = "mm" ]
     AZ_DNSNAMELABEL=${url_components[0]} #discipl (.westeurope.cloudapp.azure.com)
 fi
 
-if [ ${PROMPT} = true ] 
-then
-echo "MENU ="$MENU
-echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
-echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
-echo "CERT_HOST_IP="$CERT_HOST_IP
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME="$CERT_HOST_IP_WP_SERVICE_HOSTNAME
-IFS=. url_components=($3##*-})
-echo "AZ_DNSNAMELABEL="$AZ_DNSNAMELABEL
-
-fi
+# if [ ${PROMPT} = true ] 
+# then
+# echo "MENU ="$MENU
+# echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
+# echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
+# echo "CERT_HOST_IP="$CERT_HOST_IP
+# echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME="$CERT_HOST_IP_WP_SERVICE_HOSTNAME
+# IFS=. url_components=($3##*-})
+# echo "AZ_DNSNAMELABEL="$AZ_DNSNAMELABEL
+# enter_cont
+# fi
 
 MOCK_NLX="mock-nlx"
 WAARDEPAPIEREN_SERVICE="waardepapieren-service"
 CLERK_FRONTEND="clerk-frontend"
  
 #EPHEMERAL_RETENTION_TIME=86400  #24h 
-EPHEMERAL_RETENTION_TIME=2592001 #30 dagen
+EPHEMERAL_RETENTION_TIME=2592020 #30 dagen
 
 #'********** end of parameters **********
 #'Below the functions that are called by other functions
 # modify at your own peril! because of configuration drift   100% generation
 
-LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
-LOG_DIR=${GITHUB_DIR}/LOG_DIR
-LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
-
-the_world_is_flat=true
-# ...do something interesting...
-if  ! [ "$the_world_is_flat" = true ] ; then
-    echo 'Be careful not to fall off!'
-fi
-
-
-
 # ----------------------------------
-# Step 2 : setters
+# Step 2 : Docker setters
 # ----------------------------------
+
+##################################################################
+# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
+# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
+# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+##################################################################
+get_curl (){
+
+cd $1  # 
+#Now use curl command in command line to download the file.
+curl -o $2 $3  #curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+cd $GITHUB_DIR
+
+
+}
+
+
+
+##################################################################
+# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
+# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
+# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+##################################################################
+get_curl_waardepapieren (){
+
+
+#${GITHUB_DIR} docker-compose-travis.yml 
+
+#TT_DIRECTORY=${GITHUB_DIR}/mock-nlx  TT_INSPECT_FILE=Dockerfile
+
+#TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service TT_INSPECT_FILE=Dockerfile
+
+#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend   TT_INSPECT_FILE=Dockerfile 
+
+#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx TT_INSPECT_FILE=nginx.conf
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose_travis.json
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose.json
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config.json
+
+
+
+}
+
 
 ##################################################################
 # Purpose: set docker-compose-travis.yml 
@@ -312,8 +351,6 @@ COPY --from=0 /app/build /usr/share/nginx/html"  > ${TT_INSPECT_FILE} #Dockerfil
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
 
-
-
 ##################################################################
 # Purpose: modify clerk-frontend.Dockerfile
 # Arguments: 
@@ -492,7 +529,6 @@ CMD npm start"  > ${TT_INSPECT_FILE}
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
 
-
 #################################################################
 # Purpose: hack 
 # Arguments: 
@@ -642,97 +678,7 @@ create_logfile_footer ${FUNCNAME[0]} $@
 }
 
 
-##################################################################
-# Purpose: shortcuts
-# Arguments: 
-# Return: 
-##################################################################
-tt() {
 
-if [ "$1" = "" ] 
- then echo "geen input gespecificeerd" 
-  echo "sad=set_all_dockerfiles"
-  echo "dci=docker_compose_images"
-  echo "dti=docker_tag_images"
-  echo "dpi=docker_push_images"
-  echo "adr=azure_delete_resourcegroups"
-  echo "acr=azure_create_resourcegroups"
-  echo "acc=azure_create_containergroup"
-  echo "arc=azure_restart_containergroup pull again"
-  enter_cont
-  
-fi 
-
-if [ "$1" = "sad" ] 
- then 
-echo "set_all_dockerfiles" 
-fi
-
-if [ "$1" = "sad" ] 
- then 
-echo "sad=set_all_dockerfiles"
-enter_cont
-set_all_dockerfiles
- fi
-  
-  if [ "$1" = "dci" ] 
- then 
-  echo "dci=docker_compose_images"
-  enter_cont
-  docker_compose_images
-  fi
-  
-  if [ "$1" = "dti" ] 
- then  echo "dti=docker_tag_images"
- enter_cont
- docker_tag_images
-   fi
-
-    if [ "$1" = "dpi" ] 
-    then  echo "dpi=docker_push_images"
-    enter_cont
-    docker_push_images
-  fi
-  
-  if [ "$1" = "adr" ] 
-    then echo "adr=azure_delete_resourcegroup"
-    enter_cont
-    azure_delete_resourcegroup
-  fi
-
-  if [ "$1" = "acr" ] 
-   then echo "acr=azure_create_resourcegroup"
-   enter_cont
-   azure_create_resourcegroup
-  fi
-  
-  if [ "$1" = "acc" ] 
-   then echo "acc=azure_create_containergroup"
-   enter_cont
-   azure_create_containergroup
-  fi
-
-  if [ "$1" = "arc" ] 
-   then  echo "arc=azure_restart_containergroup pull again"
-   enter_cont
-   azure_restart_containergroup
-  fi
-
-}
-
-
-##################################################################
-# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
-# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
-# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
-##################################################################
-get_curl_bfg (){
-
-#Now use curl command in command line to download the file.
-cd 
-curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
-
-}
 
 ##################################################################
 # Purpose: hack into azure deploy ACI
@@ -863,10 +809,9 @@ if ! [ -d "${LOG_DIR}" ]; then
 # fi
 # PROJECT_DIR=$HOME_DIR/Projects/scratch/virtual-insanity  
 
-
-
 fi 
 }
+
 ##################################################################
 # Purpose: #echo ${PROJECT_DIR} | awk -F/ '{print "/"$2"/"$3"/"$4"/"$5"/"$6}'
 # Arguments: directory structure  #/home/boscp08/Projects/scratch/virtual-insanity
@@ -1319,7 +1264,6 @@ docker images | grep  ${DOCKER_VERSION_TAG}      >> ${LOG_DIR}
 create_logfile_footer ${FUNCNAME[0]} $@
 }
 
-
 #################################################################
 # Purpose:  Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
 # Arguments: docker_tag boscp08  waardepapieren_mock-nlx 4.0 
@@ -1335,7 +1279,6 @@ arg3=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$3 #${DOCKER_VERSION_TAG}
 docker push  $1/$2:$3
 }  
-
 
 ##################################################################
 # Purpose:  Push an image or a repository to a registry
@@ -1364,7 +1307,6 @@ echo "Running:${FUNCNAME[0]} $@"
 #docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}          
 create_logfile_footer
 }
-
 
 ##################################################################
 # Purpose:  Push an image or a repository to a registry
@@ -1431,7 +1373,6 @@ if test -f "$FILE"; then
  else set_azure_deploy_aci_yaml   
 fi
 
-
 #az container create --resource-group $AZ_RESOURCE_GROUP --file deploy-aci.yaml
 az container create --resource-group $AZ_RESOURCE_GROUP --file $GITHUB_DIR/deploy-aci.yaml
 enter_cont
@@ -1440,7 +1381,6 @@ cd $GITHUB_DIR
 # View deployment state
 # az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
 }
-
 
 ##################################################################
 # Purpose: Procedure to clone build run ship and deploy 
@@ -1504,7 +1444,6 @@ if  [ `uname` = 'CYGWIN_NT-10.0' ]
 fi
 
 }
-
 
 ##################################################################
 # Purpose: azure_login
@@ -1622,13 +1561,13 @@ docker login -u $DOCKER_USER  -p $DOCKER_PWD
 # Arguments: 
 # Return: dokuwiki 
 ##################################################################
-write_az_clone_build_ship_deploy_bash() {
+write_bash_code() {
 
 echo "====== az_clone_build_ship_deploy.bash ======"                         >> ${LOG_FILE}
 echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> ${LOG_FILE}
 echo "| ${LOG_START_DATE_TIME} | az_clone_build_ship_deploy.bash |"          >> ${LOG_FILE}
 echo  "<code>"                                                               >> ${LOG_FILE} 
-cat  ${GITHUB_DIR}/az_aci_clone_build_ship_deploy.bash                       >> ${LOG_FILE}
+cat  ${GITHUB_DIR}/bfg.bash                                                  >> ${LOG_FILE}
 echo "</code>"                                                               >> ${LOG_FILE}
 echo "====== menu.bash  ======"                                              >> ${LOG_FILE}
 echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> ${LOG_FILE}
@@ -1852,12 +1791,92 @@ clear
 
 }
 
+##################################################################
+# Purpose: shortcuts
+# Arguments: 
+# Return: 
+##################################################################
+tt() {
+
+if [ "$1" = "" ] 
+ then echo "geen input gespecificeerd" 
+  echo "sad=set_all_dockerfiles"
+  echo "dci=docker_compose_images"
+  echo "dti=docker_tag_images"
+  echo "dpi=docker_push_images"
+  echo "adr=azure_delete_resourcegroups"
+  echo "acr=azure_create_resourcegroups"
+  echo "acc=azure_create_containergroup"
+  echo "arc=azure_restart_containergroup pull again"
+  enter_cont
+  
+fi 
+
+if [ "$1" = "sad" ] 
+ then 
+echo "set_all_dockerfiles" 
+fi
+
+if [ "$1" = "sad" ] 
+ then 
+echo "sad=set_all_dockerfiles"
+enter_cont
+set_all_dockerfiles
+ fi
+  
+  if [ "$1" = "dci" ] 
+ then 
+  echo "dci=docker_compose_images"
+  enter_cont
+  docker_compose_images
+  fi
+  
+  if [ "$1" = "dti" ] 
+ then  echo "dti=docker_tag_images"
+ enter_cont
+ docker_tag_images
+   fi
+
+    if [ "$1" = "dpi" ] 
+    then  echo "dpi=docker_push_images"
+    enter_cont
+    docker_push_images
+  fi
+  
+  if [ "$1" = "adr" ] 
+    then echo "adr=azure_delete_resourcegroup"
+    enter_cont
+    azure_delete_resourcegroup
+  fi
+
+  if [ "$1" = "acr" ] 
+   then echo "acr=azure_create_resourcegroup"
+   enter_cont
+   azure_create_resourcegroup
+  fi
+  
+  if [ "$1" = "acc" ] 
+   then echo "acc=azure_create_containergroup"
+   enter_cont
+   azure_create_containergroup
+  fi
+
+  if [ "$1" = "arc" ] 
+   then  echo "arc=azure_restart_containergroup pull again"
+   enter_cont
+   azure_restart_containergroup
+  fi
+
+}
 
 #######################
 ## M A I N
 # program starts here actually
 #######################
 BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
+LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
+LOG_DIR=${GITHUB_DIR}/LOG_DIR
+LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
 
 create_directories
 create_logdir
@@ -1891,34 +1910,32 @@ while true; do
 done
 fi
 
-
 if [ ${WRITE_CODE} = true ] 
  then 
 clear
 while true; do
     read -p "write code  in the log (y or n)?" yn
     case $yn in
-          [Yy]* ) write_az_clone_build_ship_deploy_bash ; break;;
+          [Yy]* ) write_bash_code ; break;;
           [Nn]* ) WRITE_CODE=false ;  break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
 fi
-ß
+
 BATCH_END_DATE_TIME=`date +%Y%m%d_%H_%M`
 echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME " 
+
 echo 
 echo "hope the run will be ok!"
 echo      
 
-echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> ${LOG_DIR}  
-echo                                                                    >> ${LOG_LEVEL}
+echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> ${LOG_FILE}  
+echo                                                                    >> ${LOG_FILE}
 echo "hope the run will be ok!"                                         >> ${LOG_FILE}
 echo                                                                    >> ${LOG_FILE}
             
 cd ${GITHUB_DIR}
-
-
 
 
 # eof
