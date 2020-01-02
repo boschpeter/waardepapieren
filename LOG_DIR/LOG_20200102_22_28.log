@@ -1,73 +1,73 @@
-20200102_21_47 - BEGIN JOB:
+20200102_22_28 - BEGIN JOB:
 -----------------------------------------------------------------------------
 get_curl_waardepapieren
 -----------------------------------------------------------------------------
 -- Running:get_curl_waardepapieren 
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/docker-compose-travis.yml
-  Size: 971       	Blocks: 10         IO Block: 1024   regular file
+  Size: 971       	Blocks: 10         IO Block: 1536   regular file
 Device: 34h/52d	Inode: 166168      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:46:38.647009988 +0100
-Modify: 2020-01-02 21:47:55.802097715 +0100
-Change: 2020-01-02 21:47:55.802097715 +0100
+Access: 2020-01-02 22:27:45.813305695 +0100
+Modify: 2020-01-02 22:28:47.680560309 +0100
+Change: 2020-01-02 22:28:47.680560309 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/mock-nlx/Dockerfile
   Size: 133       	Blocks: 10         IO Block: 512    regular file
 Device: 34h/52d	Inode: 166350      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:46:52.350848046 +0100
-Modify: 2020-01-02 21:47:55.878096816 +0100
-Change: 2020-01-02 21:47:55.878096816 +0100
+Access: 2020-01-02 22:27:00.025857618 +0100
+Modify: 2020-01-02 22:28:47.752559442 +0100
+Change: 2020-01-02 22:28:47.752559442 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend/Dockerfile
   Size: 488       	Blocks: 10         IO Block: 1024   regular file
 Device: 34h/52d	Inode: 165936      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:46:40.478988342 +0100
-Modify: 2020-01-02 21:47:55.926096248 +0100
-Change: 2020-01-02 21:47:55.926096248 +0100
+Access: 2020-01-02 22:22:52.224849525 +0100
+Modify: 2020-01-02 22:28:47.808558768 +0100
+Change: 2020-01-02 22:28:47.808558768 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend/nginx/nginx.conf
-  Size: 78014     	Blocks: 10         IO Block: 78336  regular file
-Device: 34h/52d	Inode: 165996      Links: 1
+  Size: 948       	Blocks: 10         IO Block: 1536   regular file
+Device: 34h/52d	Inode: 175840      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:46:53.694832162 +0100
-Modify: 2020-01-02 21:47:56.442090143 +0100
-Change: 2020-01-02 21:47:56.442090143 +0100
+Access: 2020-01-02 22:23:02.560724529 +0100
+Modify: 2020-01-02 22:28:47.880557900 +0100
+Change: 2020-01-02 22:28:47.880557900 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/Dockerfile
   Size: 264       	Blocks: 10         IO Block: 1024   regular file
 Device: 34h/52d	Inode: 166676      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:46:42.462964898 +0100
-Modify: 2020-01-02 21:47:56.522089196 +0100
-Change: 2020-01-02 21:47:56.522089196 +0100
+Access: 2020-01-02 22:27:00.081856943 +0100
+Modify: 2020-01-02 22:28:47.932557274 +0100
+Change: 2020-01-02 22:28:47.932557274 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json
   Size: 970       	Blocks: 10         IO Block: 1536   regular file
 Device: 34h/52d	Inode: 166698      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:46:55.774807579 +0100
-Modify: 2020-01-02 21:47:56.598088298 +0100
-Change: 2020-01-02 21:47:56.598088298 +0100
+Access: 2020-01-02 22:27:00.081856943 +0100
+Modify: 2020-01-02 22:28:48.004556406 +0100
+Change: 2020-01-02 22:28:48.004556406 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration/waardepapieren-config-compose.json
-  Size: 76617     	Blocks: 10         IO Block: 76800  regular file
+  Size: 76599     	Blocks: 50         IO Block: 76800  regular file
 Device: 34h/52d	Inode: 166708      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:47:00.638750087 +0100
-Modify: 2020-01-02 21:47:56.942084227 +0100
-Change: 2020-01-02 21:47:56.942084227 +0100
+Access: 2020-01-02 22:27:00.081856943 +0100
+Modify: 2020-01-02 22:28:48.684548217 +0100
+Change: 2020-01-02 22:28:48.684548217 +0100
  Birth: -
   File: /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration/waardepapieren-config.json
   Size: 816       	Blocks: 10         IO Block: 1536   regular file
 Device: 34h/52d	Inode: 166714      Links: 1
 Access: (0777/-rwxrwxrwx)  Uid: ( 1000/ boscp08)   Gid: ( 1000/ boscp08)
-Access: 2020-01-02 21:47:02.542727581 +0100
-Modify: 2020-01-02 21:47:57.018083328 +0100
-Change: 2020-01-02 21:47:57.018083328 +0100
+Access: 2020-01-02 22:27:00.081856943 +0100
+Modify: 2020-01-02 22:28:48.744547494 +0100
+Change: 2020-01-02 22:28:48.744547494 +0100
  Birth: -
-20200102_21_47 - END JOB :
+20200102_22_28 - END JOB :
 -----------------------------------------------------------------------------
 get_curl_waardepapieren
 -----------------------------------------------------------------------------

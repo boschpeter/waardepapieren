@@ -1,3 +1,10 @@
+20200102_22_27 - BEGIN JOB:
+-----------------------------------------------------------------------------
+set_all_dockerfiles
+-----------------------------------------------------------------------------
+| 20200102_22_27 | docker-compose-travis yml|
+| 20200102_22_27 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren |
+<code>
 version: '3'
 services:
   waardepapieren-service:
@@ -6,6 +13,9 @@ services:
       - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
       - ./waardepapieren-service/configuration/:/app/configuration:ro
     build: waardepapieren-service/.
+    # network_mode: host
+    #networks:
+    #  test:
     links:
       - mock-nlx
     ports:
@@ -17,19 +27,35 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
   clerk-frontend:
     build:
+      #network_mode: host
+    #  networks:
+    #  test:
       context: clerk-frontend/
       args:
-        - CERTIFICATE_HOST=http://$CERT_HOST_IP:8880
+        - CERTIFICATE_HOST=http://localhost:8880
     links:
       - waardepapieren-service
-    ports:
+        ports:
       - 443:443
       - 8880:8880
+
     healthcheck:
       test: service nginx status
     volumes:
       - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
   mock-nlx:
     build: mock-nlx/
+    #network_mode: host
+    #networks:
+    #  test:
     ports:
       - 80:80
+    
+    #networks:
+    #test:
+    #driver: bridge
+</code>
+20200102_22_27 - END JOB :
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------

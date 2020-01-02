@@ -204,9 +204,6 @@ services:
       - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
       - ./waardepapieren-service/configuration/:/app/configuration:ro
     build: waardepapieren-service/.
-    # network_mode: host
-    #networks:
-    #  test:
     links:
       - mock-nlx
     ports:
@@ -218,33 +215,22 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
   clerk-frontend:
     build:
-      #network_mode: host
-    #  networks:
-    #  test:
       context: clerk-frontend/
       args:
-        - CERTIFICATE_HOST=http://${CERT_HOST_IP}:8880
+        - CERTIFICATE_HOST=http://$CERT_HOST_IP:8880
     links:
       - waardepapieren-service
-        ports:
+    ports:
       - 443:443
       - 8880:8880
-
     healthcheck:
       test: service nginx status
     volumes:
       - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
   mock-nlx:
     build: mock-nlx/
-    #network_mode: host
-    #networks:
-    #  test:
     ports:
-      - 80:80
-    
-    #networks:
-    #test:
-    #driver: bridge" >  "${TT_INSPECT_FILE}" 
+      - 80:80" >  "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
@@ -1165,15 +1151,10 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 # Return: 3 containers  
 ##################################################################
 docker_compose_images() {
-echo "Running:"${FUNCNAME[0]}" $@"
 
 cd ${GITHUB_DIR}
-create_logfile_header "${FUNCNAME[0]}" $@
-echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> "${LOG_FILE}"
-
 docker-compose -f docker-compose-travis.yml up --build
 
-create_logfile_footer  "${FUNCNAME[0]}" $@
 
 }
 #################################################################

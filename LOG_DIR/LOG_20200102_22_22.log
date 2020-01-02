@@ -1,18 +1,21 @@
-20200102_21_52 - BEGIN JOB:
+20200102_22_22 - BEGIN JOB:
 -----------------------------------------------------------------------------
 set_all_dockerfiles
 -----------------------------------------------------------------------------
-| 20200102_21_52 | docker-compose-travis yml|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren |
+| 20200102_22_22 | docker-compose-travis yml|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren |
 <code>
 version: '3'
 services:
   waardepapieren-service:
     volumes:
-      #- ./waardepapieren-service/system-test/certs:/certs:rw
-      #- ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:rw
-      - ./waardepapieren-service/configuration/:/app/configuration2:rw  #FAKE
+      - ./waardepapieren-service/system-test/certs:/certs:ro
+      - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
+      - ./waardepapieren-service/configuration/:/app/configuration:ro
     build: waardepapieren-service/.
+    # network_mode: host
+    #networks:
+    #  test:
     links:
       - mock-nlx
     ports:
@@ -24,29 +27,40 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
   clerk-frontend:
     build:
+      #network_mode: host
+    #  networks:
+    #  test:
       context: clerk-frontend/
       args:
         - CERTIFICATE_HOST=http://localhost:8880
     links:
       - waardepapieren-service
-    ports:
+        ports:
       - 443:443
       - 8880:8880
+
     healthcheck:
       test: service nginx status
-  #  volumes:
-  #    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
+    volumes:
+      - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
   mock-nlx:
     build: mock-nlx/
+    #network_mode: host
+    #networks:
+    #  test:
     ports:
       - 80:80
+    
+    #networks:
+    #test:
+    #driver: bridge
 </code>
-20200102_21_52 - END JOB :
+20200102_22_22 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-| 20200102_21_52 | Dockerfile|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend |
+| 20200102_22_22 | Dockerfile|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend |
 <code>
 FROM node:10
 RUN mkdir /app
@@ -58,7 +72,7 @@ RUN npm install --unsafe-perm
 ADD public /app/public
 ADD src /app/src
 ARG CERTIFICATE_HOST
-ENV REACT_APP_CERTIFICATE_HOST=http://localhost:8880
+ENV REACT_APP_CERTIFICATE_HOST=
 
 
 
@@ -70,59 +84,34 @@ RUN npm run build
 FROM nginx:1.15.8
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=0 /app/build /usr/share/nginx/html
-#  volumes:
-#    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
-RUN mkdir /etc/nginx/certs
-RUN apt-get update 
-RUN apt-get install -y iputils-ping
-RUN apt-get install -y net-tools
-
-ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
-ADD nginx/certs/org.key /etc/nginx/certs/org.key
 </code>
-20200102_21_52 - END JOB :
+20200102_22_22 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-| 20200102_21_52 | Dockerfile|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service |
+| 20200102_22_22 | Dockerfile|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service |
 <code>
-FROM node:10
+FROM node:10enter
 RUN mkdir /app
 ADD .babelrc package.json package-lock.json /app/
 ADD src/* app/src/
 ADD configuration/* app/configuration/
-#- ./waardepapieren-service/system-test/certs:/certs:ro
-RUN mkdir /certs
-ADD system-test/certs/org.crt /certs/org.crt
-ADD system-test/certs/org.key /certs/org.key
-#- ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
-RUN mkdir /ephemeral-certs
-ADD system-test/ephemeral-certs/org.crt /ephemeral-certs/
-ADD system-test/ephemeral-certs/org.key /ephemeral-certs/
-#- ./waardepapieren-service/configuration/:/app/configuration:ro
-
-WORKDIR /app
-RUN mkdir /configuration
-ADD configuration/waardepapieren-config-compose.json /app/configuration
-ADD configuration/waardepapieren-config-compose-travis.json /app/configuration
-ADD configuration/waardepapieren-config.json /app/configuration
 ENV WAARDEPAPIEREN_CONFIG /app/configuration/waardepapieren-config.json
 
 
 
 
-
-
+WORKDIR /app
 RUN npm install --production
 CMD npm start
 </code>
-20200102_21_52 - END JOB :
+20200102_22_22 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-| 20200102_21_52 | Dockerfile|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/mock-nlx |
+| 20200102_22_22 | Dockerfile|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/mock-nlx |
 <code>
 FROM node:10
 RUN mkdir /app
@@ -135,12 +124,12 @@ WORKDIR /app
 
 RUN npm install --production
 </code>
-20200102_21_53 - END JOB :
+20200102_22_23 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-| 20200102_21_52 | nginx conf|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend/nginx |
+| 20200102_22_22 | nginx conf|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend/nginx |
 <code>
 events {
     worker_connections  1024;
@@ -191,12 +180,12 @@ http {
     }
 }
 </code>
-20200102_21_53 - END JOB :
+20200102_22_23 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-| 20200102_21_52 | waardepapieren-config-compose-travis json|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration |
+| 20200102_22_22 | waardepapieren-config-compose-travis json|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration |
 <code>
  {
    "EPHEMERAL_ENDPOINT" : "https://localhost:3232",
@@ -221,72 +210,12 @@ http {
   ]
 } 
 </code>
-20200102_21_53 - END JOB :
+20200102_22_23 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-| 20200102_21_52 | waardepapieren-config-compose json|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration |
-<code>
- {
-   "EPHEMERAL_ENDPOINT" : "https://localhost:3232",
-   "EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://localhost:3232",
-   "EPHEMERAL_CERT": "/ephemeral-certs/org.crt",
-   "EPHEMERAL_KEY": "/ephemeral-certs/org.key",
-  "NLX_OUTWAY_ENDPOINT" : "http://localhost:80",
-  "NLX_CERT": "/certs/org.crt",
-  "NLX_KEY": "/certs/org.key",
-  "LOG_LEVEL": "info",
-  "EPHEMERAL_RETENTION_TIME": 2592021,
-  "PRODUCT_NEED" : "BRP_UITTREKSEL_NEED",
-  "SOURCE_NLX_PATH" : "/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}",
-  "SOURCE_ARGUMENT" : "BSN",
-  "PRODUCT_ACCEPT" : "BRP_UITTREKSEL_ACCEPT",
-  "PRODUCT_NAME" : "Gewaarmerkt digitaal afschrift van gegevens uit de basisregistratie personen (BRP)",
-  "PRODUCT_DESCRIPTION" : "Uittreksel Basis Registratie Persoonsgegevens",
-  "PRODUCT_PURPOSE" : "Bewijs verblijfadres in woonplaats",
-  "SOURCE_DATA_SELECTION" : [
-    {"Burgerservicenummer (BSN)" : "burgerservicenummer"},
-    {"Woonplaats verblijfadres" : "verblijfadres.woonplaats"}
-  ]
-} 
-</code>
-20200102_21_53 - END JOB :
------------------------------------------------------------------------------
-
------------------------------------------------------------------------------
-| 20200102_21_52 | waardepapieren-config json|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service/configuration |
-<code>
- {
-   "EPHEMERAL_ENDPOINT" : "https://localhost:3232",
-   "EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://localhost:3232",
-   "EPHEMERAL_CERT": "/ephemeral-certs/org.crt",
-   "EPHEMERAL_KEY": "/ephemeral-certs/org.key",
-  "NLX_OUTWAY_ENDPOINT" : "http://localhost:80",
-  "NLX_CERT": "/certs/org.crt",
-  "NLX_KEY": "/certs/org.key",
-  "LOG_LEVEL": "info",
-  "EPHEMERAL_RETENTION_TIME": 2592022,
-  "PRODUCT_NEED" : "BRP_UITTREKSEL_NEED",
-  "SOURCE_NLX_PATH" : "/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}",
-  "SOURCE_ARGUMENT" : "BSN",
-  "PRODUCT_ACCEPT" : "BRP_UITTREKSEL_ACCEPT",
-  "PRODUCT_NAME" : "Gewaarmerkt digitaal afschrift van gegevens uit de basisregistratie personen (BRP)",
-  "PRODUCT_DESCRIPTION" : "Uittreksel Basis Registratie Persoonsgegevens",
-  "PRODUCT_PURPOSE" : "Bewijs verblijfadres in woonplaats",
-  "SOURCE_DATA_SELECTION" : [
-    {"Burgerservicenummer (BSN)" : "burgerservicenummer"},
-    {"Woonplaats verblijfadres" : "verblijfadres.woonplaats"}
-  ]
-} 
-</code>
-20200102_21_53 - END JOB :
------------------------------------------------------------------------------
-
------------------------------------------------------------------------------
-| 20200102_21_52 | deploy-aci yaml|
-| 20200102_21_52 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren |
+| 20200102_22_22 | deploy-aci yaml|
+| 20200102_22_22 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren |
 <code>
 location: westeurope
 name: Discipl_Wigo4it_DockerGroup1
@@ -340,20 +269,20 @@ properties:
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
 </code>
-20200102_21_53 - END JOB :
+20200102_22_23 - END JOB :
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
-20200102_21_53 - END JOB :
+20200102_22_23 - END JOB :
 -----------------------------------------------------------------------------
 set_all_dockerfiles
 -----------------------------------------------------------------------------
-20200102_21_53 - BEGIN JOB:
+20200102_22_23 - BEGIN JOB:
 -----------------------------------------------------------------------------
 docker_compose_images
 -----------------------------------------------------------------------------
 docker-compose -f docker-compose-travis.yml up  --build
-20200102_22_04 - END JOB :
+20200102_22_23 - END JOB :
 -----------------------------------------------------------------------------
 docker_compose_images
 -----------------------------------------------------------------------------
