@@ -1085,10 +1085,6 @@ echo "Running:"${FUNCNAME[0]}" $@"
 #  sudo apt install git 
 # https://www.howtoforge.com/tutorial/install-git-and-github-on-ubuntu/
 git init
-
-#git config --global credential.helper store
-#git config user.name "BoschPeter"
-
 git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
 git config --global user.name "BoschPeter"
@@ -1872,7 +1868,8 @@ show_menus() {
 	echo " M A I N - M E N U"
 	echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "10. docker_system_prune                                     "  
-  echo "11. get_curl_waardepapieren  "
+  echo "11. get_curl_waardepapieren                                 "
+  echo "12  show_parameters                                         "
   echo "20. set_mock_nlx_dockerfile                                 " 
   echo "21. set_docker_compose_travis_yml_without_volumes           "  
   echo "22. set_clerk_frontend_dockerfile_without_volumes           "
@@ -1916,6 +1913,7 @@ read_options(){
 	case $choice in
         10) docker_system_prune                                     ;;  
         11) get_curl_waardepapieren                                 ;;
+        12) show_parameters                                         ;;
         20) set_mock_nlx_dockerfile                                 ;;
         21) set_docker_compose_travis_yml_without_volumes           ;;  
         22) set_clerk_frontend_dockerfile_without_volumes           ;;
@@ -1993,21 +1991,18 @@ echo "***  LOGFILE=${LOG_FILE}"
 echo "***" 
 enter_cont
 
-if [ ${PROMPT} = true ] 
- then 
-#clear
-while true; do
-    read -p "Display all variables  (y or n)?" yn
-    case $yn in
-          [Yy]* ) show_parameters ; break;;
-          [Nn]* ) echo "N" ;  break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
-
-fi
-
-
+#if [ ${PROMPT} = true ] 
+# then 
+##clear
+#while true; do
+#    read -p "Display all variables  (y or n)?" yn
+#    case $yn in
+#          [Yy]* ) show_parameters ; break;;
+#          [Nn]* ) echo "N" ;  break;;
+#        * ) echo "Please answer yes or no.";;
+#    esac
+#done
+#fi
 
 if [ ${MENU} = true ] 
  then 
