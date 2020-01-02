@@ -192,7 +192,7 @@ RAW_URL="https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd
 get_curl $RAW_DIR $RAW_FILE $RAW_URL
 
 # TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config.json RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json
-TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration 
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
 RAW_FILE=waardepapieren-config.json 
 RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
 get_curl $RAW_DIR $RAW_FILE $RAW_URL
