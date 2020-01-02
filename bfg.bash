@@ -1415,13 +1415,66 @@ cd $GITHUB_DIR
 # az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
 }
 
+
+##################################################################
+# Purpose: Procedure to clone build run ship and deploy 
+# Arguments: 
+# Return: the whole_sjebang
+##################################################################
+set_docker_tag() {
+
+echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
+read -p "Enter Your new tag : " DOCKER_VERSION_TAG
+echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"
+sleep 2
+}
+
+
+##################################################################
+# Purpose: Procedure to clone build run ship and deploy 
+# Arguments: 
+# Return: the whole_sjebang
+##################################################################
+set_azure_resourcegroup() {
+
+echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
+read -p "Enter Your azure resourcegroup : " AZ_RESOURCE_GROUP
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"
+sleep 2
+}
+
+
+
+#select name in Discipl_Wigo4it_DockerGroup2 Discipl_Wigo4it_DockerGroup3 Discipl_Wigo4it_DockerGroup4  "Pick a azurersource group a.ka. costcentre " ;
+#do
+#  case "$name" in
+#        "Discipl_Wigo4it_DockerGroup2")
+#            AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup2"
+#            break
+#          ;;
+#        "Discipl_Wigo4it_DockerGroup3")
+#            AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup3"
+#            break
+#          ;;
+#        "Discipl_Wigo4it_DockerGroup4")
+#            AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup4"
+#            break
+#            ;;
+#        Pick*)
+#            read -p "Enter a number from 1 to 3: " number
+#            break
+#            ;;
+#  esac
+#done
+
+}
+
 ##################################################################
 # Purpose: Procedure to clone build run ship and deploy 
 # Arguments: 
 # Return: the whole_sjebang
 ##################################################################
 the_whole_sjebang() {
-create_logfile_header
 
 docker login -u $DOCKER_USER -p $DOCKER_PWD  
 az login -u $AZURE_USER -p $AZURE_PWD  
