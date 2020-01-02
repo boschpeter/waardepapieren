@@ -35,7 +35,7 @@ properties:
   ipAddress:
     type: Public
     # fqdn wordt: discipl_waardepapieren.westeurope.azurecontainer.io
-    dnsNameLabel: localhost##*-} 
+    dnsNameLabel: waardepapieren-demo 
     ports:
     - protocol: tcp
       port: '443' 

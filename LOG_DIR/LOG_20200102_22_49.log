@@ -1,0 +1,98 @@
+20200102_22_50 - BEGIN JOB:
+-----------------------------------------------------------------------------
+set_all_dockerfiles
+-----------------------------------------------------------------------------
+| 20200102_22_49 | docker-compose-travis yml|
+| 20200102_22_49 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren |
+<code>
+version: '3'
+services:
+  waardepapieren-service:
+    volumes:
+      - ./waardepapieren-service/system-test/certs:/certs:ro
+      - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
+      - ./waardepapieren-service/configuration/:/app/configuration:ro
+    build: waardepapieren-service/.
+    links:
+      - mock-nlx
+    ports:
+      - 3232:3232
+      - 3233:3233
+    environment:
+      - WAARDEPAPIEREN_CONFIG=/app/configuration/waardepapieren-config-compose-travis.json
+      # Ignore self-signed ephemeral cert issues
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+  clerk-frontend:
+    build:
+      context: clerk-frontend/
+      args:
+        - CERTIFICATE_HOST=http://waardepapieren-demo.westeurope.cloudapp.azure.com:8880
+    links:
+      - waardepapieren-service
+    ports:
+      - 443:443
+      - 8880:8880
+    healthcheck:
+      test: service nginx status
+    volumes:
+      - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
+  mock-nlx:
+    build: mock-nlx/
+    ports:
+      - 80:80
+</code>
+20200102_22_50 - END JOB :
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+| 20200102_22_49 | Dockerfile|
+| 20200102_22_49 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/clerk-frontend |
+<code>
+FROM node:10
+RUN mkdir /app
+ADD package.json package-lock.json /app/
+ENV REACT_APP_EPHEMERAL_ENDPOINT=https://waardepapieren-demo.westeurope.cloudapp.azure.com:443/api/eph
+ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://waardepapieren-demo.westeurope.cloudapp.azure.com:443/api/eph-ws
+WORKDIR /app
+RUN npm install --unsafe-perm
+ADD public /app/public
+ADD src /app/src
+ARG CERTIFICATE_HOST
+ENV REACT_APP_CERTIFICATE_HOST=
+RUN npm run build
+
+
+
+
+
+
+
+FROM nginx:1.15.8
+ADD nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=0 /app/build /usr/share/nginx/html
+</code>
+20200102_22_50 - END JOB :
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+| 20200102_22_49 | Dockerfile|
+| 20200102_22_49 | /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/waardepapieren-service |
+<code>
+FROM node:10enter
+RUN mkdir /app
+ADD .babelrc package.json package-lock.json /app/
+ADD src/* app/src/
+ADD configuration/* app/configuration/
+ENV WAARDEPAPIEREN_CONFIG /app/configuration/waardepapieren-config.json
+
+
+
+
+WORKDIR /app
+RUN npm install --production
+CMD npm start
+</code>
+20200102_22_50 - END JOB :
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
