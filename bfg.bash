@@ -346,7 +346,7 @@ RUN npm install --production" > ${TT_INSPECT_FILE}
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
-3
+
 ##################################################################
 # Purpose: set clerk-frontend Dockerfile
 # Arguments: 
@@ -709,9 +709,6 @@ set_azure_deploy_aci_yaml
 PROMPT=$TT_PROMPT
 create_logfile_footer ${FUNCNAME[0]} $@
 }
-
-
-
 
 ##################################################################
 # Purpose: hack into azure deploy ACI
@@ -1271,7 +1268,7 @@ docker_tag_image() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
-#docker tag ${DOCKER_USER}/$${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
+#docker tag ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
 arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
@@ -1306,7 +1303,7 @@ docker_push_image() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
-#docker tag ${DOCKER_USER}/$${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
+#docker tag ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
 arg3=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$3 #${DOCKER_VERSION_TAG}
@@ -1441,32 +1438,6 @@ echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
 read -p "Enter Your azure resourcegroup : " AZ_RESOURCE_GROUP
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"
 sleep 2
-}
-
-
-
-#select name in Discipl_Wigo4it_DockerGroup2 Discipl_Wigo4it_DockerGroup3 Discipl_Wigo4it_DockerGroup4  "Pick a azurersource group a.ka. costcentre " ;
-#do
-#  case "$name" in
-#        "Discipl_Wigo4it_DockerGroup2")
-#            AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup2"
-#            break
-#          ;;
-#        "Discipl_Wigo4it_DockerGroup3")
-#            AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup3"
-#            break
-#          ;;
-#        "Discipl_Wigo4it_DockerGroup4")
-#            AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup4"
-#            break
-#            ;;
-#        Pick*)
-#            read -p "Enter a number from 1 to 3: " number
-#            break
-#            ;;
-#  esac
-#done
-
 }
 
 ##################################################################
@@ -1732,11 +1703,11 @@ show_menus() {
   echo "33. set_waardepapieren_service_config_json                  "  
   echo "34  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
   echo "39. set_all_dockerfiles          $CERT_HOST_IP              "                         
-  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG $${GIT_REPO}_${MOCK_NLX} + $${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + $${GIT_REPO}_${CLERK_FRONTEND}  " 
-  echo "41. docker_build_images          $${GIT_REPO}_${MOCK_NLX} + $${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + $${GIT_REPO}_${CLERK_FRONTEND}"  
+  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
+  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
   echo "43. docker_login                 $DOCKER_USER               " 
-  echo "44. docker_push_images           $${GIT_REPO}_${MOCK_NLX} + $${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + $${GIT_REPO}_${CLERK_FRONTEND} " 
+  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
   echo "50. azure_login                  $AZURE_USER                "  
   echo "51. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
   echo "52. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
@@ -1815,51 +1786,50 @@ done
 ##################################################################
 show_bash_parameters(){
 
-echo "<code>"                                                                          >> ${LOG_FILE}
-echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "                          >> ${LOG_FILE}
-echo "#######################"                                                         >> ${LOG_FILE}
-echo "## variables"                                                                    >> ${LOG_FILE}
-echo "#######################"                                                         >> ${LOG_FILE}
-echo "PROJECT_DIR=$PROJECT_DIR"                                                        >> ${LOG_FILE}
-echo "GIT_USER=$GIT_USER"                                                              >> ${LOG_FILE}
-echo "GIT_REPO=$GIT_REPO"                                                              >> ${LOG_FILE}
-echo "GITHUB_DIR=$GITHUB_DIR"                                                          >> ${LOG_FILE}
-echo "DOCKER_USER=$DOCKER_USER"                                                        >> ${LOG_FILE}
-echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          >> ${LOG_FILE}
-echo "${GIT_REPO}_${MOCK_NLX}=$${GIT_REPO}_${MOCK_NLX}"                                >> ${LOG_FILE}
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=$${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    >> ${LOG_FILE}
-echo "${GIT_REPO}_${CLERK_FRONTEND}=$${GIT_REPO}_${CLERK_FRONTEND}"                    >> ${LOG_FILE}
-echo "${GIT_REPO}_${MOCK_NLX}=$${GIT_REPO}_${MOCK_NLX}"                                >> ${LOG_FILE}
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=$${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    >> ${LOG_FILE}
-echo "${GIT_REPO}_${CLERK_FRONTEND}=$${GIT_REPO}_${CLERK_FRONTEND}"                    >> ${LOG_FILE}
-echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          >> ${LOG_FILE}
-echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            >> ${LOG_FILE}
-echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> ${LOG_FILE}
-echo "TARGET_HOST=$TARGET_HOST"                                                        >> ${LOG_FILE}
-echo "AZ_TLD=$AZ_TLD"                                                                  >> ${LOG_FILE}
-echo "TIMEZONE=$TIMEZONE"                                                              >> ${LOG_FILE}
-echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> ${LOG_FILE}
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> ${LOG_FILE}
-echo "#######################"                                                         >> ${LOG_FILE}
-echo "## variables"                                                                    >> ${LOG_FILE}
-echo "#######################"                                                         >> ${LOG_FILE}
-echo "</code>"                                                                         >> ${LOG_FILE}
+#echo "<code>"                                                                          >> ${LOG_FILE}
+#echo "#######################"                                                         >> ${LOG_FILE}
+#echo "## variables"                                                                    >> ${LOG_FILE}
+#echo "#######################"                                                         >> ${LOG_FILE}
+echo "LOG_DIR=${GITHUB_DIR}/LOG_DIR"                                                   >> "${LOG_FILE}"
+#echo "GIT_USER=${GIT_USER}"                                                            >> ${LOG_FILE}
+#echo "GIT_REPO=$GIT_REPO"                                                              >> ${LOG_FILE}
+#echo "GITHUB_DIR=$GITHUB_DIR"                                                          >> ${LOG_FILE}
+#echo "DOCKER_USER=$DOCKER_USER"                                                        >> ${LOG_FILE}
+#echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          >> ${LOG_FILE}
+#echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> ${LOG_FILE}
+#echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> ${LOG_FILE}
+#echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> ${LOG_FILE}
+#echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> ${LOG_FILE}
+#echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> ${LOG_FILE}
+#echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> ${LOG_FILE}
+#echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          >> ${LOG_FILE}
+#echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            >> ${LOG_FILE}
+#echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> ${LOG_FILE}
+#echo "TARGET_HOST=$TARGET_HOST"                                                        >> ${LOG_FILE}
+#echo "AZ_TLD=$AZ_TLD"                                                                  >> ${LOG_FILE}
+#echo "TIMEZONE=$TIMEZONE"                                                              >> ${LOG_FILE}
+#echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> ${LOG_FILE}
+#echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> ${LOG_FILE}
+#echo "#######################"                                                         >> ${LOG_FILE}
+#echo "## variables"                                                                    >> ${LOG_FILE}
+#echo "#######################"                                                         >> ${LOG_FILE}
+#echo "</code>"                                                                         >> ${LOG_FILE}
 
 echo "#######################"
 echo "## variables"
 echo "#######################"
-echo "PROJECT_DIR=$PROJECT_DIR"                                                        #=$HOME_DIR/Projects/scratch/virtual-insanity    
-echo "GIT_USER=$GIT_USER"                                                              #=BoschPeter
+echo "LOG_DIR=${GITHUB_DIR}/LOG_DIR"
+echo "GIT_USER=${GIT_USER}"                                                            #=BoschPeter
 echo "GIT_REPO=$GIT_REPO"                                                              #=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
 echo "GITHUB_DIR=$GITHUB_DIR"                                                          #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
 echo "DOCKER_USER=$DOCKER_USER"                                                        #="boscp08"  #NB repository name must be lowercase  
 echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          #=" --build"
-echo "${GIT_REPO}_${MOCK_NLX}=$${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren_mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=$${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren_waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=$${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren_clerk-frontend
-echo "${GIT_REPO}_${MOCK_NLX}=$${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren-mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=$${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren-waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=$${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren-clerk-frontend
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren_mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren_waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren_clerk-frontend
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren-mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren-waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren-clerk-frontend
 echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          #="4.0"
 echo "AZURE_USER=$AZURE_USER"                                                          #=bosch.peter@outlook.com  
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
@@ -1959,14 +1929,21 @@ set_all_dockerfiles
 ## M A I N
 # program starts here actually
 #######################
+create_directories  
+create_logdir
+
 BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
 LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
 LOG_DIR=${GITHUB_DIR}/LOG_DIR
 LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
+touch $LOG_FILE
 
-create_directories
-create_logdir
-create_logfile_header
+echo "batch runtime : $BATCH_START_DATE_TIME"                        >> "${LOG_FILE}"  
+echo                                                                 >> "${LOG_FILE}"
+echo "hope the run will be ok!"                                      >> "${LOG_FILE}"
+echo                                                                 >> "${LOG_FILE}"
+
+
 
 if [ ${PROMPT} = true ] 
  then 
@@ -1996,30 +1973,18 @@ while true; do
 done
 fi
 
-if [ ${WRITE_CODE} = true ] 
- then 
-clear
-while true; do
-    read -p "write code  in the log (y or n)?" yn
-    case $yn in
-          [Yy]* ) write_bash_code ; break;;
-          [Nn]* ) WRITE_CODE=false ;  break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
-fi
 
 BATCH_END_DATE_TIME=`date +%Y%m%d_%H_%M`
-echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME " 
+echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "   >> ${LOG_FILE}
 
 echo 
 echo "hope the run will be ok!"
 echo      
 
-echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> ${LOG_FILE}  
-echo                                                                    >> ${LOG_FILE}
-echo "hope the run will be ok!"                                         >> ${LOG_FILE}
-echo                                                                    >> ${LOG_FILE}
+echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> "${LOG_FILE}"
+echo                                                                    >> "${LOG_FILE}"
+echo "hope the run will be ok!"                                         >> "${LOG_FILE}"
+echo                                                                    >> "${LOG_FILE}"
             
 cd ${GITHUB_DIR}
 
