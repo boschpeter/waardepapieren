@@ -83,6 +83,9 @@ enter_cont() {
 # define your feedback here
 
 GIT_REPO=${PWD##*/}    # waardepapieren
+GIT_USER=boschpeter
+DOCKER_USER=boscp08
+AZURE_USER=bosch.peter@outlook.com
 GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
 
 DOUBLE_CHECK=true  
@@ -94,6 +97,7 @@ if [ "$1" = "mm" ]
     MENU=true
     DOCKER_VERSION_TAG=$2
     AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup$2"
+
     CERT_HOST_IP=$3             #FQDN
     CERT_HOST_IP_WP_SERVICE_HOSTNAME=$3
     IFS=. url_components=($3##*-})
@@ -116,6 +120,8 @@ MOCK_NLX="mock-nlx"
 WAARDEPAPIEREN_SERVICE="waardepapieren-service"
 CLERK_FRONTEND="clerk-frontend"
  
+
+COMPOSE_BUILD_FLAG=" --build"
 #EPHEMERAL_RETENTION_TIME=86400  #24h 
 EPHEMERAL_RETENTION_TIME=2592020 #30 dagen
 
@@ -794,10 +800,10 @@ fi
 # /////////////////////////////////////////////////////////////////////////////////
 create_logfile_header() {
     JOB_START_DATE_TIME=`date +%Y%m%d_%H_%M`
-    echo $JOB_START_DATE_TIME - BEGIN JOB:                                             >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
-    echo $1 $2                                                                         >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
+    echo $JOB_START_DATE_TIME - BEGIN JOB:                                             >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
+    echo $1 $2                                                                         >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
     }
 
 # /////////////////////////////////////////////////////////////////////////////////
@@ -805,10 +811,10 @@ create_logfile_header() {
 # /////////////////////////////////////////////////////////////////////////////////
 create_logfile_footer() {
     JOB_END_DATE_TIME=`date +%Y%m%d_%H_%M`
-    echo $JOB_END_DATE_TIME - END JOB :                                                >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
-    echo $1 $2                                                                         >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
+    echo $JOB_END_DATE_TIME - END JOB :                                                >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
+    echo $1 $2                                                                         >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
     }
 
 ##################################################################
@@ -820,7 +826,7 @@ create_logdir() {
 if ! [ -d "${LOG_DIR}" ]; then
   cd $PROJECT_DIR
   chmod -R 777  ${GITHUB_DIR}
-  mkdir  ${LOG_DIR}
+  #mkdir  ${LOG_DIR}
 
 # if [ `uname` = 'Linux' ]
 #   then  HOME_DIR=/home/`whoami`   
@@ -904,11 +910,11 @@ clear
 if [ -f "${TT_INSPECT_FILE}" ]; 
 then
  
-echo "| ${LOG_START_DATE_TIME} | ${TT_INSPECT_FILE}|"                                >> ${LOG_FILE} 
-echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> ${LOG_FILE}
-echo "<code>"                                                                        >> ${LOG_FILE}
-cat  ${TT_INSPECT_FILE}                                                              >> ${LOG_FILE}
-echo "</code>"                                                                       >> ${LOG_FILE}
+echo "| ${LOG_START_DATE_TIME} | ${TT_INSPECT_FILE}|"                                >> "${LOG_FILE}" 
+echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> "${LOG_FILE}"
+echo "<code>"                                                                        >> "${LOG_FILE}"
+cat  ${TT_INSPECT_FILE}                                                              >> "${LOG_FILE}"
+echo "</code>"                                                                       >> "${LOG_FILE}"
 create_logfile_footer
 
 else 
@@ -959,6 +965,7 @@ fi
 ##################################################################
 create_directories() {
 make_folder ${PROJECT_DIR}     
+make_folder ${LOG_FILE}
 }
 
 ##################################################################
@@ -1179,7 +1186,7 @@ docker_compose_images() {
 echo "Running:${FUNCNAME[0]} $@"
 cd ${GITHUB_DIR}
 create_logfile_header ${FUNCNAME[0]} $@
-echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> ${LOG_FILE}
+echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> "${LOG_FILE}"
 
 docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG
 
@@ -1620,18 +1627,18 @@ docker login -u $DOCKER_USER  -p $DOCKER_PWD
 ##################################################################
 write_bash_code() {
 
-echo "====== az_clone_build_ship_deploy.bash ======"                         >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | az_clone_build_ship_deploy.bash |"          >> ${LOG_FILE}
-echo  "<code>"                                                               >> ${LOG_FILE} 
-cat  ${GITHUB_DIR}/bfg.bash                                                  >> ${LOG_FILE}
-echo "</code>"                                                               >> ${LOG_FILE}
-echo "====== menu.bash  ======"                                              >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | menu.bash |"                                >> ${LOG_FILE}
-echo  "<code>"                                                               >> ${LOG_FILE} 
-cat  ${GITHUB_DIR}/menu.bash                                                 >> ${LOG_FILE}
-echo "</code>"                                                               >> ${LOG_FILE}
+echo "====== az_clone_build_ship_deploy.bash ======"                         >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | az_clone_build_ship_deploy.bash |"          >> "${LOG_FILE}"
+echo  "<code>"                                                               >> "${LOG_FILE}" 
+cat  ${GITHUB_DIR}/bfg.bash                                                  >> "${LOG_FILE}"
+echo "</code>"                                                               >> "${LOG_FILE}"
+echo "====== menu.bash  ======"                                              >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | menu.bash |"                                >> "${LOG_FILE}"
+echo  "<code>"                                                               >> "${LOG_FILE}" 
+cat  ${GITHUB_DIR}/menu.bash                                                 >> "${LOG_FILE}"
+echo "</code>"                                                               >> "${LOG_FILE}"
 
 }
 
@@ -1784,36 +1791,46 @@ done
 # Arguments: 
 # Return: 
 ##################################################################
-show_bash_parameters(){
+show_parameters(){
 
-#echo "<code>"                                                                          >> ${LOG_FILE}
-#echo "#######################"                                                         >> ${LOG_FILE}
-#echo "## variables"                                                                    >> ${LOG_FILE}
-#echo "#######################"                                                         >> ${LOG_FILE}
+
+echo "***"                                                                                       >> "${LOG_FILE}"  
+echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                           >> "${LOG_FILE}"  
+echo "***"                                                                                       >> "${LOG_FILE}"  
+echo "***  bfg.bash $@   "                                                                       >> "${LOG_FILE}"  
+echo "***  ${GITHUB_DIR}  "                                                                      >> "${LOG_FILE}" 
+echo "***  to build new waardepapieren images and containers "                                   >> "${LOG_FILE}"  
+echo "***  FQDN = https://${CERT_HOST_IP} "                                                      >> "${LOG_FILE}"  
+echo "***  docker-tag = ${DOCKER_VERSION_TAG}"                                                   >> "${LOG_FILE}"  
+echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}"                                         >> "${LOG_FILE}"  
+echo "***  LOGFILE=${LOG_FILE}"                                                                  >> "${LOG_FILE}"  
+echo "***"   
+echo "<code>"                                                                          >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "## variables"                                                                    >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
 echo "LOG_DIR=${GITHUB_DIR}/LOG_DIR"                                                   >> "${LOG_FILE}"
-#echo "GIT_USER=${GIT_USER}"                                                            >> ${LOG_FILE}
-#echo "GIT_REPO=$GIT_REPO"                                                              >> ${LOG_FILE}
-#echo "GITHUB_DIR=$GITHUB_DIR"                                                          >> ${LOG_FILE}
-#echo "DOCKER_USER=$DOCKER_USER"                                                        >> ${LOG_FILE}
-#echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          >> ${LOG_FILE}
-#echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> ${LOG_FILE}
-#echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> ${LOG_FILE}
-#echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> ${LOG_FILE}
-#echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> ${LOG_FILE}
-#echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> ${LOG_FILE}
-#echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> ${LOG_FILE}
-#echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          >> ${LOG_FILE}
-#echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            >> ${LOG_FILE}
-#echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> ${LOG_FILE}
-#echo "TARGET_HOST=$TARGET_HOST"                                                        >> ${LOG_FILE}
-#echo "AZ_TLD=$AZ_TLD"                                                                  >> ${LOG_FILE}
-#echo "TIMEZONE=$TIMEZONE"                                                              >> ${LOG_FILE}
-#echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> ${LOG_FILE}
-#echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> ${LOG_FILE}
-#echo "#######################"                                                         >> ${LOG_FILE}
-#echo "## variables"                                                                    >> ${LOG_FILE}
-#echo "#######################"                                                         >> ${LOG_FILE}
-#echo "</code>"                                                                         >> ${LOG_FILE}
+echo "GIT_USER=${GIT_USER}"                                                            >> "${LOG_FILE}"
+echo "GIT_REPO=$GIT_REPO"                                                              >> "${LOG_FILE}"
+echo "GITHUB_DIR=$GITHUB_DIR"                                                          >> "${LOG_FILE}"
+echo "DOCKER_USER=$DOCKER_USER"                                                        >> "${LOG_FILE}"
+echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          >> "${LOG_FILE}"
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> "${LOG_FILE}"
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> "${LOG_FILE}"
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> "${LOG_FILE}"
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> "${LOG_FILE}"
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> "${LOG_FILE}"
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> "${LOG_FILE}"
+echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          >> "${LOG_FILE}"
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            >> "${LOG_FILE}"
+echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> "${LOG_FILE}"
+echo "TIMEZONE=$TIMEZONE"                                                              >> "${LOG_FILE}"
+echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> "${LOG_FILE}"
+echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "## variables"                                                                    >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "</code>"                                                                         >> "${LOG_FILE}"
 
 echo "#######################"
 echo "## variables"
@@ -1824,19 +1841,17 @@ echo "GIT_REPO=$GIT_REPO"                                                       
 echo "GITHUB_DIR=$GITHUB_DIR"                                                          #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
 echo "DOCKER_USER=$DOCKER_USER"                                                        #="boscp08"  #NB repository name must be lowercase  
 echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          #=" --build"
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren_mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren_waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren_clerk-frontend
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren-mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren-waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren-clerk-frontend
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 #=waardepapieren_mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     #=waardepapieren_waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     #=waardepapieren_clerk-frontend
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 #=waardepapieren-mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     #=waardepapieren-waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     #=waardepapieren-clerk-frontend
 echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          #="4.0"
 echo "AZURE_USER=$AZURE_USER"                                                          #=bosch.peter@outlook.com  
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
 echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                #=discipl  
-echo "TARGET_HOST=$TARGET_HOST"                                                        #=azure_container_instance
-echo "AZ_TLD=$AZ_TLD"                                                                  #=cloudapp.azure.com
-echo "TIMEZONE=$TIMEZONE"                                                              #=""
+Secho "TIMEZONE=$TIMEZONE"                                                             #=""
 echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME"                              #=2592001 #30 dagen
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
 echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
@@ -1936,12 +1951,21 @@ BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
 LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
 LOG_DIR=${GITHUB_DIR}/LOG_DIR
 LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
-touch $LOG_FILE
 
-echo "batch runtime : $BATCH_START_DATE_TIME"                        >> "${LOG_FILE}"  
-echo                                                                 >> "${LOG_FILE}"
-echo "hope the run will be ok!"                                      >> "${LOG_FILE}"
-echo                                                                 >> "${LOG_FILE}"
+
+
+echo "***"                                                                                    
+echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                        
+echo "***"                                                                                    
+echo "***  bfg.bash $@   "                                                                    
+echo "***  ${GITHUB_DIR}  "                                                                   
+echo "***  to build new waardepapieren images and containers "                                
+echo "***  FQDN = https://${CERT_HOST_IP} "                                                   
+echo "***  docker-tag = ${DOCKER_VERSION_TAG}"                                                
+echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}"                                      
+echo "***  LOGFILE=${LOG_FILE}"                                                               
+echo "***" 
+enter_cont
 
 
 
@@ -1952,7 +1976,7 @@ PROMPT=""
 while true; do
     read -p "Display all variables  (y or n)?" yn
     case $yn in
-          [Yy]* ) show_bash_parameters ; break;;
+          [Yy]* ) show_parameters ; break;;
           [Nn]* ) PROMPT=false ;  break;;
         * ) echo "Please answer yes or no.";;
     esac
@@ -1975,8 +1999,6 @@ fi
 
 
 BATCH_END_DATE_TIME=`date +%Y%m%d_%H_%M`
-echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "   >> ${LOG_FILE}
-
 echo 
 echo "hope the run will be ok!"
 echo      
@@ -1985,7 +2007,9 @@ echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> "${LO
 echo                                                                    >> "${LOG_FILE}"
 echo "hope the run will be ok!"                                         >> "${LOG_FILE}"
 echo                                                                    >> "${LOG_FILE}"
-            
+
+
+enter_cont
 cd ${GITHUB_DIR}
 
 

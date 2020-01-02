@@ -24,12 +24,6 @@
 #  https://waardepapieren-demo.westeurope.azurecontainer.io ACI
 #  https://waardepapieren-demo.westeurope.azurecontainer.io ACI
 
-# ===== INSTRUCTIONS ======
-# 1. enter your variable ...
-# 2. run a menu driven shell. 
-# 3. run this script as follows 
-#     chmod +x bfg.bash 
-#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu v4 FQDN)
 
 # forked from https://github.com/discipl/waardepapieren.git read.ME
 # Running
@@ -56,118 +50,161 @@
 # This is done as follows:
 # Set the environment variable CERT_HOST_IP is with an IP (or domain) that the validator app can use to reach the clerk-frontend container.  
 # Ensure that the validator expo app runs on the same (wifi) network as the clerk frontend. (BSN=663678651)
+# You build a docker on your laptop and then you are the same as in production. That is why you should use containers btw docker is not fast
+# Naming your containers
+
+
+# ===== INSTRUCTIONS ======
+# 1. SET your variable ... from menu
+# 2. run this script as follows 
+#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu docker_tagversion:4 target_FQDN)
+
+# if [ ${PROMPT} = true ] 
+# then
+# echo "arg1="$1  # mm 
+# echo "arg2="$2  # 4
+# echo "arg3="$3  # discipl.westeurope.cloudapp.azure.com  (Azure VM)
+#                 # discipl.westeurope.azurecontainer.io   (Azure Container Instance)
+# fi 
+
+### barf  
+enter_cont() {
+    echo
+    echo
+    echo -n "Press enter to Continue"
+    read
+}
 
 # here we go
 # ----------------------------------
 # Step : Define variables
 # ----------------------------------
 
-if [ `uname` = 'Linux' ]
-  then  HOME_DIR=/home/`whoami`   
-  echo "linux"
-fi  
+# define your feedback here
 
-if  [ `uname` = 'Darwin' ]
-    then  HOME_DIR=/Users/`whoami`    
-   echo "MacOs"
+GIT_REPO=${PWD##*/}    # waardepapieren
+GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
+
+DOUBLE_CHECK=true  
+WRITE_CODE=true
+PROMPT=true # echo parameters
+            
+if [ "$1" = "mm" ]
+   then
+    MENU=true
+    DOCKER_VERSION_TAG=$2
+    AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup$2"
+    CERT_HOST_IP=$3             #FQDN
+    CERT_HOST_IP_WP_SERVICE_HOSTNAME=$3
+    IFS=. url_components=($3##*-})
+    AZ_DNSNAMELABEL=${url_components[0]} #discipl (.westeurope.cloudapp.azure.com)
 fi
 
-if  [ `uname` = 'CYGWIN_NT-10.0' ]
-    then  HOME_DIR=/c/Users/`whoami`    
-   echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren"
-   # a.k.a 
-fi
-
-
-GIT_PWD=Peter\!2020
-DOCKER_PWD=Peter\!2020
-AZURE_PWD=0lifanten
-
-PROJECT_DIR=$HOME_DIR/Projects/scratch/virtual-insanity    
-GIT_USER=BoschPeter
-#GIT_REPO=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
-GIT_REPO=waardepapieren  #see befores
-GITHUB_DIR=$PROJECT_DIR/${GIT_REPO}   
-DOCKER_USER="boscp08"  #NB repository name must be lowercase  Peter!2020
-COMPOSE_BUILD_FLAG=" --build"
-# You build a docker on your laptop and then you are the same as in production. That is why you should use containers btw docker is not fast
-# Naming your containers
+# if [ ${PROMPT} = true ] 
+# then
+# echo "MENU ="$MENU
+# echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
+# echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
+# echo "CERT_HOST_IP="$CERT_HOST_IP
+# echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME="$CERT_HOST_IP_WP_SERVICE_HOSTNAME
+# IFS=. url_components=($3##*-})
+# echo "AZ_DNSNAMELABEL="$AZ_DNSNAMELABEL
+# enter_cont
+# fi
 
 MOCK_NLX="mock-nlx"
-SERVICE="waardepapieren-service"
+WAARDEPAPIEREN_SERVICE="waardepapieren-service"
 CLERK_FRONTEND="clerk-frontend"
-MOCK_NLX_IMAGE=${GIT_REPO}_mock-nlx
-SERVICE_IMAGE=${GIT_REPO}_waardepapieren-service
-CLERK_FRONTEND_IMAGE=${GIT_REPO}_clerk-frontend
-DOCKERHUB_MOCK_NLX_IMAGE=${GIT_REPO}-mock-nlx
-DOCKERHUB_SERVICE_IMAGE=${GIT_REPO}-waardepapieren-service
-DOCKERHUB_CLERK_FRONTEND_IMAGE=${GIT_REPO}-clerk-frontend
-#with 
-DOCKER_VERSION_TAG="4.0"
-# Application is the same everywhere on the DTAP street. DTAP is the most important. Pets & Cattle!
-AZURE_USER=bosch.peter@outlook.com  
-AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
-AZ_DNSNAMELABEL=discipl  
-
-#TARGET_HOST=azure_container_instance
-TARGET_HOST=linux_VM
-
- if [ "$TARGET_HOST" = "linux_VM" ]; then
-       echo expression evaluated as linux_VM
-       AZ_TLD=cloudapp.azure.com
- fi
-
-if [ "$TARGET_HOST" = "azure_container_instance" ]; then
-       echo expression evaluated as azure_container_instance
-       AZ_TLD=azurecontainer.io
-fi
-
-# REACT_APP_CERTIFICATE_HOST=https://discipl.westeurope.azurecontainer.io
-# EPHEMERAL_ENDPOINT" : "https://discipl.westeurope.cloudapp.azure.com:3232",
-# EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://discipl.westeurope.cloudapp.azure.com:3232"
-
-
+ 
 #EPHEMERAL_RETENTION_TIME=86400  #24h 
-EPHEMERAL_RETENTION_TIME=2592001 #30 dagen
+EPHEMERAL_RETENTION_TIME=2592020 #30 dagen
 
-CERT_HOST_IP=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
-CERT_HOST_IP_WP_SERVICE_HOSTNAME=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
-
-#tt overrule
-#CERT_HOST_IP=localhost  #FQDN linux
-#CERT_HOST_IP_WP_SERVICE_HOSTNAME=localhost
-
-# define your feedback her
-PROMPT=true # echo parameters
-DOUBLE_CHECK=true  #cat content modified files to ${LOG_DIR}
-MENU=true
-WRITE_CODE=true
 #'********** end of parameters **********
 #'Below the functions that are called by other functions
 # modify at your own peril! because of configuration drift   100% generation
 
-LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
-LOG_DIR=${GITHUB_DIR}/LOG_DIR
-LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
-
-the_world_is_flat=true
-# ...do something interesting...
-if  ! [ "$the_world_is_flat" = true ] ; then
-    echo 'Be careful not to fall off!'
-fi
-
 # ----------------------------------
-# specify own modifications in Dockerfile
-# ---------------------------
-#TIMEZONE="ENV TZ=Europe/Amsterdam"
-#APT_GET_UPDATE="RUN apt-get update"
-#APT_GET_INSTALL_NET_TOOLS="RUN apt-get install net-tools"
-#APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
+# Step 2 : Docker setters
+# ----------------------------------
+
+##################################################################
+# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
+# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
+# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+##################################################################
+get_curl (){
+
+echo $1 
+cd $1  # 
+#Now use curl command in command line to download the file.
+#echo "curl -o $2 $3 "  #curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash"
+curl -o $2 $3 
+#curl -o  bfg.bash "https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash"
+#curl -o  docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
+cd $GITHUB_DIR
+
+}
+
+##################################################################
+# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
+# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
+# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+##################################################################
+get_curl_waardepapieren (){
+
+GITHUB_DIR=$PWD
+
+#docker-compose-travis.yml  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
+RAW_DIR=${GITHUB_DIR}
+RAW_FILE=docker-compose-travis.yml  
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+#TT_DIRECTORY=${GITHUB_DIR}/mock-nlx  TT_INSPECT_FILE=Dockerfile  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile
+RAW_DIR=${GITHUB_DIR}/mock-nlx  
+RAW_FILE=Dockerfile  
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
 
 
-# ----------------------------------
-# Step 2 : setters
-# ----------------------------------
+#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend  TT_INSPECT_FILE=Dockerfile  RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile
+RAW_DIR=${GITHUB_DIR}/clerk-frontend  
+RAW_FILE=Dockerfile  
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+#TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx TT_INSPECT_FILE=nginx.conf RAW_URL=https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf
+RAW_DIR=${GITHUB_DIR}/clerk-frontend/nginx 
+RAW_FILE=nginx.conf 
+RAW_URL="https://github.com/discipl/waardepapieren/blob/master/clerk-frontend/nginx/nginx.conf"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+#TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service TT_INSPECT_FILE=Dockerfile RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service 
+RAW_FILE=Dockerfile 
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
+RAW_FILE=waardepapieren-config-compose.json 
+RAW_URL="https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+# TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config.json RAW_URL=https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json
+RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
+RAW_FILE=waardepapieren-config.json 
+RAW_URL="https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
+get_curl $RAW_DIR $RAW_FILE $RAW_URL
+
+
+#### HUH?  TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration TT_INSPECT_FILE=waardepapieren-config-compose_travis.json RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+#RAW_DIR=${GITHUB_DIR}/waardepapieren-service/configuration 
+#RAW_FILE=waardepapieren-config-compose_travis.json 
+#RAW_URL=https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json
+#get_curl $RAW_DIR $RAW_FILE $RAW_URL
+}
+
 
 ##################################################################
 # Purpose: set docker-compose-travis.yml 
@@ -309,7 +346,7 @@ RUN npm install --production" > ${TT_INSPECT_FILE}
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
-3
+
 ##################################################################
 # Purpose: set clerk-frontend Dockerfile
 # Arguments: 
@@ -346,8 +383,6 @@ COPY --from=0 /app/build /usr/share/nginx/html"  > ${TT_INSPECT_FILE} #Dockerfil
 
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
-
-
 
 ##################################################################
 # Purpose: modify clerk-frontend.Dockerfile
@@ -527,7 +562,6 @@ CMD npm start"  > ${TT_INSPECT_FILE}
 check_check_doublecheck  ${FUNCNAME[0]} $@
 }
 
-
 #################################################################
 # Purpose: hack 
 # Arguments: 
@@ -676,87 +710,6 @@ PROMPT=$TT_PROMPT
 create_logfile_footer ${FUNCNAME[0]} $@
 }
 
-
-##################################################################
-# Purpose: shortcuts
-# Arguments: 
-# Return: 
-##################################################################
-tt() {
-
-if [ "$1" = "" ] 
- then echo "geen input gespecificeerd" 
-  echo "sad=set_all_dockerfiles"
-  echo "dci=docker_compose_images"
-  echo "dti=docker_tag_images"
-  echo "dpi=docker_push_images"
-  echo "adr=azure_delete_resourcegroups"
-  echo "acr=azure_create_resourcegroups"
-  echo "acc=azure_create_containergroup"
-  echo "arc=azure_restart_containergroup pull again"
-  enter_cont
-  
-fi 
-
-if [ "$1" = "sad" ] 
- then 
-echo "set_all_dockerfiles" 
-fi
-
-if [ "$1" = "sad" ] 
- then 
-echo "sad=set_all_dockerfiles"
-enter_cont
-set_all_dockerfiles
- fi
-  
-  if [ "$1" = "dci" ] 
- then 
-  echo "dci=docker_compose_images"
-  enter_cont
-  docker_compose_images
-  fi
-  
-  if [ "$1" = "dti" ] 
- then  echo "dti=docker_tag_images"
- enter_cont
- docker_tag_images
-   fi
-
-    if [ "$1" = "dpi" ] 
-    then  echo "dpi=docker_push_images"
-    enter_cont
-    docker_push_images
-  fi
-  
-  if [ "$1" = "adr" ] 
-    then echo "adr=azure_delete_resourcegroup"
-    enter_cont
-    azure_delete_resourcegroup
-  fi
-
-  if [ "$1" = "acr" ] 
-   then echo "acr=azure_create_resourcegroup"
-   enter_cont
-   azure_create_resourcegroup
-  fi
-  
-  if [ "$1" = "acc" ] 
-   then echo "acc=azure_create_containergroup"
-   enter_cont
-   azure_create_containergroup
-  fi
-
-  if [ "$1" = "arc" ] 
-   then  echo "arc=azure_restart_containergroup pull again"
-   enter_cont
-   azure_restart_containergroup
-  fi
-
-}
-
-
-
 ##################################################################
 # Purpose: hack into azure deploy ACI
 # Arguments: 
@@ -774,7 +727,7 @@ properties:
   containers:
   - name: mock-nlx
     properties:
-      image: ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -783,7 +736,7 @@ properties:
       - port: 80
   - name: waardepapieren-service
     properties:
-      image: ${DOCKER_USER}/${DOCKERHUB_SERVICE_IMAGE}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -793,7 +746,7 @@ properties:
       - port: 3233
   - name: clerk-frontend
     properties:
-      image: ${DOCKER_USER}/${DOCKERHUB_CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -841,10 +794,10 @@ fi
 # /////////////////////////////////////////////////////////////////////////////////
 create_logfile_header() {
     JOB_START_DATE_TIME=`date +%Y%m%d_%H_%M`
-    echo $JOB_START_DATE_TIME - BEGIN JOB:                                             >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
-    echo $1 $2                                                                         >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
+    echo $JOB_START_DATE_TIME - BEGIN JOB:                                             >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
+    echo $1 $2                                                                         >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
     }
 
 # /////////////////////////////////////////////////////////////////////////////////
@@ -852,10 +805,10 @@ create_logfile_header() {
 # /////////////////////////////////////////////////////////////////////////////////
 create_logfile_footer() {
     JOB_END_DATE_TIME=`date +%Y%m%d_%H_%M`
-    echo $JOB_END_DATE_TIME - END JOB :                                                >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
-    echo $1 $2                                                                         >> ${LOG_FILE}
-    echo ----------------------------------------------------------------------------- >> ${LOG_FILE}
+    echo $JOB_END_DATE_TIME - END JOB :                                                >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
+    echo $1 $2                                                                         >> "${LOG_FILE}"
+    echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
     }
 
 ##################################################################
@@ -866,10 +819,29 @@ create_logfile_footer() {
 create_logdir() {
 if ! [ -d "${LOG_DIR}" ]; then
   cd $PROJECT_DIR
-  sudo  chmod -R 777  ${GITHUB_DIR}
+  chmod -R 777  ${GITHUB_DIR}
   mkdir  ${LOG_DIR}
+
+# if [ `uname` = 'Linux' ]
+#   then  HOME_DIR=/home/`whoami`   
+#   echo "linux"
+# fi  
+# 
+# if  [ `uname` = 'Darwin' ]
+#     then  HOME_DIR=/Users/`whoami`    
+#    echo "MacOs"
+# fi
+# 
+# if  [ `uname` = 'CYGWIN_NT-10.0' ]
+#     then  HOME_DIR=/c/Users/`whoami`    
+#    echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren"
+#    # a.k.a 
+# fi
+# PROJECT_DIR=$HOME_DIR/Projects/scratch/virtual-insanity  
+
 fi 
 }
+
 ##################################################################
 # Purpose: #echo ${PROJECT_DIR} | awk -F/ '{print "/"$2"/"$3"/"$4"/"$5"/"$6}'
 # Arguments: directory structure  #/home/boscp08/Projects/scratch/virtual-insanity
@@ -932,11 +904,11 @@ clear
 if [ -f "${TT_INSPECT_FILE}" ]; 
 then
  
-echo "| ${LOG_START_DATE_TIME} | ${TT_INSPECT_FILE}|"                                >> ${LOG_FILE} 
-echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> ${LOG_FILE}
-echo "<code>"                                                                        >> ${LOG_FILE}
-cat  ${TT_INSPECT_FILE}                                                              >> ${LOG_FILE}
-echo "</code>"                                                                       >> ${LOG_FILE}
+echo "| ${LOG_START_DATE_TIME} | ${TT_INSPECT_FILE}|"                                >> "${LOG_FILE}" 
+echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> "${LOG_FILE}"
+echo "<code>"                                                                        >> "${LOG_FILE}"
+cat  ${TT_INSPECT_FILE}                                                              >> "${LOG_FILE}"
+echo "</code>"                                                                       >> "${LOG_FILE}"
 create_logfile_footer
 
 else 
@@ -1052,6 +1024,25 @@ curl -sL https://packages.microsoft.com/keys/microsoft.asc |
     sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
 
 #windows
+}
+
+##################################################################
+# Purpose: P
+# Arguments: 
+# Return: 
+##################################################################
+set_credentials() {
+
+DOCKER_USER=boscp08
+DOCKER_PWD=Peter\!2020
+
+AZURE_USER=bosch.peter@outlook.com
+AZURE_PWD=0lifanten
+
+GIT_USER=boschpeter
+GIT_PWD=Peter\!2020
+
+
 }
 
 ##################################################################
@@ -1188,7 +1179,7 @@ docker_compose_images() {
 echo "Running:${FUNCNAME[0]} $@"
 cd ${GITHUB_DIR}
 create_logfile_header ${FUNCNAME[0]} $@
-echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> ${LOG_FILE}
+echo "docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG"     >> "${LOG_FILE}"
 
 docker-compose -f docker-compose-travis.yml up $COMPOSE_BUILD_FLAG
 
@@ -1198,7 +1189,7 @@ create_logfile_footer  ${FUNCNAME[0]} $@
 #################################################################
 # Purpose:  Procedure to build the mock-nlx image
 # Arguments: docker_build_image mock-nlx boscp08 waardepapieren_mock_nlx 1.0 
-# Arguments: docker_build_image mock-nlx ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG} 
+# Arguments: docker_build_image mock-nlx ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG} 
 # Return: image
 ##################################################################
 
@@ -1207,7 +1198,7 @@ echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 arg1=$1 #mock-nlx
 arg1=$2 #${DOCKER_USER}
-arg2=$3 #${MOCK_NLX_IMAGE}
+arg2=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$4 #${DOCKER_VERSION_TAG}
 cd ${GITHUB_DIR}/$1
 docker build -t $2/$3 .  #mind the dot!
@@ -1222,9 +1213,9 @@ cd ${GITHUB_DIR}  #cd -
 docker_build_images() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker_build_image mock-nlx  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_build_image waardepapieren-service ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_build_image clerk-frontend ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_build_image mock-nlx  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
+docker_build_image waardepapieren-service ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
+docker_build_image clerk-frontend ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
 create_logfile_footer ${FUNCNAME[0]} $@
 }
 
@@ -1277,10 +1268,10 @@ docker_tag_image() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
-#docker tag ${DOCKER_USER}/$MOCK_NLX_IMAGE:latest ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
+#docker tag ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
-arg2=$2 #${MOCK_NLX_IMAGE}
-arg3=$3 #${DOCKERHUB_MOCK_NLX_IMAGE}
+arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
+arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$4 #${DOCKER_VERSION_TAG}
 
 #docker tag $2:latest $1/$3:$4
@@ -1295,14 +1286,13 @@ arg4=$4 #${DOCKER_VERSION_TAG}
 docker_tag_images() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker_tag_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_tag_image  ${DOCKER_USER} ${SERVICE_IMAGE}  ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_tag_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
+docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}  ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
+docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
 docker images | grep  ${DOCKER_VERSION_TAG}   
 docker images | grep  ${DOCKER_VERSION_TAG}      >> ${LOG_DIR}
 create_logfile_footer ${FUNCNAME[0]} $@
 }
-
 
 #################################################################
 # Purpose:  Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
@@ -1313,13 +1303,12 @@ docker_push_image() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
-#docker tag ${DOCKER_USER}/$MOCK_NLX_IMAGE:latest ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
+#docker tag ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:latest ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
-arg3=$2 #${DOCKERHUB_MOCK_NLX_IMAGE}
+arg3=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$3 #${DOCKER_VERSION_TAG}
 docker push  $1/$2:$3
 }  
-
 
 ##################################################################
 # Purpose:  Push an image or a repository to a registry
@@ -1329,9 +1318,9 @@ docker push  $1/$2:$3
 docker_push_images() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker_push_image  ${DOCKER_USER} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_push_image  ${DOCKER_USER} ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_push_image  ${DOCKER_USER} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG} 
+docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
+docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
+docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG} 
 create_logfile_footer
 }
 
@@ -1343,12 +1332,11 @@ create_logfile_footer
 docker_commit () {
 echo "Running:${FUNCNAME[0]} $@"
 #create_logfile_header ${FUNCNAME[0]} $@
-#docker commit ${MOCK_NLX_IMAGE} ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}  
-##docker commit ${SERVICE_IMAGE} ${DOCKER_USER}/${DOCKERHUB_SERVICE_IMAGE}:${DOCKER_VERSION_TAG} 
-#docker commit ${CLERK_FRONTEND_IMAGE} ${DOCKER_USER}/${DOCKER_HUB_CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}          
+#docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}  
+##docker commit ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG} 
+#docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}          
 create_logfile_footer
 }
-
 
 ##################################################################
 # Purpose:  Push an image or a repository to a registry
@@ -1358,9 +1346,9 @@ create_logfile_footer
 docker_commit_containers () {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker commit ${MOCK_NLX_IMAGE} ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}  
-docker commit ${SERVICE_IMAGE} ${DOCKER_USER}/${DOCKERHUB_SERVICE_IMAGE}:${DOCKER_VERSION_TAG} 
-docker commit ${CLERK_FRONTEND_IMAGE} ${DOCKER_USER}/${DOCKER_HUB_CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}          
+docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}  
+docker commit ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG} 
+docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}          
 create_logfile_footer
 }
 
@@ -1415,7 +1403,6 @@ if test -f "$FILE"; then
  else set_azure_deploy_aci_yaml   
 fi
 
-
 #az container create --resource-group $AZ_RESOURCE_GROUP --file deploy-aci.yaml
 az container create --resource-group $AZ_RESOURCE_GROUP --file $GITHUB_DIR/deploy-aci.yaml
 enter_cont
@@ -1426,6 +1413,18 @@ cd $GITHUB_DIR
 }
 
 
+##################################################################
+# Purpose: Procedure to clone build run ship and deploy 
+# Arguments: 
+# Return: the whole_sjebang
+##################################################################
+set_docker_tag() {
+
+echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
+read -p "Enter Your new tag : " DOCKER_VERSION_TAG
+echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"
+sleep 2
+}
 
 
 ##################################################################
@@ -1433,8 +1432,20 @@ cd $GITHUB_DIR
 # Arguments: 
 # Return: the whole_sjebang
 ##################################################################
+set_azure_resourcegroup() {
+
+echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
+read -p "Enter Your azure resourcegroup : " AZ_RESOURCE_GROUP
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"
+sleep 2
+}
+
+##################################################################
+# Purpose: Procedure to clone build run ship and deploy 
+# Arguments: 
+# Return: the whole_sjebang
+##################################################################
 the_whole_sjebang() {
-create_logfile_header
 
 docker login -u $DOCKER_USER -p $DOCKER_PWD  
 az login -u $AZURE_USER -p $AZURE_PWD  
@@ -1445,22 +1456,21 @@ docker_compose_images
 docker_tag_images
 docker_push_images
 
-#docker_build_image mock-nlx  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_build_image waardepapieren-service ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_build_image clerk-frontend ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_tag_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_tag_image  ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_tag_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_build_image mock-nlx  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
+#docker_build_image waardepapieren-service ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
+#docker_build_image clerk-frontend ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
+#docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
+#docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
+#docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
 
-#docker_push_image  ${DOCKER_USER} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_push_image  ${DOCKER_USER} ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_push_image  ${DOCKER_USER} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}  
+#docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}  
+#docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}  
 
 azure_delete_resourcegroup  $AZ_RESOURCE_GROUP
 azure_create_resourcegroup  $AZ_RESOURCE_GROUP
 azure_create_containergroup $AZ_RESOURCE_GROUP
 create_logfile_footer
-
 
 }
 
@@ -1491,7 +1501,6 @@ if  [ `uname` = 'CYGWIN_NT-10.0' ]
 fi
 
 }
-
 
 ##################################################################
 # Purpose: azure_login
@@ -1609,20 +1618,20 @@ docker login -u $DOCKER_USER  -p $DOCKER_PWD
 # Arguments: 
 # Return: dokuwiki 
 ##################################################################
-write_az_clone_build_ship_deploy_bash() {
+write_bash_code() {
 
-echo "====== az_clone_build_ship_deploy.bash ======"                         >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | az_clone_build_ship_deploy.bash |"          >> ${LOG_FILE}
-echo  "<code>"                                                               >> ${LOG_FILE} 
-cat  ${GITHUB_DIR}/az_aci_clone_build_ship_deploy.bash                       >> ${LOG_FILE}
-echo "</code>"                                                               >> ${LOG_FILE}
-echo "====== menu.bash  ======"                                              >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> ${LOG_FILE}
-echo "| ${LOG_START_DATE_TIME} | menu.bash |"                                >> ${LOG_FILE}
-echo  "<code>"                                                               >> ${LOG_FILE} 
-cat  ${GITHUB_DIR}/menu.bash                                                 >> ${LOG_FILE}
-echo "</code>"                                                               >> ${LOG_FILE}
+echo "====== az_clone_build_ship_deploy.bash ======"                         >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | az_clone_build_ship_deploy.bash |"          >> "${LOG_FILE}"
+echo  "<code>"                                                               >> "${LOG_FILE}" 
+cat  ${GITHUB_DIR}/bfg.bash                                                  >> "${LOG_FILE}"
+echo "</code>"                                                               >> "${LOG_FILE}"
+echo "====== menu.bash  ======"                                              >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> "${LOG_FILE}"
+echo "| ${LOG_START_DATE_TIME} | menu.bash |"                                >> "${LOG_FILE}"
+echo  "<code>"                                                               >> "${LOG_FILE}" 
+cat  ${GITHUB_DIR}/menu.bash                                                 >> "${LOG_FILE}"
+echo "</code>"                                                               >> "${LOG_FILE}"
 
 }
 
@@ -1639,15 +1648,26 @@ curl -o $LOG_START_DATE_TIME_menu.bash https://raw.githubusercontent.com/boschpe
 #curl -o docker-compose_travis_orig.yml  https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml
 }
 
+##################################################################
+# Purpose:  specify own modifications in Dockerfile
+# Arguments: 
+# Return: additional cookbook lines in Dockerfile 
+##################################################################
+specify_additional_modifications_in_dockerfiles () {
 
+TIMEZONE="ENV TZ=Europe/Amsterdam"
+APT_GET_UPDATE="RUN apt-get update"
+APT_GET_INSTALL_NET_TOOLS="RUN apt-get install net-tools"
+APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
 
+}
 
-
-#######################
-## M A I N
-# program starts here actually
-#######################
-BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
+##################################################################
+# Purpose: show main menu 
+# Arguments: 
+# Return: 
+##################################################################
+show_main_menu(){
 echo "***"   
 echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
 echo "***"   
@@ -1656,118 +1676,7 @@ echo "***  FQDN = https://${CERT_HOST_IP} "
 echo "***  docker-tag = ${DOCKER_VERSION_TAG}"
 echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}" 
 echo "***" 
-create_logdir
-create_directories
-create_logfile_header
 
-echo "<code>"                                                                 >> ${LOG_FILE}
-echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "                 >> ${LOG_FILE}
-echo "#######################"                                                >> ${LOG_FILE}
-echo "## variables"                                                           >> ${LOG_FILE}
-echo "#######################"                                                >> ${LOG_FILE}
-echo "PROJECT_DIR=$PROJECT_DIR"                                               >> ${LOG_FILE}
-echo "GIT_USER=$GIT_USER"                                                     >> ${LOG_FILE}
-echo "GIT_REPO=$GIT_REPO"                                                     >> ${LOG_FILE}
-echo "GITHUB_DIR=$GITHUB_DIR"                                                 >> ${LOG_FILE}
-echo "DOCKER_USER=$DOCKER_USER"                                               >> ${LOG_FILE}
-echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                 >> ${LOG_FILE}
-echo "MOCK_NLX_IMAGE=$MOCK_NLX_IMAGE"                                         >> ${LOG_FILE}
-echo "SERVICE_IMAGE=$SERVICE_IMAGE"                                           >> ${LOG_FILE}
-echo "CLERK_FRONTEND_IMAGE=$CLERK_FRONTEND_IMAGE"                             >> ${LOG_FILE}
-echo "DOCKERHUB_MOCK_NLX_IMAGE=$DOCKERHUB_MOCK_NLX_IMAGE"                     >> ${LOG_FILE}
-echo "DOCKERHUB_SERVICE_IMAGE=$DOCKERHUB_SERVICE_IMAGE"                       >> ${LOG_FILE}
-echo "DOCKERHUB_CLERK_FRONTEND_IMAGE=$DOCKERHUB_CLERK_FRONTEND_IMAGE"         >> ${LOG_FILE}
-echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                 >> ${LOG_FILE}
-echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                   >> ${LOG_FILE}
-echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                       >> ${LOG_FILE}
-echo "TARGET_HOST=$TARGET_HOST"                                               >> ${LOG_FILE}
-echo "AZ_TLD=$AZ_TLD"                                                         >> ${LOG_FILE}
-echo "TIMEZONE=$TIMEZONE"                                                     >> ${LOG_FILE}
-echo "CERT_HOST_IP=$CERT_HOST_IP"                                             >> ${LOG_FILE}
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"     >> ${LOG_FILE}
-echo "#######################"                                                >> ${LOG_FILE}
-echo "## variables"                                                           >> ${LOG_FILE}
-echo "#######################"                                                >> ${LOG_FILE}
-echo "</code>"                                                                >> ${LOG_FILE}
-
-
-##################################################################
-# Purpose: Display all variables
-# Arguments: 
-# Return: variables
-##################################################################
-if [ ${PROMPT} = true ] 
- then 
-#clear
-PROMPT=""
-while true; do
-    read -p "Display all variables  (y or n)?" yn
-    case $yn in
-          [Yy]* ) PROMPT=true ; break;;
-          [Nn]* ) PROMPT=false ;  break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
-
-fi
-
-if [ ${PROMPT} = true ] 
-then 
-echo "#######################"
-echo "## variables"
-echo "#######################"
-echo "PROJECT_DIR=$PROJECT_DIR"                                               #=$HOME_DIR/Projects/scratch/virtual-insanity    
-echo "GIT_USER=$GIT_USER"                                                     #=BoschPeter
-echo "GIT_REPO=$GIT_REPO"                                                     #=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
-echo "GITHUB_DIR=$GITHUB_DIR"                                                 #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
-echo "DOCKER_USER=$DOCKER_USER"                                               #="boscp08"  #NB repository name must be lowercase  
-echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                 #=" --build"
-echo "MOCK_NLX_IMAGE=$MOCK_NLX_IMAGE"                                         #=waardepapieren_mock-nlx
-echo "SERVICE_IMAGE=$SERVICE_IMAGE"                                           #=waardepapieren_waardepapieren-service
-echo "CLERK_FRONTEND_IMAGE=$CLERK_FRONTEND_IMAGE"                             #=waardepapieren_clerk-frontend
-echo "DOCKERHUB_MOCK_NLX_IMAGE=$DOCKERHUB_MOCK_NLX_IMAGE"                     #=waardepapieren-mock-nlx
-echo "DOCKERHUB_SERVICE_IMAGE=$DOCKERHUB_SERVICE_IMAGE"                       #=waardepapieren-waardepapieren-service
-echo "DOCKERHUB_CLERK_FRONTEND_IMAGE=$DOCKERHUB_CLERK_FRONTEND_IMAGE"         #=waardepapieren-clerk-frontend
-echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                 #="4.0"
-echo "AZURE_USER=$AZURE_USER"                                                 #=bosch.peter@outlook.com  
-echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                   #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
-echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                       #=discipl  
-echo "TARGET_HOST=$TARGET_HOST"                                               #=azure_container_instance
-echo "AZ_TLD=$AZ_TLD"                                                         #=cloudapp.azure.com
-echo "TIMEZONE=$TIMEZONE"                                                     #=""
-echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME"                     #=2592001 #30 dagen
-echo "CERT_HOST_IP=$CERT_HOST_IP"                                             #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"     #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
-echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                             #=true  #cat content modified files to ${LOG_DIR}
-echo "MENU=$MENU"                                                             #=true
-enter_cont
-clear
-
-fi
-
-
-##################################################################
-# Purpose: Display MAIN-MENU
-# Arguments: 
-# Return: variables
-##################################################################
-
-if [ ${MENU} = true ] 
- then 
-clear
-while true; do
-    read -p "goto MAIN-MENU (y or n)" yn
-    case $yn in
-          [Yy]* ) MENU=true ; break;;
-          [Nn]* ) MENU=false ;  break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
-fi
-
-
-if [ $MENU = true ]
-then
 # A menu driven shell script 
 #echo "A menu is nothing but a list of commands presented to a user by a shell script"
 
@@ -1794,11 +1703,11 @@ show_menus() {
   echo "33. set_waardepapieren_service_config_json                  "  
   echo "34  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
   echo "39. set_all_dockerfiles          $CERT_HOST_IP              "                         
-  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG $MOCK_NLX_IMAGE + $SERVICE_IMAGE + $CLERK_FRONTEND_IMAGE  " 
-  echo "41. docker_build_images          $MOCK_NLX_IMAGE + $SERVICE_IMAGE + $CLERK_FRONTEND_IMAGE"  
+  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
+  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
   echo "43. docker_login                 $DOCKER_USER               " 
-  echo "44. docker_push_images           $DOCKERHUB_MOCK_NLX_IMAGE + $DOCKERHUB_SERVICE_IMAGE + $DOCKERHUB_CLERK_FRONTEND_IMAGE " 
+  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
   echo "50. azure_login                  $AZURE_USER                "  
   echo "51. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
   echo "52. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
@@ -1869,42 +1778,216 @@ do
 	read_options
 done
 
+}
+##################################################################
+# Purpose: show bash parameters
+# Arguments: 
+# Return: 
+##################################################################
+show_bash_parameters(){
+
+echo "<code>"                                                                          >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "## variables"                                                                    >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "LOG_DIR=${GITHUB_DIR}/LOG_DIR"                                                   >> "${LOG_FILE}"
+echo "GIT_USER=${GIT_USER}"                                                            >> "${LOG_FILE}"
+echo "GIT_REPO=$GIT_REPO"                                                              >> "${LOG_FILE}"
+echo "GITHUB_DIR=$GITHUB_DIR"                                                          >> "${LOG_FILE}"
+echo "DOCKER_USER=$DOCKER_USER"                                                        >> "${LOG_FILE}"
+echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          >> "${LOG_FILE}"
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> "${LOG_FILE}"
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> "${LOG_FILE}"
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> "${LOG_FILE}"
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> "${LOG_FILE}"
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> "${LOG_FILE}"
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> "${LOG_FILE}"
+echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          >> "${LOG_FILE}"
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            >> "${LOG_FILE}"
+echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> "${LOG_FILE}"
+echo "TARGET_HOST=$TARGET_HOST"                                                        >> "${LOG_FILE}"
+echo "AZ_TLD=$AZ_TLD"                                                                  >> "${LOG_FILE}"
+echo "TIMEZONE=$TIMEZONE"                                                              >> "${LOG_FILE}"
+echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> "${LOG_FILE}"
+echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "## variables"                                                                    >> "${LOG_FILE}"
+echo "#######################"                                                         >> "${LOG_FILE}"
+echo "</code>"                                                                         >> "${LOG_FILE}"
+
+echo "#######################"
+echo "## variables"
+echo "#######################"
+echo "LOG_DIR=${GITHUB_DIR}/LOG_DIR"
+echo "GIT_USER=${GIT_USER}"                                                            #=BoschPeter
+echo "GIT_REPO=$GIT_REPO"                                                              #=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
+echo "GITHUB_DIR=$GITHUB_DIR"                                                          #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
+echo "DOCKER_USER=$DOCKER_USER"                                                        #="boscp08"  #NB repository name must be lowercase  
+echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          #=" --build"
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren_mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren_waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren_clerk-frontend
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                #=waardepapieren-mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"    #=waardepapieren-waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                    #=waardepapieren-clerk-frontend
+echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          #="4.0"
+echo "AZURE_USER=$AZURE_USER"                                                          #=bosch.peter@outlook.com  
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
+echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                #=discipl  
+echo "TARGET_HOST=$TARGET_HOST"                                                        #=azure_container_instance
+echo "AZ_TLD=$AZ_TLD"                                                                  #=cloudapp.azure.com
+echo "TIMEZONE=$TIMEZONE"                                                              #=""
+echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME"                              #=2592001 #30 dagen
+echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
+echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
+echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                                      #=true  #cat content modified files to ${LOG_DIR}
+echo "MENU=$MENU"                                                                      #=true
+enter_cont
+clear
+
+}
+
+##################################################################
+# Purpose: shortcuts
+# Arguments: 
+# Return: 
+##################################################################
+tt() {
+
+if [ "$1" = "" ] 
+ then echo "geen input gespecificeerd" 
+  echo "sad=set_all_dockerfiles"
+  echo "dci=docker_compose_images"
+  echo "dti=docker_tag_images"
+  echo "dpi=docker_push_images"
+  echo "adr=azure_delete_resourcegroups"
+  echo "acr=azure_create_resourcegroups"
+  echo "acc=azure_create_containergroup"
+  echo "arc=azure_restart_containergroup pull again"
+  enter_cont
+  
+fi 
+
+if [ "$1" = "sad" ] 
+ then 
+echo "set_all_dockerfiles" 
 fi
 
-echo 
-echo "hope the run will be ok!"
-echo      
+if [ "$1" = "sad" ] 
+ then 
+echo "sad=set_all_dockerfiles"
+enter_cont
+set_all_dockerfiles
+ fi
+  
+  if [ "$1" = "dci" ] 
+ then 
+  echo "dci=docker_compose_images"
+  enter_cont
+  docker_compose_images
+  fi
+  
+  if [ "$1" = "dti" ] 
+ then  echo "dti=docker_tag_images"
+ enter_cont
+ docker_tag_images
+   fi
 
-echo                             >> ${LOG_LEVEL}
-echo "hope the run will be ok!"  >> ${LOG_FILE}
-echo                             >> ${LOG_FILE}
-BATCH_END_DATE_TIME=`date +%Y%m%d_%H_%M`
-echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> ${LOG_DIR}                    
+    if [ "$1" = "dpi" ] 
+    then  echo "dpi=docker_push_images"
+    enter_cont
+    docker_push_images
+  fi
+  
+  if [ "$1" = "adr" ] 
+    then echo "adr=azure_delete_resourcegroup"
+    enter_cont
+    azure_delete_resourcegroup
+  fi
 
-##################################################################
-# Purpose: write code
-# Arguments: 
-# Return: variables
-##################################################################
+  if [ "$1" = "acr" ] 
+   then echo "acr=azure_create_resourcegroup"
+   enter_cont
+   azure_create_resourcegroup
+  fi
+  
+  if [ "$1" = "acc" ] 
+   then echo "acc=azure_create_containergroup"
+   enter_cont
+   azure_create_containergroup
+  fi
 
-if [ ${WRITE_CODE} = true ] 
+  if [ "$1" = "arc" ] 
+   then  echo "arc=azure_restart_containergroup pull again"
+   enter_cont
+   azure_restart_containergroup
+  fi
+
+}
+
+#######################
+## M A I N
+# program starts here actually
+#######################
+create_directories  
+create_logdir
+
+BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
+LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
+LOG_DIR=${GITHUB_DIR}/LOG_DIR
+LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
+#touch $LOG_FILE
+
+echo "batch runtime : $BATCH_START_DATE_TIME"                        >> "${LOG_FILE}"  
+echo                                                                 >> "${LOG_FILE}"
+echo "hope the run will be ok!"                                      >> "${LOG_FILE}"
+echo                                                                 >> "${LOG_FILE}"
+
+
+
+if [ ${PROMPT} = true ] 
+ then 
+#clear
+PROMPT=""
+while true; do
+    read -p "Display all variables  (y or n)?" yn
+    case $yn in
+          [Yy]* ) show_bash_parameters ; break;;
+          [Nn]* ) PROMPT=false ;  break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+fi
+
+if [ ${MENU} = true ] 
  then 
 clear
 while true; do
-    read -p "write code  in the log (y or n)?" yn
+    read -p "goto MAIN-MENU (y or n)" yn
     case $yn in
-          [Yy]* ) write_az_clone_build_ship_deploy_bash ; break;;
-          [Nn]* ) WRITE_CODE=false ;  break;;
+          [Yy]* ) show_main_menu ; break;;
+          [Nn]* ) MENU=false ;  break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
 fi
 
-echo " cd back into " ${GITHUB_DIR}
+
+BATCH_END_DATE_TIME=`date +%Y%m%d_%H_%M`
+echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "   >> "${LOG_FILE}"
+
+echo 
+echo "hope the run will be ok!"
+echo      
+
+echo "batch runtime : $BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "  >> "${LOG_FILE}"
+echo                                                                    >> "${LOG_FILE}"
+echo "hope the run will be ok!"                                         >> "${LOG_FILE}"
+echo                                                                    >> "${LOG_FILE}"
+            
 cd ${GITHUB_DIR}
-echo "$BATCH_START_DATE_TIME  - $BATCH_END_DATE_TIME "
-sleep 2
-clear
+
 
 # eof
 
