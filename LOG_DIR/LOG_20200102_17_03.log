@@ -1,13 +1,13 @@
 ***
-***  Welcome to a Darwin docker build  20200102_15_59 
+***  Welcome to a Darwin docker build  20200102_17_03 
 ***
 ***  bfg.bash    
 ***  /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren  
 ***  to build new waardepapieren images and containers 
-***  FQDN = https://discipl.westeurope.azurecontainer.ioio 
+***  FQDN = https://discipl.westeurope.azurecontainer.io 
 ***  docker-tag = 4
 ***  AZURE ACI-resourcegroup=Discipl_Wigo4it_DockerGroup4
-***  LOGFILE=/Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren/LOG_DIR/LOG_20200102_15_59.log
+***  LOGFILE=/Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren/LOG_DIR/LOG_20200102_17_03.log
 <code>
 #######################
 ## variables
@@ -28,13 +28,13 @@ DOCKER_VERSION_TAG=4
 AZ_RESOURCE_GROUP=Discipl_Wigo4it_DockerGroup4
 AZ_DNSNAMELABEL=discipl
 TIMEZONE=
-CERT_HOST_IP=discipl.westeurope.azurecontainer.ioio
-CERT_HOST_IP_WP_SERVICE_HOSTNAME=discipl.westeurope.azurecontainer.ioio
+CERT_HOST_IP=discipl.westeurope.azurecontainer.io
+CERT_HOST_IP_WP_SERVICE_HOSTNAME=discipl.westeurope.azurecontainer.io
 #######################
 ## variables
 #######################
 </code>
-batch runtime : 20200102_15_59  - 20200102_16_00 
+batch runtime : 20200102_17_03  - 20200102_17_04 
 
 hope the run will be ok!
 

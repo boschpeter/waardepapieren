@@ -119,12 +119,11 @@ fi
 MOCK_NLX="mock-nlx"
 WAARDEPAPIEREN_SERVICE="waardepapieren-service"
 CLERK_FRONTEND="clerk-frontend"
+ 
+
 COMPOSE_BUILD_FLAG=" --build"
 #EPHEMERAL_RETENTION_TIME=86400  #24h 
-#/waardepapieren-service/configuration  ??
-EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen  
-EPHEMERAL_RETENTION_TIME_COMPOSE=2592021 #30 dagen
-EPHEMERAL_RETENTION_TIME_CONFIG=2592022 #30 dagen
+EPHEMERAL_RETENTION_TIME=2592020 #30 dagen
 
 #'********** end of parameters **********
 #'Below the functions that are called by other functions
@@ -589,7 +588,7 @@ echo " {
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS},
+  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME},
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
@@ -626,7 +625,7 @@ echo " {
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME_COMPOSE},
+  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME},
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
@@ -663,7 +662,7 @@ echo " {
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME_CONFIG},
+  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME},
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
@@ -1670,7 +1669,123 @@ APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
 
 }
 
+##################################################################
+# Purpose: show main menu 
+# Arguments: 
+# Return: 
+##################################################################
+show_main_menu(){
+echo "***"   
+echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
+echo "***"   
+echo "*** You are about to start to build new waardepapieren images and containers "
+echo "***  FQDN = https://${CERT_HOST_IP} "
+echo "***  docker-tag = ${DOCKER_VERSION_TAG}"
+echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}" 
+echo "***" 
 
+# A menu driven shell script 
+#echo "A menu is nothing but a list of commands presented to a user by a shell script"
+
+# ----------------------------------
+# Step: User defined function
+# ----------------------------------
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+} 
+# function to display menus
+show_menus() {
+	clear
+	echo "~~~~~~~~~~~~~~~~~~~~~"	
+	echo " M A I N - M E N U"
+	echo "~~~~~~~~~~~~~~~~~~~~~"
+  echo "10. docker_system_prune                                     "  
+  echo "20. set_docker_compose_travis_yml_without_volumes           "  
+  echo "21. set_clerk_frontend_dockerfile_without_volumes           "
+  echo "22. set_waardepapieren_service_dockerfile_without_volumes   " 
+  echo "23. set_mock_nlx_dockerfile                                 " 
+  echo "30. set_clerk_frontend_nginx_conf                           "
+  echo "31. set_waardepapieren_service_config_compose_travis_json   "  
+  echo "32. set_waardepapieren_service_config_compose_json          "
+  echo "33. set_waardepapieren_service_config_json                  "  
+  echo "34  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
+  echo "39. set_all_dockerfiles          $CERT_HOST_IP              "                         
+  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
+  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
+  echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
+  echo "43. docker_login                 $DOCKER_USER               " 
+  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
+  echo "50. azure_login                  $AZURE_USER                "  
+  echo "51. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
+  echo "52. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
+  echo "53. azure_create_containergroup  $AZ_RESOURCE_GROUP         " 
+  echo "59. azure_restart_containergroup $AZ_RESOURCE_GROUP         " 
+  echo "60. https://github.com/BoschPeter/$GIT_REPO   "
+  echo "61. https://hub.docker.com/?ref=login         " 
+  echo "62. https://portal.azure.com/\#home           " 
+  echo "63. https://$CERT_HOST_IP:443                 " 
+  echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
+	echo "#  sjebang "
+  echo "90 the_whole_sjebang                                        "
+  echo "99. Exit"
+}
+# read input from the keyboard and take a action
+# invoke the one() when the user select 1 from the menu option.
+# invoke the two() when the user select 2 from the menu option.
+# Exit when user the user select 100 form the menu option.
+
+read_options(){
+	local choice
+	read -p "Enter choice [ 1 - 99] " choice
+	case $choice in
+        10) docker_system_prune                                     ;;  
+        20) set_docker_compose_travis_yml_without_volumes           ;;  
+        21) set_clerk_frontend_dockerfile_without_volumes           ;;
+        22) set_waardepapieren_service_dockerfile_without_volumes   ;; 
+        23) set_mock_nlx_dockerfile                                 ;; 
+        30) set_clerk_frontend_nginx_conf                           ;;
+        31) set_waardepapieren_service_config_compose_travis_json   ;;  
+        32) set_waardepapieren_service_config_compose_json          ;;
+        33) set_waardepapieren_service_config_json                  ;;
+        34) set_azure_deploy_aci_yaml                               ;;
+        39) set_all_dockerfiles                                     ;;                        
+        40) docker_compose_images                                   ;; 
+        41) docker_build_images                                     ;;  
+        42) docker_tag_images                                       ;; 
+        43) docker_login                                            ;; 
+        44) docker_push_images                                      ;; 
+        50) azure_login                                             ;; 
+        51) azure_delete_resourcegroup                              ;;
+        52) azure_create_resourcegroup                              ;; 
+        53) azure_create_containergroup                             ;; 
+        59) azure_restart_containergroup                            ;; 
+        60) bookmark_open https://github.com/BoschPeter/$GIT_REPO   ;;
+        61) bookmark_open https://hub.docker.com/?ref=login         ;; 
+        62) bookmark_open https://portal.azure.com/\#home           ;; 
+        63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
+        64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
+        #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
+        90) the_whole_sjebang                                       ;; 
+        99) Exit                                                    ;;
+		*) echo -e "${RED}Error...${STD}" && sleep 1
+	esac
+}
+
+# ----------------------------------------------
+# Step #3: Trap CTRL+C, CTRL+Z and quit singles
+# ----------------------------------------------
+#trap '' SIGINT SIGQUIT SIGTSTP
+
+# -----------------------------------
+# Step #4: Main logic - infinite loop
+# ------------------------------------
+while true
+do
+	show_menus
+	read_options
+done
+
+}
 ##################################################################
 # Purpose: show bash parameters
 # Arguments: 
@@ -1825,131 +1940,6 @@ set_all_dockerfiles
 
 }
 
-
-##################################################################
-# Purpose: show main menu 
-# Arguments: 
-# Return: 
-##################################################################
-show_main_menu(){
-echo "***"   
-echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
-echo "***"   
-echo "*** You are about to start to build new waardepapieren images and containers "
-echo "***  FQDN = https://${CERT_HOST_IP} "
-echo "***  docker-tag = ${DOCKER_VERSION_TAG}"
-echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}" 
-echo "***" 
-
-# A menu driven shell script 
-#echo "A menu is nothing but a list of commands presented to a user by a shell script"
-
-# ----------------------------------
-# Step: User defined function
-# ----------------------------------
-pause(){
-  read -p "Press [Enter] key to continue..." fackEnterKey
-} 
-# function to display menus
-show_menus() {
-	clear
-	echo "~~~~~~~~~~~~~~~~~~~~~"	
-	echo " M A I N - M E N U"
-	echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "10. docker_system_prune                                     "  
-  echo "14. set_mock_nlx_dockerfile                                 " 
-  echo "15. set_docker_compose_travis_yml_without_volumes           "  
-  echo "16. set_clerk_frontend_dockerfile_without_volumes           "
-  echo "17. set_waardepapieren_service_dockerfile_without_volumes   " 
-  echo "18. set_docker_compose_travis_yml_without_volumes           "  
-  echo "19. set_clerk_frontend_dockerfile_without_volumes           "
-  echo "20. set_waardepapieren_service_dockerfile_without_volumes   " 
-  echo "21. set_clerk_frontend_nginx_conf                           "
-  echo "22. set_waardepapieren_service_config_compose_travis_json   "  
-  echo "23. set_waardepapieren_service_config_compose_json          "
-  echo "24. set_waardepapieren_service_config_json                  "  
-  echo "29. set_all_dockerfiles          $CERT_HOST_IP              "                         
-  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
-  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
-  echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
-  echo "43. docker_login                 $DOCKER_USER               " 
-  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
-  echo "50. azure_login                  $AZURE_USER                "  
-  echo "51  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
-  echo "52. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
-  echo "53. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
-  echo "54. azure_create_containergroup  $AZ_RESOURCE_GROUP         " 
-  echo "55. azure_restart_containergroup $AZ_RESOURCE_GROUP         " 
-  echo "60. https://github.com/BoschPeter/$GIT_REPO   "
-  echo "61. https://hub.docker.com/?ref=login         " 
-  echo "62. https://portal.azure.com/\#home           " 
-  echo "63. https://$CERT_HOST_IP:443                 " 
-  echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
-	echo "#  sjebang "
-  echo "90 the_whole_sjebang                                        "
-  echo "99. Exit"
-}
-# read input from the keyboard and take a action
-# invoke the one() when the user select 1 from the menu option.
-# invoke the two() when the user select 2 from the menu option.
-# Exit when user the user select 100 form the menu option.
-
-read_options(){
-	local choice
-	read -p "Enter choice [ 1 - 99] " choice
-	case $choice in
-        10) docker_system_prune                                     ;;  
-        14) set_mock_nlx_dockerfile                                 ;;
-        15) set_docker_compose_travis_yml_without_volumes           ;;  
-        16) set_clerk_frontend_dockerfile_without_volumes           ;;
-        17) set_waardepapieren_service_dockerfile_without_volumes   ;; 
-        18) set_docker_compose_travis_yml_with_volumes              ;;  
-        19) set_clerk_frontend_dockerfile_with_volumes              ;;
-        20) set_waardepapieren_service_dockerfile_with_volumes      ;; 
-        21) set_clerk_frontend_nginx_conf                           ;;
-        22) set_waardepapieren_service_config_compose_travis_json   ;;  
-        23) set_waardepapieren_service_config_compose_json          ;;
-        24) set_waardepapieren_service_config_json                  ;;
-        29) set_all_dockerfiles                                     ;;                        
-        40) docker_compose_images                                   ;; 
-        41) docker_build_images                                     ;;  
-        42) docker_tag_images                                       ;; 
-        43) docker_login                                            ;; 
-        44) docker_push_images                                      ;; 
-        50) azure_login                                             ;; 
-        51) set_azure_deploy_aci_yaml                               ;;
-        52) azure_delete_resourcegroup                              ;;
-        53) azure_create_resourcegroup                              ;; 
-        54) azure_create_containergroup                             ;; 
-        55) azure_restart_containergroup                            ;; 
-        60) bookmark_open https://github.com/BoschPeter/$GIT_REPO   ;;
-        61) bookmark_open https://hub.docker.com/?ref=login         ;; 
-        62) bookmark_open https://portal.azure.com/\#home           ;; 
-        63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
-        64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
-        #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
-        90) the_whole_sjebang                                       ;; 
-        99) Exit                                                    ;;
-		*) echo -e "${RED}Error...${STD}" && sleep 1
-	esac
-}
-
-# ----------------------------------------------
-# Step #3: Trap CTRL+C, CTRL+Z and quit singles
-# ----------------------------------------------
-#trap '' SIGINT SIGQUIT SIGTSTP
-
-# -----------------------------------
-# Step #4: Main logic - infinite loop
-# ------------------------------------
-while true
-do
-	show_menus
-	read_options
-done
-
-}
-
 #######################
 ## M A I N
 # program starts here actually
@@ -1957,11 +1947,12 @@ done
 create_directories  
 create_logdir
 
-
 BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
 LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`  
 LOG_DIR=${GITHUB_DIR}/LOG_DIR
 LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
+
+
 
 echo "***"                                                                                    
 echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                        
@@ -1976,21 +1967,22 @@ echo "***  LOGFILE=${LOG_FILE}"
 echo "***" 
 enter_cont
 
+
+
 if [ ${PROMPT} = true ] 
  then 
 #clear
+PROMPT=""
 while true; do
     read -p "Display all variables  (y or n)?" yn
     case $yn in
           [Yy]* ) show_parameters ; break;;
-          [Nn]* ) echo "N" ;  break;;
+          [Nn]* ) PROMPT=false ;  break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
 
 fi
-
-
 
 if [ ${MENU} = true ] 
  then 
@@ -1999,7 +1991,7 @@ while true; do
     read -p "goto MAIN-MENU (y or n)" yn
     case $yn in
           [Yy]* ) show_main_menu ; break;;
-          [Nn]* ) echo "N";  break;;
+          [Nn]* ) MENU=false ;  break;;
         * ) echo "Please answer yes or no.";;
     esac
 done
