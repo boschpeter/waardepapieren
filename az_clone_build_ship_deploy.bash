@@ -77,7 +77,7 @@ fi
 
 if  [ `uname` = 'CYGWIN_NT-10.0' ] 
     then  HOME_DIR=/home/`whoami`   
-   echo "Windows10 #neds cygwin installed. "
+   echo "Windows10 #needs cygwin installed. "
    # aka C:\cygwin64\home\Gebruiker\Projects\scratch\virtual-insanity
 fi
 
