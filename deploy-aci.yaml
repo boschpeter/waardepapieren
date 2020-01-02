@@ -1,0 +1,51 @@
+location: westeurope
+name: Discipl_Wigo4it_DockerGroup1
+properties:
+  containers:
+  - name: mock-nlx
+    properties:
+      image: boscp08/waardepapieren_mock-nlx:1
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 0.5
+      ports:
+      - port: 80
+  - name: waardepapieren-service
+    properties:
+      image: boscp08/waardepapieren_waardepapieren-service:1
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 0.5
+      ports:
+      - port: 3232
+      - port: 3233
+  - name: clerk-frontend
+    properties:
+      image: boscp08/waardepapieren_clerk-frontend:1
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 0.5
+      ports:
+      - port: 443
+      - port: 8880
+  osType: Linu
+  ipAddress:
+    type: Public
+    # fqdn wordt: discipl_waardepapieren.westeurope.azurecontainer.io
+    dnsNameLabel: localhost##*-} 
+    ports:
+    - protocol: tcp
+      port: '443' 
+    - protocol: tcp
+      port: '3232' 
+    - protocol: tcp
+      port: '3233' 
+    - protocol: tcp
+      port: '80'    
+    - protocol: tcp
+      port: '8880'      
+tags: null
+type: Microsoft.ContainerInstance/containerGroups

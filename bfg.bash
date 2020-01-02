@@ -161,15 +161,16 @@ stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG
 curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
 stat    ${GITHUB_DIR}/waardepapieren-service/Dockerfile                 >> "${LOG_FILE}"
 
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/discipl/waardepapieren/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
+clear
+
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json  "https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json                  >> "${LOG_FILE}"
 
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json                           >> "${LOG_FILE}"
 
-curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/boschpeter/test-repo/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
-stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
-clear
 
 create_logfile_footer "${FUNCNAME[0]}" $@
 
@@ -563,7 +564,7 @@ echo " {
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
    \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"https://${CERT_HOST_IP}:443\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -601,7 +602,7 @@ echo " {
    \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
    \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
    \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"https://${CERT_HOST_IP}:443\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",

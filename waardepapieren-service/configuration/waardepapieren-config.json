@@ -1,9 +1,9 @@
  {
-   "EPHEMERAL_ENDPOINT" : "https://waardepapieren-demo.westeurope.cloudapp.azure.com:3232",
-   "EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://waardepapieren-demo.westeurope.cloudapp.azure.com:3232",
+   "EPHEMERAL_ENDPOINT" : "https://localhost:3232",
+   "EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://localhost:3232",
    "EPHEMERAL_CERT": "/ephemeral-certs/org.crt",
    "EPHEMERAL_KEY": "/ephemeral-certs/org.key",
-  "NLX_OUTWAY_ENDPOINT" : "http://waardepapieren-demo.westeurope.cloudapp.azure.com:80",
+  "NLX_OUTWAY_ENDPOINT" : "http://localhost:80",
   "NLX_CERT": "/certs/org.crt",
   "NLX_KEY": "/certs/org.key",
   "LOG_LEVEL": "info",
