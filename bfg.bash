@@ -29,7 +29,7 @@
 # 2. run a menu driven shell. 
 # 3. run this script as follows 
 #     chmod +x bfg.bash 
-#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu v4 FQDN)
+#     ./bfg.bash mm 4 waardepapieren-demo.westeurope.cloudapp.azure.com   (mainmenu docker_tagversion:4 target_FQDN)
 
 # forked from https://github.com/discipl/waardepapieren.git read.ME
 # Running
@@ -56,42 +56,25 @@
 # This is done as follows:
 # Set the environment variable CERT_HOST_IP is with an IP (or domain) that the validator app can use to reach the clerk-frontend container.  
 # Ensure that the validator expo app runs on the same (wifi) network as the clerk frontend. (BSN=663678651)
+# You build a docker on your laptop and then you are the same as in production. That is why you should use containers btw docker is not fast
+# Naming your containers
+
 
 # here we go
 # ----------------------------------
 # Step : Define variables
 # ----------------------------------
 
-if [ `uname` = 'Linux' ]
-  then  HOME_DIR=/home/`whoami`   
-  echo "linux"
-fi  
-
-if  [ `uname` = 'Darwin' ]
-    then  HOME_DIR=/Users/`whoami`    
-   echo "MacOs"
-fi
-
-if  [ `uname` = 'CYGWIN_NT-10.0' ]
-    then  HOME_DIR=/c/Users/`whoami`    
-   echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren"
-   # a.k.a 
-fi
-
-
 GIT_PWD=Peter\!2020
 DOCKER_PWD=Peter\!2020
 AZURE_PWD=0lifanten
 
-PROJECT_DIR=$HOME_DIR/Projects/scratch/virtual-insanity    
-GIT_USER=BoschPeter
-#GIT_REPO=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
-GIT_REPO=waardepapieren  #see befores
-GITHUB_DIR=$PROJECT_DIR/${GIT_REPO}   
+GIT_USER=boschpeter
+GIT_REPO=${PWD##*/}    #waardepapieren
+GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
+
 DOCKER_USER="boscp08"  #NB repository name must be lowercase  Peter!2020
 COMPOSE_BUILD_FLAG=" --build"
-# You build a docker on your laptop and then you are the same as in production. That is why you should use containers btw docker is not fast
-# Naming your containers
 
 MOCK_NLX="mock-nlx"
 SERVICE="waardepapieren-service"
@@ -99,9 +82,7 @@ CLERK_FRONTEND="clerk-frontend"
 MOCK_NLX_IMAGE=${GIT_REPO}_mock-nlx
 SERVICE_IMAGE=${GIT_REPO}_waardepapieren-service
 CLERK_FRONTEND_IMAGE=${GIT_REPO}_clerk-frontend
-DOCKERHUB_MOCK_NLX_IMAGE=${GIT_REPO}-mock-nlx
-DOCKERHUB_SERVICE_IMAGE=${GIT_REPO}-waardepapieren-service
-DOCKERHUB_CLERK_FRONTEND_IMAGE=${GIT_REPO}-clerk-frontend
+=${GIT_REPO}-clerk-frontend
 #with 
 DOCKER_VERSION_TAG="4.0"
 # Application is the same everywhere on the DTAP street. DTAP is the most important. Pets & Cattle!
@@ -756,6 +737,20 @@ set_all_dockerfiles
 }
 
 
+##################################################################
+# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
+# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
+# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+##################################################################
+get_curl_bfg (){
+
+#Now use curl command in command line to download the file.
+cd 
+curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+
+}
+
+
 
 ##################################################################
 # Purpose: hack into azure deploy ACI
@@ -774,7 +769,7 @@ properties:
   containers:
   - name: mock-nlx
     properties:
-      image: ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -783,7 +778,7 @@ properties:
       - port: 80
   - name: waardepapieren-service
     properties:
-      image: ${DOCKER_USER}/${DOCKERHUB_SERVICE_IMAGE}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${SERVICE_IMAGE}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -793,7 +788,7 @@ properties:
       - port: 3233
   - name: clerk-frontend
     properties:
-      image: ${DOCKER_USER}/${DOCKERHUB_CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}
+      image: ${DOCKER_USER}/${CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}
       resources:
         requests:
           cpu: 1
@@ -872,8 +867,28 @@ create_logfile_footer() {
 create_logdir() {
 if ! [ -d "${LOG_DIR}" ]; then
   cd $PROJECT_DIR
-  sudo  chmod -R 777  ${GITHUB_DIR}
+  chmod -R 777  ${GITHUB_DIR}
   mkdir  ${LOG_DIR}
+
+# if [ `uname` = 'Linux' ]
+#   then  HOME_DIR=/home/`whoami`   
+#   echo "linux"
+# fi  
+# 
+# if  [ `uname` = 'Darwin' ]
+#     then  HOME_DIR=/Users/`whoami`    
+#    echo "MacOs"
+# fi
+# 
+# if  [ `uname` = 'CYGWIN_NT-10.0' ]
+#     then  HOME_DIR=/c/Users/`whoami`    
+#    echo "Windows10  ... /home/Gebruiker/Projects/scratch/virtual-insanity/waardepapieren"
+#    # a.k.a 
+# fi
+# PROJECT_DIR=$HOME_DIR/Projects/scratch/virtual-insanity  
+
+
+
 fi 
 }
 ##################################################################
@@ -1283,10 +1298,10 @@ docker_tag_image() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
-#docker tag ${DOCKER_USER}/$MOCK_NLX_IMAGE:latest ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
+#docker tag ${DOCKER_USER}/$MOCK_NLX_IMAGE:latest ${DOCKER_USER}/${MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
 arg2=$2 #${MOCK_NLX_IMAGE}
-arg3=$3 #${DOCKERHUB_MOCK_NLX_IMAGE}
+arg3=$3 #${MOCK_NLX_IMAGE}
 arg4=$4 #${DOCKER_VERSION_TAG}
 
 #docker tag $2:latest $1/$3:$4
@@ -1301,9 +1316,9 @@ arg4=$4 #${DOCKER_VERSION_TAG}
 docker_tag_images() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker_tag_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_tag_image  ${DOCKER_USER} ${SERVICE_IMAGE}  ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_tag_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_tag_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_tag_image  ${DOCKER_USER} ${SERVICE_IMAGE}  ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_tag_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
 docker images | grep  ${DOCKER_VERSION_TAG}   
 docker images | grep  ${DOCKER_VERSION_TAG}      >> ${LOG_DIR}
 create_logfile_footer ${FUNCNAME[0]} $@
@@ -1319,9 +1334,9 @@ docker_push_image() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
 #docker tag waardepapieren_clerk-frontend $DOCKER_USER/waardepapieren-clerk-frontend:$DOCKER_VERSION_TAG
-#docker tag ${DOCKER_USER}/$MOCK_NLX_IMAGE:latest ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
+#docker tag ${DOCKER_USER}/$MOCK_NLX_IMAGE:latest ${DOCKER_USER}/${MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}
 arg1=$1 #${DOCKER_USER}
-arg3=$2 #${DOCKERHUB_MOCK_NLX_IMAGE}
+arg3=$2 #${MOCK_NLX_IMAGE}
 arg4=$3 #${DOCKER_VERSION_TAG}
 docker push  $1/$2:$3
 }  
@@ -1335,9 +1350,9 @@ docker push  $1/$2:$3
 docker_push_images() {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker_push_image  ${DOCKER_USER} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_push_image  ${DOCKER_USER} ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-docker_push_image  ${DOCKER_USER} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG} 
+docker_push_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_push_image  ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
+docker_push_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG} 
 create_logfile_footer
 }
 
@@ -1349,8 +1364,8 @@ create_logfile_footer
 docker_commit () {
 echo "Running:${FUNCNAME[0]} $@"
 #create_logfile_header ${FUNCNAME[0]} $@
-#docker commit ${MOCK_NLX_IMAGE} ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}  
-##docker commit ${SERVICE_IMAGE} ${DOCKER_USER}/${DOCKERHUB_SERVICE_IMAGE}:${DOCKER_VERSION_TAG} 
+#docker commit ${MOCK_NLX_IMAGE} ${DOCKER_USER}/${MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}  
+##docker commit ${SERVICE_IMAGE} ${DOCKER_USER}/${SERVICE_IMAGE}:${DOCKER_VERSION_TAG} 
 #docker commit ${CLERK_FRONTEND_IMAGE} ${DOCKER_USER}/${DOCKER_HUB_CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}          
 create_logfile_footer
 }
@@ -1364,8 +1379,8 @@ create_logfile_footer
 docker_commit_containers () {
 echo "Running:${FUNCNAME[0]} $@"
 create_logfile_header ${FUNCNAME[0]} $@
-docker commit ${MOCK_NLX_IMAGE} ${DOCKER_USER}/${DOCKERHUB_MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}  
-docker commit ${SERVICE_IMAGE} ${DOCKER_USER}/${DOCKERHUB_SERVICE_IMAGE}:${DOCKER_VERSION_TAG} 
+docker commit ${MOCK_NLX_IMAGE} ${DOCKER_USER}/${MOCK_NLX_IMAGE}:${DOCKER_VERSION_TAG}  
+docker commit ${SERVICE_IMAGE} ${DOCKER_USER}/${SERVICE_IMAGE}:${DOCKER_VERSION_TAG} 
 docker commit ${CLERK_FRONTEND_IMAGE} ${DOCKER_USER}/${DOCKER_HUB_CLERK_FRONTEND_IMAGE}:${DOCKER_VERSION_TAG}          
 create_logfile_footer
 }
@@ -1454,13 +1469,13 @@ docker_push_images
 #docker_build_image mock-nlx  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
 #docker_build_image waardepapieren-service ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
 #docker_build_image clerk-frontend ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_tag_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_tag_image  ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_tag_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_tag_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_tag_image  ${DOCKER_USER} ${SERVICE_IMAGE} ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_tag_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
 
-#docker_push_image  ${DOCKER_USER} ${DOCKERHUB_MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_push_image  ${DOCKER_USER} ${DOCKERHUB_SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
-#docker_push_image  ${DOCKER_USER} ${DOCKERHUB_CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_push_image  ${DOCKER_USER} ${MOCK_NLX_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_push_image  ${DOCKER_USER} ${SERVICE_IMAGE} ${DOCKER_VERSION_TAG}  
+#docker_push_image  ${DOCKER_USER} ${CLERK_FRONTEND_IMAGE} ${DOCKER_VERSION_TAG}  
 
 azure_delete_resourcegroup  $AZ_RESOURCE_GROUP
 azure_create_resourcegroup  $AZ_RESOURCE_GROUP
@@ -1680,9 +1695,9 @@ echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                 >>
 echo "MOCK_NLX_IMAGE=$MOCK_NLX_IMAGE"                                         >> ${LOG_FILE}
 echo "SERVICE_IMAGE=$SERVICE_IMAGE"                                           >> ${LOG_FILE}
 echo "CLERK_FRONTEND_IMAGE=$CLERK_FRONTEND_IMAGE"                             >> ${LOG_FILE}
-echo "DOCKERHUB_MOCK_NLX_IMAGE=$DOCKERHUB_MOCK_NLX_IMAGE"                     >> ${LOG_FILE}
-echo "DOCKERHUB_SERVICE_IMAGE=$DOCKERHUB_SERVICE_IMAGE"                       >> ${LOG_FILE}
-echo "DOCKERHUB_CLERK_FRONTEND_IMAGE=$DOCKERHUB_CLERK_FRONTEND_IMAGE"         >> ${LOG_FILE}
+echo "MOCK_NLX_IMAGE=$MOCK_NLX_IMAGE"                     >> ${LOG_FILE}
+echo "SERVICE_IMAGE=$SERVICE_IMAGE"                       >> ${LOG_FILE}
+echo "CLERK_FRONTEND_IMAGE=$CLERK_FRONTEND_IMAGE"         >> ${LOG_FILE}
 echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                 >> ${LOG_FILE}
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                   >> ${LOG_FILE}
 echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                       >> ${LOG_FILE}
@@ -1731,9 +1746,9 @@ echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                 #=
 echo "MOCK_NLX_IMAGE=$MOCK_NLX_IMAGE"                                         #=waardepapieren_mock-nlx
 echo "SERVICE_IMAGE=$SERVICE_IMAGE"                                           #=waardepapieren_waardepapieren-service
 echo "CLERK_FRONTEND_IMAGE=$CLERK_FRONTEND_IMAGE"                             #=waardepapieren_clerk-frontend
-echo "DOCKERHUB_MOCK_NLX_IMAGE=$DOCKERHUB_MOCK_NLX_IMAGE"                     #=waardepapieren-mock-nlx
-echo "DOCKERHUB_SERVICE_IMAGE=$DOCKERHUB_SERVICE_IMAGE"                       #=waardepapieren-waardepapieren-service
-echo "DOCKERHUB_CLERK_FRONTEND_IMAGE=$DOCKERHUB_CLERK_FRONTEND_IMAGE"         #=waardepapieren-clerk-frontend
+echo "MOCK_NLX_IMAGE=$MOCK_NLX_IMAGE"                     #=waardepapieren-mock-nlx
+echo "SERVICE_IMAGE=$SERVICE_IMAGE"                       #=waardepapieren-waardepapieren-service
+echo "CLERK_FRONTEND_IMAGE=$CLERK_FRONTEND_IMAGE"         #=waardepapieren-clerk-frontend
 echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                 #="4.0"
 echo "AZURE_USER=$AZURE_USER"                                                 #=bosch.peter@outlook.com  
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                   #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
@@ -1804,7 +1819,7 @@ show_menus() {
   echo "41. docker_build_images          $MOCK_NLX_IMAGE + $SERVICE_IMAGE + $CLERK_FRONTEND_IMAGE"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
   echo "43. docker_login                 $DOCKER_USER               " 
-  echo "44. docker_push_images           $DOCKERHUB_MOCK_NLX_IMAGE + $DOCKERHUB_SERVICE_IMAGE + $DOCKERHUB_CLERK_FRONTEND_IMAGE " 
+  echo "44. docker_push_images           $MOCK_NLX_IMAGE + $SERVICE_IMAGE + $CLERK_FRONTEND_IMAGE " 
   echo "50. azure_login                  $AZURE_USER                "  
   echo "51. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
   echo "52. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
