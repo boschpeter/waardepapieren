@@ -1,0 +1,36 @@
+***
+***  Welcome to a Linux docker build  20200102_19_01 
+***
+***  bfg.bash    
+***  /home/boscp08/Projects/scratch/virtual-insanity/waardepapieren  
+***  to build new waardepapieren images and containers 
+***  FQDN = https://waardepapieren-demo.westuerope.cloudapp.azure.com 
+***  docker-tag = 1
+***  AZURE ACI-resourcegroup=Discipl_Wigo4it_DockerGroup1
+***  LOGFILE=/home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/LOG_DIR/LOG_20200102_19_01.log
+<code>
+#######################
+## variables
+#######################
+LOG_DIR=/home/boscp08/Projects/scratch/virtual-insanity/waardepapieren/LOG_DIR
+GIT_USER=boschpeter
+GIT_REPO=waardepapieren
+GITHUB_DIR=/home/boscp08/Projects/scratch/virtual-insanity/waardepapieren
+DOCKER_USER=boscp08
+COMPOSE_BUILD_FLAG= --build
+waardepapieren_mock-nlx=waardepapieren_mock-nlx
+waardepapieren_waardepapieren-service=waardepapieren_waardepapieren-service
+waardepapieren_clerk-frontend=waardepapieren_clerk-frontend
+waardepapieren_mock-nlx=waardepapieren_mock-nlx
+waardepapieren_waardepapieren-service=waardepapieren_waardepapieren-service
+waardepapieren_clerk-frontend=waardepapieren_clerk-frontend
+DOCKER_VERSION_TAG=1
+AZ_RESOURCE_GROUP=Discipl_Wigo4it_DockerGroup1
+AZ_DNSNAMELABEL=waardepapieren-demo
+TIMEZONE=
+CERT_HOST_IP=waardepapieren-demo.westuerope.cloudapp.azure.com
+CERT_HOST_IP_WP_SERVICE_HOSTNAME=waardepapieren-demo.westuerope.cloudapp.azure.com
+#######################
+## variables
+#######################
+</code>

@@ -1689,7 +1689,7 @@ APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
 ##################################################################
 show_parameters(){
 
-
+echo "<code>"                                                                          >> "${LOG_FILE}"
 echo "***"                                                                             >> "${LOG_FILE}"  
 echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                 >> "${LOG_FILE}"  
 echo "***"                                                                             >> "${LOG_FILE}"  
@@ -1701,7 +1701,6 @@ echo "***  docker-tag = ${DOCKER_VERSION_TAG}"                                  
 echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}"                               >> "${LOG_FILE}"  
 echo "***  LOGFILE=${LOG_FILE}"                                                        >> "${LOG_FILE}"  
 echo "***"   
-echo "<code>"                                                                          >> "${LOG_FILE}"
 echo "#######################"                                                         >> "${LOG_FILE}"
 echo "## variables"                                                                    >> "${LOG_FILE}"
 echo "#######################"                                                         >> "${LOG_FILE}"
@@ -1722,37 +1721,50 @@ echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                     
 echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> "${LOG_FILE}"
 echo "TIMEZONE=$TIMEZONE"                                                              >> "${LOG_FILE}"
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      >> "${LOG_FILE}"
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              >> "${LOG_FILE}"
-echo "#######################"                                                         >> "${LOG_FILE}"
-echo "## variables"                                                                    >> "${LOG_FILE}"
-echo "#######################"                                                         >> "${LOG_FILE}"
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" >> "${LOG_FILE}"
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS"        >> "${LOG_FILE}"
+echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME_CONFIG"                        >> "${LOG_FILE}"
+echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"               >> "${LOG_FILE}"
+echo "#######################"                                                          >> "${LOG_FILE}"
+echo "## variables"                                                                     >> "${LOG_FILE}"
+echo "#######################"                                                          >> "${LOG_FILE}"
 echo "</code>"                                                                         >> "${LOG_FILE}"
-
+clear 
+echo "***"   
+echo "***  Welcome to  docker build  $BATCH_START_DATE_TIME "
+echo "***"   
+echo "*** You are about to start to build new waardepapieren images and containers "
+echo "***  FQDN = https://${CERT_HOST_IP} "
+echo "***  docker-tag = ${DOCKER_VERSION_TAG}"
+echo "***  AZURE ACI-resourcegroup=${AZ_RESOURCE_GROUP}" 
+echo "***" 
 echo "#######################"
 echo "## variables"
 echo "#######################"
 echo "LOG_DIR=${GITHUB_DIR}/LOG_DIR"
-echo "GIT_USER=${GIT_USER}"                                                            #=BoschPeter
-echo "GIT_REPO=$GIT_REPO"                                                              #=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
-echo "GITHUB_DIR=$GITHUB_DIR"                                                          #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
-echo "DOCKER_USER=$DOCKER_USER"                                                        #="boscp08"  #NB repository name must be lowercase  
-echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          #=" --build"
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 #=waardepapieren_mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     #=waardepapieren_waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     #=waardepapieren_clerk-frontend
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 #=waardepapieren-mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     #=waardepapieren-waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     #=waardepapieren-clerk-frontend
-echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          #="4.0"
-echo "AZURE_USER=$AZURE_USER"                                                          #=bosch.peter@outlook.com  
-echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
-echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                #=discipl  
-echo "TIMEZONE=$TIMEZONE"                                                             #=""
-echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME"                              #=2592001 #30 dagen
-echo "CERT_HOST_IP=$CERT_HOST_IP"                                                      #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
-echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"              #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
-echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                                      #=true  #cat content modified files to ${LOG_DIR}
-echo "MENU=$MENU"                                                                      #=true
+echo "GIT_USER=${GIT_USER}"                                                             #=BoschPeter
+echo "GIT_REPO=$GIT_REPO"                                                               #=AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io  #see befores
+echo "GITHUB_DIR=$GITHUB_DIR"                                                           #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
+echo "DOCKER_USER=$DOCKER_USER"                                                         #="boscp08"  #NB repository name must be lowercase  
+echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                           #=" --build"
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                  #=waardepapieren_mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"      #=waardepapieren_waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                      #=waardepapieren_clerk-frontend
+echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                  #=waardepapieren-mock-nlx
+echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"      #=waardepapieren-waardepapieren-service
+echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                      #=waardepapieren-clerk-frontend
+echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                           #="4.0"
+echo "AZURE_USER=$AZURE_USER"                                                           #=bosch.peter@outlook.com  
+echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                             #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
+echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                 #=discipl  
+echo "TIMEZONE=$TIMEZONE"                                                               #=""
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS" #=2592001 #30 dagen
+echo "EPHEMERAL_RETENTION_TIME_COMPOSE=$EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS"        #=2592001 #30 dagen
+echo "EPHEMERAL_RETENTION_TIME=$EPHEMERAL_RETENTION_TIME_CONFIG"                        #=2592001 #30 dagen
+echo "CERT_HOST_IP=$CERT_HOST_IP"                                                       #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
+echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"               #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
+echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                                       #=true  #cat content modified files to ${LOG_DIR}
+echo "MENU=$MENU"                                                                       #=true
 enter_cont
 clear
 
