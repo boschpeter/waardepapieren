@@ -170,10 +170,10 @@ show_menus() {
   echo "10. docker_system_prune                                     "  
   echo "11. get_curl_waardepapieren                                 "
   echo "12  show_parameters                                         "
-  echo "20. set_mock_nlx_dockerfile                                 " 
-  echo "21. set_docker_compose_travis_yml_without_volumes           "  
-  echo "22. set_clerk_frontend_dockerfile_without_volumes           "
-  echo "23. set_waardepapieren_service_dockerfile_without_volumes   " 
+  echo "20. set_docker_compose_travis_yml_without_volumes           "  
+  echo "21. set_Dockerfile_mock_nlx                                 " 
+  echo "22. set_Dockerfile_clerk_frontend_without_volumes           "
+  echo "23. set_Dockerfile_waardepapieren_service_without_volumewithout_volumess   " 
   echo "24. set_clerk_frontend_nginx_conf                           "
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
  # echo "26. set_waardepapieren_service_config_compose_json          "
@@ -207,8 +207,8 @@ show_menus() {
   echo "82. "
   echo "90. the_whole_sjebang                     "
   echo "91. set_docker_compose_travis_yml_with_volumes  "  
-  echo "92. set_clerk_frontend_dockerfile_with_volumes  "
-  echo "93. set_waardepapieren_service_dockerfile_with_volumes "
+  echo "92. set_Dockerfile_clerk_frontend_with_volumes  "
+  echo "93. set_Dockerfile_waardepapieren_service_with_volumes "
   echo "99. Exit"
 }
 # read input from the keyboard and take a action
@@ -220,51 +220,50 @@ read_options(){
 	local choice
 	read -p "Enter choice [ 1 - 99] " choice
 	case $choice in
-        10) docker_system_prune                                     ;;  
-        11) get_curl_waardepapieren                                 ;;
-        12) show_parameters                                         ;;
-        20) set_mock_nlx_dockerfile                                 ;;
-        21) set_docker_compose_travis_yml_without_volumes           ;;  
-        22) set_clerk_frontend_dockerfile_without_volumes           ;;
-        23) set_waardepapieren_service_dockerfile_without_volumes   ;; 
-        24) set_clerk_frontend_nginx_conf                           ;;
-        25) set_waardepapieren_service_config_compose_travis_json   ;;  
-#        26) set_waardepapieren_service_config_compose_json          ;;
-#        27) set_waardepapieren_service_config_json                  ;;
-        30) set_all_dockerfiles                                     ;;                        
-        40) docker_compose_images                                   ;; 
-        41) docker_build_images                                     ;;  
-        42) docker_tag_images                                       ;; 
-        43) docker_login                                            ;; 
-        44) docker_push_images                                      ;; 
-        50) azure_login                                             ;; 
-        51) set_azure_deploy_aci_yaml                               ;;
-        52) azure_delete_resourcegroup                              ;;
-        53) azure_create_resourcegroup                              ;; 
-        54) azure_create_containergroup                             ;; 
-        55) azure_restart_containergroup                            ;; 
-        60) bookmark_open https://github.com/BoschPeter/$GIT_REPO   ;;
-        61) bookmark_open https://hub.docker.com/?ref=login         ;; 
-        62) bookmark_open https://portal.azure.com/\#home           ;; 
-        63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
-        64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
+        10) docker_system_prune                                                    ;;  
+        11) get_curl_waardepapieren                                                ;;
+        12) show_parameters                                                        ;;
+        20) set_docker_compose_travis_yml_without_volumes                          ;;  
+        21) set_Dockerfile_mock_nlx                                                ;;
+        22) set_Dockerfile_clerk_frontend_without_volumes                          ;;
+        23) set_Dockerfile_waardepapieren_service_without_volumewithout_volumess   ;; 
+        24) set_clerk_frontend_nginx_conf                                          ;;
+        25) set_waardepapieren_service_config_compose_travis_json                  ;;  
+#        26) set_waardepapieren_service_config_compose_json                        ;;
+#        27) set_waardepapieren_service_config_json                                ;;
+        30) set_all_dockerfiles                                                    ;;                        
+        40) docker_compose_images                                                  ;; 
+        41) docker_build_images                                                    ;;  
+        42) docker_tag_images                                                      ;; 
+        43) docker_login                                                           ;; 
+        44) docker_push_images                                                     ;; 
+        50) azure_login                                                            ;; 
+        51) set_azure_deploy_aci_yaml                                              ;;
+        52) azure_delete_resourcegroup                                             ;;
+        53) azure_create_resourcegroup                                             ;; 
+        54) azure_create_containergroup                                            ;; 
+        55) azure_restart_containergroup                                           ;; 
+        60) bookmark_open https://github.com/BoschPeter/$GIT_REPO                  ;;
+        61) bookmark_open https://hub.docker.com/?ref=login                        ;; 
+        62) bookmark_open https://portal.azure.com/\#home                          ;; 
+        63) bookmark_open https://$CERT_HOST_IP:443                                ;; 
+        64) bookmark_open https://waardepapieren-demo.discipl.org                  ;;
         #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
-        #70)                                                        ;;
-        #71)                                                        ;;
-        #72)                                                        ;;
-        #73)                                                        ;;
-        #74)                                                        ;;
-        #75)                                                        ;;
-        #76)                                                        ;;
-        80) get_curl_bfg                                            ;;
-        81) 
-        82)
-        90) the_whole_sjebang                                       ;; 
-        91) set_docker_compose_travis_yml_with_volumes              ;;  
-        92) set_clerk_frontend_dockerfile_with_volumes              ;;
-        93) set_waardepapieren_service_dockerfile_with_volumes      ;;
-
-        99) Exit                                                    ;;
+        #70)                                                                       ;;
+        #71)                                                                       ;;
+        #72)                                                                   ß    ;;
+        #73)                                                                       ;;
+        #74)                                                                       ;;
+        #75)                                                                       ;;
+        #76)                                                                       ;;
+        80) get_curl_bfg                                                           ;;
+        81)                                                                        ;;
+        82)                                                                        ;;
+        90) the_whole_sjebang                                                      ;; 
+        91) set_docker_compose_travis_yml_with_volumes                             ;;  
+        92) set_Dockerfile_clerk_frontend_with_volumes                             ;;
+        93) set_Dockerfile_waardepapieren_service_with_volumes                     ;;
+        99) Exit                                                                   ;;
 		*) echo -e "${RED}Error...${STD}" && sleep 1
 	esac
 }
@@ -399,7 +398,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_mock_nlx_dockerfile() {  
+set_Dockerfile_mock_nlx() {  
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
 TT_INSPECT_FILE=Dockerfile
@@ -425,7 +424,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_clerk_frontend_dockerfile_with_volumes() {
+set_Dockerfile_clerk_frontend_with_volumes() {
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
@@ -458,7 +457,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_clerk_frontend_dockerfile_without_volumes() {
+set_Dockerfile_clerk_frontend_without_volumes() {
 echo "Running: "${FUNCNAME[0]}" $@ "
 TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
 TT_INSPECT_FILE=Dockerfile 
@@ -570,7 +569,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_waardepapieren_service_dockerfile_with_volumes() {
+set_Dockerfile_waardepapieren_service_with_volumes() {
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
@@ -599,7 +598,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_waardepapieren_service_dockerfile_without_volumes() {
+set_Dockerfile_waardepapieren_service_without_volumewithout_volumess() {
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
@@ -762,9 +761,9 @@ echo "Running: "${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 
 echo "set_docker_compose_travis_yml_without_volumes" 
-echo "set_clerk_frontend_dockerfile_without_volumes" 
-echo "set_waardepapieren_service_dockerfile_without_volumes" 
-echo "set_mock_nlx_dockerfile"       
+echo "set_Dockerfile_clerk_frontend_without_volumes" 
+echo "set_Dockerfile_waardepapieren_service_without_volumewithout_volumess" 
+echo "set_Dockerfile_mock_nlx"       
 echo "set_clerk_frontend_nginx_conf" 
 echo "set_waardepapieren_service_config_compose_travis_json"
 #echo "set_waardepapieren_service_config_compose_json"
@@ -774,12 +773,12 @@ echo "okay ?"
 echo enter
 
 #set_docker_compose_travis_yml_without_volumes 
-#set_clerk_frontend_dockerfile_without_volumes 
-#set_waardepapieren_service_dockerfile_without_volumes 
+#set_Dockerfile_clerk_frontend_without_volumes 
+#set_Dockerfile_waardepapieren_service_without_volumewithout_volumess 
 set_docker_compose_travis_yml_with_volumes 
-set_clerk_frontend_dockerfile_with_volumes 
-set_waardepapieren_service_dockerfile_with_volumes 
-set_mock_nlx_dockerfile       
+set_Dockerfile_clerk_frontend_with_volumes 
+set_Dockerfile_waardepapieren_service_with_volumes 
+set_Dockerfile_mock_nlx       
 set_clerk_frontend_nginx_conf 
 set_waardepapieren_service_config_compose_travis_json
 #set_waardepapieren_service_config_compose_json
@@ -878,6 +877,7 @@ fi
 # Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
 ##################################################################
 
+get_curl_waardepapieren() {
 
 create_logfile_header "${FUNCNAME[0]}" $@
 clear
