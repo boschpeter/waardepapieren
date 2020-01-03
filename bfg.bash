@@ -103,6 +103,15 @@ if [ "$1" = "mm" ]
     CERT_HOST_IP_WP_SERVICE_HOSTNAME=$3
     IFS=. url_components=($3##*-})
     AZ_DNSNAMELABEL=${url_components[0]} #discipl (.westeurope.cloudapp.azure.com)
+   else 
+    MENU=true
+    echo "~~~~~~~~~~~~~~~~~~~~~"	
+    DOCKER_VERSION_TAG=""
+    AZ_RESOURCE_GROUP=""
+    CERT_HOST_IP=""            ß
+    CERT_HOST_IP_WP_SERVICE_HOSTNAME=""
+    echo "~~~~~~~~~~~~~~~~~~~~~"	
+
 fi
 
 # if [ ${PROMPT} = true ] 
@@ -165,8 +174,10 @@ pause(){
 show_menus() {
 	
 	echo "~~~~~~~~~~~~~~~~~~~~~"	
-	echo " M A I N - M E N U"
-	echo "~~~~~~~~~~~~~~~~~~~~~"
+	echo " M A I N - M E N U "
+  echo "~~~~~~~~~~~~~~~~~~~~~"
+  echo "https://$CERT_HOST_IP:443  DOCKER-VERSION_TAG=$DOCKER_VERSION_TAG " 
+  echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "10. docker_system_prune                                     "  
   echo "11. get_curl_waardepapieren                                 "
   echo "12  show_parameters                                         "
@@ -176,36 +187,38 @@ show_menus() {
   echo "23. set_Dockerfile_waardepapieren_service_without_volumewithout_volumess   " 
   echo "24. set_clerk_frontend_nginx_conf                           "
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
- # echo "26. set_waardepapieren_service_config_compose_json          "
- # echo "27. set_waardepapieren_service_config_json                  "  
-  echo "30. set_all_dockerfiles          $CERT_HOST_IP               "                         
+  echo "30. set_all_Dockerfiles          $CERT_HOST_IP               "                         
+  echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
   echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
   echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
   echo "43. docker_login                 $DOCKER_USER               " 
   echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
+  echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "50. azure_login                  $AZURE_USER                "  
   echo "51  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
   echo "52. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
   echo "53. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
   echo "54. azure_create_containergroup  $AZ_RESOURCE_GROUP         " 
   echo "55. azure_restart_containergroup $AZ_RESOURCE_GROUP         " 
+  echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "60. https://github.com/BoschPeter/$GIT_REPO   "
   echo "61. https://hub.docker.com/?ref=login         " 
   echo "62. https://portal.azure.com/\#home           " 
   echo "63. https://$CERT_HOST_IP:443                 " 
   echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
-	echo "70   "
-  echo "71   "
-  echo "72   "
-  echo "73   "
-  echo "74   "
-  echo "75   "
-  echo "76   "
-  echo "80. get_this_batchfile_generator latest  [bfg.bash mm 1 localhost]" 
+	echo "~~~~~~~~~~~~~~~~~~~~~"	
+  echo "70  . bfg.bash mm 0 localhost "
+  echo "71  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com "
+  echo "72  . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com "
+  echo "73  . bfg.bash mm 2 waardepapieren-demo.westeurope.azurecontainer.io"
+  echo "74  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
+  echo "79.   get_this_batchfile_generator latest from repo " 
+  echo "~~~~~~~~~~~~~~~~~~~~~"	
+  echo "80. the_whole_sjebang                     "
   echo "81. " 
   echo "82. "
-  echo "90. the_whole_sjebang                     "
+  echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "91. set_docker_compose_travis_yml_with_volumes  "  
   echo "92. set_Dockerfile_clerk_frontend_with_volumes  "
   echo "93. set_Dockerfile_waardepapieren_service_with_volumes "
@@ -229,9 +242,7 @@ read_options(){
         23) set_Dockerfile_waardepapieren_service_without_volumewithout_volumess   ;; 
         24) set_clerk_frontend_nginx_conf                                          ;;
         25) set_waardepapieren_service_config_compose_travis_json                  ;;  
-#        26) set_waardepapieren_service_config_compose_json                        ;;
-#        27) set_waardepapieren_service_config_json                                ;;
-        30) set_all_dockerfiles                                                    ;;                        
+        30) set_all_Dockerfiles                                                    ;;                        
         40) docker_compose_images                                                  ;; 
         41) docker_build_images                                                    ;;  
         42) docker_tag_images                                                      ;; 
@@ -249,17 +260,13 @@ read_options(){
         63) bookmark_open https://$CERT_HOST_IP:443                                ;; 
         64) bookmark_open https://waardepapieren-demo.discipl.org                  ;;
         #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
-        #70)                                                                       ;;
-        #71)                                                                       ;;
-        #72)                                                                   ß    ;;
-        #73)                                                                       ;;
-        #74)                                                                       ;;
-        #75)                                                                       ;;
-        #76)                                                                       ;;
-        80) get_curl_bfg                                                           ;;
-        81)                                                                        ;;
-        82)                                                                        ;;
-        90) the_whole_sjebang                                                      ;; 
+        70) bfg_bash_mm_0_localhost                                                ;;
+        71) bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com        ;;
+        72) bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com        ;;
+        73) bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io         ;;
+        74) bfg_bash_mm_4_discipl_westeurope_azurecontainer_io                     ;;
+        79) get_curl_bfg                                                           ;;
+        80) the_whole_sjebang                                                      ;; 
         91) set_docker_compose_travis_yml_with_volumes                             ;;  
         92) set_Dockerfile_clerk_frontend_with_volumes                             ;;
         93) set_Dockerfile_waardepapieren_service_with_volumes                     ;;
@@ -285,8 +292,59 @@ done
 }
 
 ##################################################################
+# Purpose: kickstarters localhost
+# Arguments:  . bfg.bash mm 0 localhost
+# Return: https://localhost
+##################################################################
+bfg_bash_mm_0_localhost() {
+cd $GITHUB_DIR
+./bfg.bash mm 0 localhost
+}
+
+##################################################################
+# Purpose: kickstarters  AZURE VM
+# Arguments:  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
+# Return: https://waardepapieren-demo.westeurope.cloudapp.azure.com
+##################################################################
+bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com(){
+cd $GITHUB_DIR
+. bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
+}
+
+##################################################################
+# Purpose: kickstarters AZURE VM
+# Arguments:  . bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com
+# Return: https://discipl.westeurope.cloudapp.azure.com
+##################################################################
+bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com(){
+cd $GITHUB_DIR
+. bfg.bash mm 2 waardepapieren-demo.westeurope.cloudapp.azure.com 
+}
+
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance  
+# Arguments:  . bfg.bash mm 3 waardepapieren-demo.w 
+# Return: https://waardepapieren-demo.westeurepe.azurecontainer.io
+##################################################################
+bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+. bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io
+}
+ 
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance  
+# Arguments:  . bfg.bash mm 4 discipl.westeurepe.azurecontainer.io 
+# Return: https://discipl.westeurepe.azurecontainer.io
+##################################################################
+bfg_bash_mm_4_discipl_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+. bfg.bash mm 4 discipl.westeurope.azurecontainer.io  
+}
+
+
+##################################################################
 # Purpose: set docker-compose-travis.yml 
-# Arguments: 
+# Arguments: .
 # Return: 
 ##################################################################
 set_docker_compose_travis_yml_with_volumes() {
@@ -295,10 +353,6 @@ TT_DIRECTORY=${GITHUB_DIR}
 TT_INSPECT_FILE=docker-compose-travis.yml 
 enter_touch "${FUNCNAME[0]}" $@
 
-#echo "hai...."
-#echo $TT_DIRECTORY
-#echo "TT_INSPECT_FILE=$TT_INSPECT_FILE"
-#enter_cont
 cd $TT_DIRECTORY
 echo "version: '3'
 services:
@@ -756,7 +810,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_all_dockerfiles() {
+set_all_Dockerfiles() {
 echo "Running: "${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 
@@ -1883,7 +1937,7 @@ tt() {
 
 if [ "$1" = "" ] 
  then echo "geen input gespecificeerd" 
-  echo "sad=set_all_dockerfiles"
+  echo "sad=set_all_Dockerfiles"
   echo "dci=docker_compose_images"
   echo "dti=docker_tag_images"
   echo "dpi=docker_push_images"
@@ -1897,14 +1951,14 @@ fi
 
 if [ "$1" = "sad" ] 
  then 
-echo "set_all_dockerfiles" 
+echo "set_all_Dockerfiles" 
 fi
 
 if [ "$1" = "sad" ] 
  then 
-echo "sad=set_all_dockerfiles"
+echo "sad=set_all_Dockerfiles"
 enter_cont
-set_all_dockerfiles
+set_all_Dockerfiles
  fi
   
   if [ "$1" = "dci" ] 
