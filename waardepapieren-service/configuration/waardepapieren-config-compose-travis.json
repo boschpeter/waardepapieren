@@ -1,13 +1,13 @@
-{
-  "EPHEMERAL_ENDPOINT" : "https://localhost:3232",
-  "EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://localhost:3232",
-  "EPHEMERAL_CERT": "/ephemeral-certs/org.crt",
-  "EPHEMERAL_KEY": "/ephemeral-certs/org.key",
-  "NLX_OUTWAY_ENDPOINT" : "http://mock-nlx:80",
+ {
+   "EPHEMERAL_ENDPOINT" : "https://localhost:3232",
+   "EPHEMERAL_WEBSOCKET_ENDPOINT" : "wss://localhost:3232",
+   "EPHEMERAL_CERT": "/ephemeral-certs/org.crt",
+   "EPHEMERAL_KEY": "/ephemeral-certs/org.key",
+  "NLX_OUTWAY_ENDPOINT" : "http://localhost:80",
   "NLX_CERT": "/certs/org.crt",
   "NLX_KEY": "/certs/org.key",
   "LOG_LEVEL": "info",
-  "EPHEMERAL_RETENTION_TIME": 86400,
+  "EPHEMERAL_RETENTION_TIME": 2592020,
   "PRODUCT_NEED" : "BRP_UITTREKSEL_NEED",
   "SOURCE_NLX_PATH" : "/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}",
   "SOURCE_ARGUMENT" : "BSN",
@@ -19,4 +19,4 @@
     {"Burgerservicenummer (BSN)" : "burgerservicenummer"},
     {"Woonplaats verblijfadres" : "verblijfadres.woonplaats"}
   ]
-}
+} 

@@ -89,6 +89,7 @@ DOCKER_USER=boscp08
 AZURE_USER=bosch.peter@outlook.com
 GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
 
+
 DOUBLE_CHECK=true  
 WRITE_CODE=true
 PROMPT=true # echo parameters
@@ -826,13 +827,15 @@ echo "set_azure_deploy_aci_yaml"
 echo "okay ?"
 echo enter
 
-#set_docker_compose_travis_yml_without_volumes 
-#set_Dockerfile_clerk_frontend_without_volumes 
-#set_Dockerfile_waardepapieren_service_without_volumewithout_volumess 
-set_docker_compose_travis_yml_with_volumes 
-set_Dockerfile_clerk_frontend_with_volumes 
-set_Dockerfile_waardepapieren_service_with_volumes 
+set_docker_compose_travis_yml_without_volumes 
 set_Dockerfile_mock_nlx       
+set_Dockerfile_clerk_frontend_without_volumes 
+set_Dockerfile_waardepapieren_service_without_volumewithout_volumess 
+
+#set_docker_compose_travis_yml_with_volumes 
+#set_Dockerfile_clerk_frontend_with_volumes 
+#set_Dockerfile_waardepapieren_service_with_volumes 
+
 set_clerk_frontend_nginx_conf 
 set_waardepapieren_service_config_compose_travis_json
 #set_waardepapieren_service_config_compose_json
@@ -1738,8 +1741,8 @@ az login -u bosch.peter@outlook.com -p 0lifanten
 # Arguments: 
 # Return: variables
 ##################################################################
-docker_login () {
-docker login -u $DOCKER_USER  -p $DOCKER_PWD 
+docker_login() {
+docker login -u $DOCKER_USER
 # docker container 
 #  attach      Attach local standard input, output, and error streams to a running container
 #  commit      Create a new image from a container's changes
@@ -2015,6 +2018,7 @@ set_all_Dockerfiles
 #######################
 create_directories  
 create_logdir
+set_credentials
 clear 
 
 BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
