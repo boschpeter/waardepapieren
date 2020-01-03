@@ -132,23 +132,17 @@ EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen
 #'Below the functions that are called by other functions
 # modify at your own peril! because of configuration drift   100% generation
 
-# ----------------------------------
-# Step 2 : Docker setters
-# ----------------------------------
-
-
-
-
-
 ##################################################################
-# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
-# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
-# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+# Purpose: get latests batch file generator from repo
+# Arguments:  
+# Return: 
 ##################################################################
 
 get_curl_bfg() {
-
-
+cd $GITHUB_DIR
+curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+#.bfg.bash mm 2 waardepapieren-demo.westeurope.cloudapp.azure.com
+}
 
 ##################################################################
 # Purpose: show main menu 
@@ -201,11 +195,20 @@ show_menus() {
   echo "62. https://portal.azure.com/\#home           " 
   echo "63. https://$CERT_HOST_IP:443                 " 
   echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
-	echo "#  sjebang "
-  echo "90. set_docker_compose_travis_yml_with_volumes  "  
-  echo "91. set_clerk_frontend_dockerfile_with_volumes  "
-  echo "92. set_waardepapieren_service_dockerfile_with_volumes "
-  echo "93. the_whole_sjebang                     "
+	echo "70   "
+  echo "71   "
+  echo "72   "
+  echo "73   "
+  echo "74   "
+  echo "75   "
+  echo "76   "
+  echo "80. get_this_batchfile_generator latest  [bfg.bash mm 1 localhost]" 
+  echo "81. " 
+  echo "82. "
+  echo "90. the_whole_sjebang                     "
+  echo "91. set_docker_compose_travis_yml_with_volumes  "  
+  echo "92. set_clerk_frontend_dockerfile_with_volumes  "
+  echo "93. set_waardepapieren_service_dockerfile_with_volumes "
   echo "99. Exit"
 }
 # read input from the keyboard and take a action
@@ -246,10 +249,21 @@ read_options(){
         63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
         64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
         #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
-        90) set_docker_compose_travis_yml_with_volumes              ;;  
-        91) set_clerk_frontend_dockerfile_with_volumes              ;;
-        92) set_waardepapieren_service_dockerfile_with_volumes      ;;
-        93) the_whole_sjebang                                       ;; 
+        #70)                                                        ;;
+        #71)                                                        ;;
+        #72)                                                        ;;
+        #73)                                                        ;;
+        #74)                                                        ;;
+        #75)                                                        ;;
+        #76)                                                        ;;
+        80) get_curl_bfg                                            ;;
+        81) 
+        82)
+        90) the_whole_sjebang                                       ;; 
+        91) set_docker_compose_travis_yml_with_volumes              ;;  
+        92) set_clerk_frontend_dockerfile_with_volumes              ;;
+        93) set_waardepapieren_service_dockerfile_with_volumes      ;;
+
         99) Exit                                                    ;;
 		*) echo -e "${RED}Error...${STD}" && sleep 1
 	esac
