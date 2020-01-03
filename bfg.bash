@@ -136,49 +136,140 @@ EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen
 # Step 2 : Docker setters
 # ----------------------------------
 
+
+
+
+
 ##################################################################
 # Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
 # Arguments:  on the top right corner you can see the option to open the file in raw mode. 
 # Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
 ##################################################################
 
-get_curl_waardepapieren (){
-
-create_logfile_header "${FUNCNAME[0]}" $@
-clear
-echo "-- Running:"${FUNCNAME[0]}" $@"   >> "${LOG_FILE}"
-curl -o ${GITHUB_DIR}/docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
-stat ${GITHUB_DIR}/docker-compose-travis.yml                           >> "${LOG_FILE}"
-
-curl -o ${GITHUB_DIR}/mock-nlx/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
-stat    ${GITHUB_DIR}/mock-nlx/Dockerfile                              >> "${LOG_FILE}"
-
-curl -o ${GITHUB_DIR}/clerk-frontend/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
-stat    ${GITHUB_DIR}/clerk-frontend/Dockerfile                        >> "${LOG_FILE}"
+get_curl_bfg() {
 
 
 
-curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/nginx/nginx.conf"
-stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG_FILE}"
+##################################################################
+# Purpose: show main menu 
+# Arguments: 
+# Return: 
+##################################################################
+show_main_menu(){
+clear 
 
-curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
-stat    ${GITHUB_DIR}/waardepapieren-service/Dockerfile                 >> "${LOG_FILE}"
+# A menu driven shell script 
+#"A menu is nothing but a list of commands presented to a user by a shell script"
 
-curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/discipl/waardepapieren/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
-stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
-clear
+# ----------------------------------
+# Step: User defined function
+# ----------------------------------
+pause(){
+  read -p "Press [Enter] key to continue..." fackEnterKey
+} 
+# function to display menus
+show_menus() {
+	
+	echo "~~~~~~~~~~~~~~~~~~~~~"	
+	echo " M A I N - M E N U"
+	echo "~~~~~~~~~~~~~~~~~~~~~"
+  echo "10. docker_system_prune                                     "  
+  echo "11. get_curl_waardepapieren                                 "
+  echo "12  show_parameters                                         "
+  echo "20. set_mock_nlx_dockerfile                                 " 
+  echo "21. set_docker_compose_travis_yml_without_volumes           "  
+  echo "22. set_clerk_frontend_dockerfile_without_volumes           "
+  echo "23. set_waardepapieren_service_dockerfile_without_volumes   " 
+  echo "24. set_clerk_frontend_nginx_conf                           "
+  echo "25. set_waardepapieren_service_config_compose_travis_json   "  
+ # echo "26. set_waardepapieren_service_config_compose_json          "
+ # echo "27. set_waardepapieren_service_config_json                  "  
+  echo "30. set_all_dockerfiles          $CERT_HOST_IP               "                         
+  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
+  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
+  echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
+  echo "43. docker_login                 $DOCKER_USER               " 
+  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
+  echo "50. azure_login                  $AZURE_USER                "  
+  echo "51  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
+  echo "52. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
+  echo "53. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
+  echo "54. azure_create_containergroup  $AZ_RESOURCE_GROUP         " 
+  echo "55. azure_restart_containergroup $AZ_RESOURCE_GROUP         " 
+  echo "60. https://github.com/BoschPeter/$GIT_REPO   "
+  echo "61. https://hub.docker.com/?ref=login         " 
+  echo "62. https://portal.azure.com/\#home           " 
+  echo "63. https://$CERT_HOST_IP:443                 " 
+  echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
+	echo "#  sjebang "
+  echo "90. set_docker_compose_travis_yml_with_volumes  "  
+  echo "91. set_clerk_frontend_dockerfile_with_volumes  "
+  echo "92. set_waardepapieren_service_dockerfile_with_volumes "
+  echo "93. the_whole_sjebang                     "
+  echo "99. Exit"
+}
+# read input from the keyboard and take a action
+# invoke the one() when the user select 1 from the menu option.
+# invoke the two() when the user select 2 from the menu option.
+# Exit when user the user select 100 form the menu option.
 
-curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json  "https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
-stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json                  >> "${LOG_FILE}"
-
-curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
-stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json                           >> "${LOG_FILE}"
-
-
-create_logfile_footer "${FUNCNAME[0]}" $@
-
+read_options(){
+	local choice
+	read -p "Enter choice [ 1 - 99] " choice
+	case $choice in
+        10) docker_system_prune                                     ;;  
+        11) get_curl_waardepapieren                                 ;;
+        12) show_parameters                                         ;;
+        20) set_mock_nlx_dockerfile                                 ;;
+        21) set_docker_compose_travis_yml_without_volumes           ;;  
+        22) set_clerk_frontend_dockerfile_without_volumes           ;;
+        23) set_waardepapieren_service_dockerfile_without_volumes   ;; 
+        24) set_clerk_frontend_nginx_conf                           ;;
+        25) set_waardepapieren_service_config_compose_travis_json   ;;  
+#        26) set_waardepapieren_service_config_compose_json          ;;
+#        27) set_waardepapieren_service_config_json                  ;;
+        30) set_all_dockerfiles                                     ;;                        
+        40) docker_compose_images                                   ;; 
+        41) docker_build_images                                     ;;  
+        42) docker_tag_images                                       ;; 
+        43) docker_login                                            ;; 
+        44) docker_push_images                                      ;; 
+        50) azure_login                                             ;; 
+        51) set_azure_deploy_aci_yaml                               ;;
+        52) azure_delete_resourcegroup                              ;;
+        53) azure_create_resourcegroup                              ;; 
+        54) azure_create_containergroup                             ;; 
+        55) azure_restart_containergroup                            ;; 
+        60) bookmark_open https://github.com/BoschPeter/$GIT_REPO   ;;
+        61) bookmark_open https://hub.docker.com/?ref=login         ;; 
+        62) bookmark_open https://portal.azure.com/\#home           ;; 
+        63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
+        64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
+        #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
+        90) set_docker_compose_travis_yml_with_volumes              ;;  
+        91) set_clerk_frontend_dockerfile_with_volumes              ;;
+        92) set_waardepapieren_service_dockerfile_with_volumes      ;;
+        93) the_whole_sjebang                                       ;; 
+        99) Exit                                                    ;;
+		*) echo -e "${RED}Error...${STD}" && sleep 1
+	esac
 }
 
+# ----------------------------------------------
+# Step #3: Trap CTRL+C, CTRL+Z and quit singles
+# ----------------------------------------------
+#trap '' SIGINT SIGQUIT SIGTSTP
+
+# -----------------------------------
+# Step #4: Main logic - infinite loop
+# ------------------------------------
+while true
+do
+	show_menus
+	read_options
+done
+
+}
 
 ##################################################################
 # Purpose: set docker-compose-travis.yml 
@@ -749,8 +840,14 @@ type: Microsoft.ContainerInstance/containerGroups" > "${TT_INSPECT_FILE}"
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
+
+
+
+
+
+
 # -----------------------------------
-# Main logic  below
+# Main-Menu logic  below
 # ------------------------------------
 #'# Structured programming:
 #'# Entire program logic modularized in User defined function
@@ -761,7 +858,47 @@ if ! [ "$the_world_is_flat" = true ] ; then
     echo 'Be careful not to fall off!'
 fi
 
+#################################################################
+# Purpose:Copy the specific file's raw link from GitHub.(As you open the file in Github, 
+# Arguments:  on the top right corner you can see the option to open the file in raw mode. 
+# Return: Open it in raw mode and copy the URL) curl -o filename raw-link-to-file
+##################################################################
 
+
+create_logfile_header "${FUNCNAME[0]}" $@
+clear
+echo "-- Running:"${FUNCNAME[0]}" $@"   >> "${LOG_FILE}"
+curl -o ${GITHUB_DIR}/docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
+stat ${GITHUB_DIR}/docker-compose-travis.yml                           >> "${LOG_FILE}"
+
+curl -o ${GITHUB_DIR}/mock-nlx/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
+stat    ${GITHUB_DIR}/mock-nlx/Dockerfile                              >> "${LOG_FILE}"
+
+curl -o ${GITHUB_DIR}/clerk-frontend/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
+stat    ${GITHUB_DIR}/clerk-frontend/Dockerfile                        >> "${LOG_FILE}"
+
+
+
+curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/nginx/nginx.conf"
+stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG_FILE}"
+
+curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
+stat    ${GITHUB_DIR}/waardepapieren-service/Dockerfile                 >> "${LOG_FILE}"
+
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/discipl/waardepapieren/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
+clear
+
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json  "https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json                  >> "${LOG_FILE}"
+
+curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
+stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json                           >> "${LOG_FILE}"
+
+
+create_logfile_footer "${FUNCNAME[0]}" $@
+
+}
 
 # /////////////////////////////////////////////////////////////////////////////////
 #  Create a Header in the logfile
@@ -1296,7 +1433,7 @@ create_logfile_footer
 # Arguments: docker push -t boscp08/waardepapieren_service   
 # Return: Ship to docker registry docker.hub.com
 ##################################################################
-docker_commit () {
+docker_commit() {
 echo "Running:"${FUNCNAME[0]}" $@"
 #create_logfile_header "${FUNCNAME[0]}" $@
 #docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}  
@@ -1310,7 +1447,7 @@ create_logfile_footer
 # Arguments: docker push -t boscp08/waardepapieren_service   
 # Return: Ship to docker registry docker.hub.com
 ##################################################################
-docker_commit_containers () {
+docker_commit_containers() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}  
@@ -1802,126 +1939,7 @@ set_all_dockerfiles
 }
 
 
-##################################################################
-# Purpose: show main menu 
-# Arguments: 
-# Return: 
-##################################################################
-show_main_menu(){
-clear 
 
-# A menu driven shell script 
-#"A menu is nothing but a list of commands presented to a user by a shell script"
-
-# ----------------------------------
-# Step: User defined function
-# ----------------------------------
-pause(){
-  read -p "Press [Enter] key to continue..." fackEnterKey
-} 
-# function to display menus
-show_menus() {
-	
-	echo "~~~~~~~~~~~~~~~~~~~~~"	
-	echo " M A I N - M E N U"
-	echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "10. docker_system_prune                                     "  
-  echo "11. get_curl_waardepapieren                                 "
-  echo "12  show_parameters                                         "
-  echo "20. set_mock_nlx_dockerfile                                 " 
-  echo "21. set_docker_compose_travis_yml_without_volumes           "  
-  echo "22. set_clerk_frontend_dockerfile_without_volumes           "
-  echo "23. set_waardepapieren_service_dockerfile_without_volumes   " 
-  echo "24. set_clerk_frontend_nginx_conf                           "
-  echo "25. set_waardepapieren_service_config_compose_travis_json   "  
- # echo "26. set_waardepapieren_service_config_compose_json          "
- # echo "27. set_waardepapieren_service_config_json                  "  
-  echo "30. set_all_dockerfiles          $CERT_HOST_IP               "                         
-  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
-  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
-  echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
-  echo "43. docker_login                 $DOCKER_USER               " 
-  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
-  echo "50. azure_login                  $AZURE_USER                "  
-  echo "51  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
-  echo "52. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
-  echo "53. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         " 
-  echo "54. azure_create_containergroup  $AZ_RESOURCE_GROUP         " 
-  echo "55. azure_restart_containergroup $AZ_RESOURCE_GROUP         " 
-  echo "60. https://github.com/BoschPeter/$GIT_REPO   "
-  echo "61. https://hub.docker.com/?ref=login         " 
-  echo "62. https://portal.azure.com/\#home           " 
-  echo "63. https://$CERT_HOST_IP:443                 " 
-  echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651" 
-	echo "#  sjebang "
-  echo "90. set_docker_compose_travis_yml_with_volumes  "  
-  echo "91. set_clerk_frontend_dockerfile_with_volumes  "
-  echo "92. set_waardepapieren_service_dockerfile_with_volumes "
-  echo "93. the_whole_sjebang                     "
-  echo "99. Exit"
-}
-# read input from the keyboard and take a action
-# invoke the one() when the user select 1 from the menu option.
-# invoke the two() when the user select 2 from the menu option.
-# Exit when user the user select 100 form the menu option.
-
-read_options(){
-	local choice
-	read -p "Enter choice [ 1 - 99] " choice
-	case $choice in
-        10) docker_system_prune                                     ;;  
-        11) get_curl_waardepapieren                                 ;;
-        12) show_parameters                                         ;;
-        20) set_mock_nlx_dockerfile                                 ;;
-        21) set_docker_compose_travis_yml_without_volumes           ;;  
-        22) set_clerk_frontend_dockerfile_without_volumes           ;;
-        23) set_waardepapieren_service_dockerfile_without_volumes   ;; 
-        24) set_clerk_frontend_nginx_conf                           ;;
-        25) set_waardepapieren_service_config_compose_travis_json   ;;  
-#        26) set_waardepapieren_service_config_compose_json          ;;
-#        27) set_waardepapieren_service_config_json                  ;;
-        30) set_all_dockerfiles                                     ;;                        
-        40) docker_compose_images                                   ;; 
-        41) docker_build_images                                     ;;  
-        42) docker_tag_images                                       ;; 
-        43) docker_login                                            ;; 
-        44) docker_push_images                                      ;; 
-        50) azure_login                                             ;; 
-        51) set_azure_deploy_aci_yaml                               ;;
-        52) azure_delete_resourcegroup                              ;;
-        53) azure_create_resourcegroup                              ;; 
-        54) azure_create_containergroup                             ;; 
-        55) azure_restart_containergroup                            ;; 
-        60) bookmark_open https://github.com/BoschPeter/$GIT_REPO   ;;
-        61) bookmark_open https://hub.docker.com/?ref=login         ;; 
-        62) bookmark_open https://portal.azure.com/\#home           ;; 
-        63) bookmark_open https://$CERT_HOST_IP:443                 ;; 
-        64) bookmark_open https://waardepapieren-demo.discipl.org   ;;
-        #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
-        90) set_docker_compose_travis_yml_with_volumes              ;;  
-        91) set_clerk_frontend_dockerfile_with_volumes              ;;
-        92) set_waardepapieren_service_dockerfile_with_volumes      ;;
-        93) the_whole_sjebang                                       ;; 
-        99) Exit                                                    ;;
-		*) echo -e "${RED}Error...${STD}" && sleep 1
-	esac
-}
-
-# ----------------------------------------------
-# Step #3: Trap CTRL+C, CTRL+Z and quit singles
-# ----------------------------------------------
-#trap '' SIGINT SIGQUIT SIGTSTP
-
-# -----------------------------------
-# Step #4: Main logic - infinite loop
-# ------------------------------------
-while true
-do
-	show_menus
-	read_options
-done
-
-}
 
 #######################
 ## M A I N
