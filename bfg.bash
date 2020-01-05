@@ -185,7 +185,7 @@ show_menus() {
   echo "20. set_docker_compose_travis_yml_without_volumes           "  
   echo "21. set_Dockerfile_mock_nlx                                 " 
   echo "22. set_Dockerfile_clerk_frontend_without_volumes           "
-  echo "23. set_Dockerfile_waardepapieren_service_without_volumewithout_volumess   " 
+  echo "23. set_Dockerfile_waardepapieren_without_volumes  " 
   echo "24. set_clerk_frontend_nginx_conf                           "
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
   echo "30. set_all_Dockerfiles          $CERT_HOST_IP               "                         
@@ -240,7 +240,7 @@ read_options(){
         20) set_docker_compose_travis_yml_without_volumes                          ;;  
         21) set_Dockerfile_mock_nlx                                                ;;
         22) set_Dockerfile_clerk_frontend_without_volumes                          ;;
-        23) set_Dockerfile_waardepapieren_service_without_volumewithout_volumess   ;; 
+        23) set_Dockerfile_waardepapieren_without_volumes  ;; 
         24) set_clerk_frontend_nginx_conf                                          ;;
         25) set_waardepapieren_service_config_compose_travis_json                  ;;  
         30) set_all_Dockerfiles                                                    ;;                        
@@ -830,7 +830,7 @@ echo enter
 set_docker_compose_travis_yml_without_volumes 
 set_Dockerfile_mock_nlx       
 set_Dockerfile_clerk_frontend_without_volumes 
-set_Dockerfile_waardepapieren_service_without_volumewithout_volumess 
+set_Dockerfile_waardepapieren_without_volumes
 
 #set_docker_compose_travis_yml_with_volumes 
 #set_Dockerfile_clerk_frontend_with_volumes 
