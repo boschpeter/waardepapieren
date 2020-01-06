@@ -174,10 +174,11 @@ show_menus() {
   echo "30. set_all_Dockerfiles          $CERT_HOST_IP               "                         
   echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  " 
-  echo "41. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
-  echo "42. docker_tag_images            $DOCKER_VERSION_TAG        " 
-  echo "43. docker_login                 $DOCKER_USER               " 
-  echo "44. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
+  echo "41. docker_compose_down          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "  
+  echo "42. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"  
+  echo "43. docker_tag_images            $DOCKER_VERSION_TAG        " 
+  echo "44. docker_login                 $DOCKER_USER               " 
+  echo "45. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} " 
   echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "50. azure_login                  $AZURE_USER                "  
   echo "51  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           " 
@@ -228,10 +229,11 @@ read_options(){
         25) set_waardepapieren_service_config_compose_travis_json                  ;;  
         30) set_all_Dockerfiles                                                    ;;                        
         40) docker_compose_images                                                  ;; 
-        41) docker_build_images                                                    ;;  
-        42) docker_tag_images                                                      ;; 
-        43) docker_login                                                           ;; 
-        44) docker_push_images                                                     ;; 
+        41) docker_compose_down                                                    ;; 
+        42) docker_build_images                                                    ;;  
+        43) docker_tag_images                                                      ;; 
+        44) docker_login                                                           ;; 
+        45) docker_push_images                                                     ;; 
         50) azure_login                                                            ;; 
         51) set_azure_deploy_aci_yaml                                              ;;
         52) azure_delete_resourcegroup                                             ;;
@@ -530,7 +532,7 @@ RUN npm install --unsafe-perm
 ADD public /app/public
 ADD src /app/src
 ARG CERTIFICATE_HOST
-ENV REACT_APP_CERTIFICATE_HOST=${CERTIFICATE_HOST}
+ENV REACT_APP_CERTIFICATE_HOST=http://${CERT_HOST_IP}:8880
 RUN npm run build
 FROM nginx:1.15.8
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
@@ -540,7 +542,6 @@ ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime && echo Europe/Amsterdam > /etc/timezone
 ENV REACT_APP_EPHEMERAL_ENDPOINT=https://${CERT_HOST_IP}:443/api/eph
 ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://${CERT_HOST_IP}:443/api/eph-ws
-ENV REACT_APP_CERTIFICATE_HOST=http://${CERT_HOST_IP}:8880
 RUN mkdir /etc/nginx/certs
 ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
 ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > "${TT_INSPECT_FILE}" 
@@ -647,7 +648,6 @@ http {
 check_check_doublecheck  "${FUNCNAME[0]}" $@ 
 
 } 
-
 
 ##################################################################
 # Purpose: 
@@ -1279,8 +1279,20 @@ docker_compose_images() {
 cd ${GITHUB_DIR}
 docker-compose -f docker-compose-travis.yml up --build
 
-
 }
+
+##################################################################
+# Purpose:  Procedure to build the waardepapieren images and run containers.  
+# Arguments: docker-compose -f docker-compose-travis.yml up   (docker-compose=thirdparty tool)
+# Return: ctrl c gracefully down the 3 containers  
+##################################################################
+docker_compose_down() {
+cd ${GITHUB_DIR}
+docker-compose -f docker-compose-travis.yml down
+
+} 
+
+
 #################################################################
 # Purpose:  Procedure to build the mock-nlx image
 # Arguments: docker_build_image mock-nlx boscp08 waardepapieren_mock_nlx 1.0 
