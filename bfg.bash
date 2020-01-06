@@ -1757,7 +1757,7 @@ APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
 ##################################################################
 bfg_bash_mm_0_localhost() {
 cd $GITHUB_DIR
-./bfg.bash mm 0 localhost
+. bfg.bash mm 1 localhost
 }
 
 ##################################################################
