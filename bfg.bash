@@ -1357,9 +1357,9 @@ arg4=$4 #${DOCKER_VERSION_TAG}
 docker_tag_images() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${MOCK_NLX}} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
-docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
-docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${CLERK_FRONTEND}} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
+docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
+docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
+docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
 docker images | grep  ${DOCKER_VERSION_TAG}
 docker images | grep  ${DOCKER_VERSION_TAG}     >> ${LOG_DIR}
 create_logfile_footer "${FUNCNAME[0]}" $@
