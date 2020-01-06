@@ -88,7 +88,6 @@ DOCKER_USER=boscp08
 AZURE_USER=bosch.peter@outlook.com
 GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
 
-
 DOUBLE_CHECK=true  
 WRITE_CODE=true
 PROMPT=true # echo parameters
@@ -111,7 +110,6 @@ if [ "$1" = "mm" ]
     CERT_HOST_IP=""            ß
     CERT_HOST_IP_WP_SERVICE_HOSTNAME=""
     echo "~~~~~~~~~~~~~~~~~~~~~"	
-
 fi
 
 MOCK_NLX="mock-nlx"
@@ -147,7 +145,6 @@ curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/mas
 ##################################################################
 show_main_menu(){
 clear 
-
 # A menu driven shell script 
 #"A menu is nothing but a list of commands presented to a user by a shell script"
 
