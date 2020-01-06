@@ -115,17 +115,6 @@ if [ "$1" = "mm" ]
 
 fi
 
-# if [ ${PROMPT} = true ] 
-# then
-# echo "MENU ="$MENU
-# echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
-# echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
-# echo "CERT_HOST_IP="$CERT_HOST_IP
-# echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME="$CERT_HOST_IP_WP_SERVICE_HOSTNAME
-# IFS=. url_components=($3##*-})
-# echo "AZ_DNSNAMELABEL="$AZ_DNSNAMELABEL
-# enter_cont
-# fi
 
 MOCK_NLX="mock-nlx"
 WAARDEPAPIEREN_SERVICE="waardepapieren-service"
@@ -211,7 +200,7 @@ show_menus() {
 	echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "70  . bfg.bash mm 0 localhost "
   echo "71  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com "
-  echo "72  . bfg.bash mm 1 $CERT_HOST_IP "
+  echo "72  . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com"
   echo "73  . bfg.bash mm 2 waardepapieren-demo.westeurope.azurecontainer.io"
   echo "74  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
   echo "79.   get_this_batchfile_generator latest from repo " 
@@ -240,7 +229,7 @@ read_options(){
         20) set_docker_compose_travis_yml_without_volumes                          ;;  
         21) set_Dockerfile_mock_nlx                                                ;;
         22) set_Dockerfile_clerk_frontend_without_volumes                          ;;
-        23) set_Dockerfile_waardepapieren_without_volumes  ;; 
+        23) set_Dockerfile_waardepapieren_without_volumes                          ;; 
         24) set_clerk_frontend_nginx_conf                                          ;;
         25) set_waardepapieren_service_config_compose_travis_json                  ;;  
         30) set_all_Dockerfiles                                                    ;;                        
@@ -263,7 +252,7 @@ read_options(){
         #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
         70) bfg_bash_mm_0_localhost                                                ;;
         71) bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com        ;;
-        72) bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com        ;;
+        72) bfg_bash_mm_2_discipl_demo_westeurope_cloudapp_azure_com               ;;
         73) bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io         ;;
         74) bfg_bash_mm_4_discipl_westeurope_azurecontainer_io                     ;;
         79) get_curl_bfg                                                           ;;
@@ -292,61 +281,13 @@ done
 
 }
 
-##################################################################
-# Purpose: kickstarters localhost
-# Arguments:  . bfg.bash mm 0 localhost
-# Return: https://localhost
-##################################################################
-bfg_bash_mm_0_localhost() {
-cd $GITHUB_DIR
-./bfg.bash mm 0 localhost
-}
 
-##################################################################
-# Purpose: kickstarters  AZURE VM
-# Arguments:  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
-# Return: https://waardepapieren-demo.westeurope.cloudapp.azure.com
-##################################################################
-bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com(){
-cd $GITHUB_DIR
-. bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
-}
-
-##################################################################
-# Purpose: kickstarters AZURE VM
-# Arguments:  . bfg.bash mm 2 $CERT_HOST_IP
-# Return: https://$CERT_HOST_IP
-##################################################################
-bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com(){
-cd $GITHUB_DIR
-. bfg.bash mm 2 waardepapieren-demo.westeurope.cloudapp.azure.com 
-}
-
-##################################################################
-# Purpose: kickstarters azure ACI Azure Container Instance  
-# Arguments:  . bfg.bash mm 3 waardepapieren-demo.w 
-# Return: https://waardepapieren-demo.westeurepe.azurecontainer.io
-##################################################################
-bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io(){
-cd $GITHUB_DIR
-. bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io
-}
- 
-##################################################################
-# Purpose: kickstarters azure ACI Azure Container Instance  
-# Arguments:  . bfg.bash mm 4 discipl.westeurepe.azurecontainer.io 
-# Return: https://discipl.westeurepe.azurecontainer.io
-##################################################################
-bfg_bash_mm_4_discipl_westeurope_azurecontainer_io(){
-cd $GITHUB_DIR
-. bfg.bash mm 4 discipl.westeurope.azurecontainer.io  
-}
 
 
 ##################################################################
-# Purpose: set docker-compose-travis.yml 
-# Arguments: .
-# Return: 
+# Purpose: set docker-compose-travis.yml  original with volumes  (N/A in ACI k8s ?)
+# Arguments: target 
+# Return:  https://$CERT_HOST_IP
 ##################################################################
 set_docker_compose_travis_yml_with_volumes() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
@@ -401,7 +342,6 @@ services:
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
-
 
 
 ##################################################################
@@ -1126,7 +1066,6 @@ enter_cont
 cd $GITHUB_DIR
 
 fi
-
 }
 
 ##################################################################
@@ -1212,13 +1151,13 @@ curl -sL https://packages.microsoft.com/keys/microsoft.asc |
 set_credentials() {
 
 DOCKER_USER=boscp08
-DOCKER_PWD=Peter\!2020
+DOCKER_PWD=P.\!.
 
 AZURE_USER=bosch.peter@outlook.com
-AZURE_PWD=0lifanten
+AZURE_PWD=0l.....n
 
 GIT_USER=boschpeter
-GIT_PWD=Peter\!2020
+GIT_PWD=P...\!...
 
 
 }
@@ -1226,28 +1165,6 @@ GIT_PWD=Peter\!2020
 ##################################################################
 # Purpose: CLONE-FUNCTIONS   
 ##################################################################
-
-##################################################################
-# Purpose: Procedure to stop Running: docker containers
-# Arguments: 
-# Return: 
-##################################################################
-git_init() {
-echo "Running:"${FUNCNAME[0]}" $@"
-
-#boscp08@boscp08-HP-Compaq-8510p:~/Dropbox/Github$ git init
-#Initialized empty Git repository in /home/boscp08/Dropbox/Github/.git/
-#  sudo apt install git 
-# https://www.howtoforge.com/tutorial/install-git-and-github-on-ubuntu/
-git init
-git config --global credential.helper store
-git config --global user.email "bosch.peter@icloud.com"
-git config --global user.name "BoschPeter"
-git config --global user.password "Peter\!2020"
-
-#git clone https://github.com/boschpeter/waardepapieren.git
-#cd into 
-}
 
 #################################################
 # Purpose: Procedure concurrent version system
@@ -1263,10 +1180,9 @@ git init
 git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
 git config --global user.name "boschpeter"
-git config --global user.password "Peter\!2020"  #mind macos keyring
+#git config --global user.password "P....\!...."  #mind macos keyring
 git config --list
 git config --get remote.origin.Uittreksel
-
 }
 
 ##################################################################
@@ -1617,8 +1533,8 @@ sleep 2
 ##################################################################
 the_whole_sjebang() {
 
-docker login -u $DOCKER_USER -p $DOCKER_PWD  
-az login -u $AZURE_USER -p $AZURE_PWD  
+docker login -u $DOCKER_USER #
+az login -u $AZURE_USER  # -p $AZURE_PWD  
 
 enter_cont
 
@@ -1679,7 +1595,7 @@ fi
 ##################################################################
 azure_login() {
 
-az login -u bosch.peter@outlook.com -p 0lifanten 
+az login -u bosch.peter@outlook.com #-p 0l.n 
 
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  az account list
@@ -1833,6 +1749,56 @@ APT_GET_UPDATE="RUN apt-get update"
 APT_GET_INSTALL_NET_TOOLS="RUN apt-get install net-tools"
 APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
 
+}
+
+##################################################################
+# Purpose: kickstarters localhost
+# Arguments:  . bfg.bash mm 0 localhost
+# Return: https://localhost
+##################################################################
+bfg_bash_mm_0_localhost() {
+cd $GITHUB_DIR
+./bfg.bash mm 0 localhost
+}
+
+##################################################################
+# Purpose: kickstarters  AZURE VM
+# Arguments:  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
+# Return: https://waardepapieren-demo.westeurope.cloudapp.azure.com
+##################################################################
+bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com(){
+cd $GITHUB_DIR
+. bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
+}
+
+##################################################################
+# Purpose: kickstarters AZURE VM
+# Arguments:  . bfg.bash mm 2 $CERT_HOST_IP
+# Return: https://$CERT_HOST_IP
+##################################################################
+bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com(){
+cd $GITHUB_DIR
+. bfg.bash mm 2 waardepapieren-demo.westeurope.cloudapp.azure.com 
+}
+
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance  
+# Arguments:  . bfg.bash mm 3 waardepapieren-demo.w 
+# Return: https://waardepapieren-demo.westeurepe.azurecontainer.io
+##################################################################
+bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+. bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io
+}
+ 
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance  
+# Arguments:  . bfg.bash mm 4 discipl.westeurepe.azurecontainer.io 
+# Return: https://discipl.westeurepe.azurecontainer.io
+##################################################################
+bfg_bash_mm_4_discipl_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+. bfg.bash mm 4 discipl.westeurope.azurecontainer.io  
 }
 
 
@@ -2003,8 +1969,6 @@ set_all_Dockerfiles
   fi
 
 }
-
-
 
 
 #######################
