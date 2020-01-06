@@ -44,7 +44,7 @@
 # Alternatively, you can use an offline mock, which replicates the NLX environment.
 #
 # Run docker-compose -f docker-compose-travis.yml up
-# The clerk frontend will be available at https://discipl.westeurope.cloudapp.azure.com:443 on your local pc. 
+# The clerk frontend will be available at https://$CERT_HOST_IP:443 on your local pc. 
 # Below the cookbook to deploy your containers as a so called ACI Azure Container Instance. 
 # simular to k8s pod ?
 
@@ -64,7 +64,7 @@
 # then
 # echo "arg1="$1  # mm 
 # echo "arg2="$2  # 4
-# echo "arg3="$3  # discipl.westeurope.cloudapp.azure.com  (Azure VM)
+# echo "arg3="$3  # $CERT_HOST_IP  (Azure VM)
 #                 # discipl.westeurope.azurecontainer.io   (Azure Container Instance)
 # fi 
 
@@ -211,7 +211,7 @@ show_menus() {
 	echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "70  . bfg.bash mm 0 localhost "
   echo "71  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com "
-  echo "72  . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com "
+  echo "72  . bfg.bash mm 1 $CERT_HOST_IP "
   echo "73  . bfg.bash mm 2 waardepapieren-demo.westeurope.azurecontainer.io"
   echo "74  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
   echo "79.   get_this_batchfile_generator latest from repo " 
@@ -314,8 +314,8 @@ cd $GITHUB_DIR
 
 ##################################################################
 # Purpose: kickstarters AZURE VM
-# Arguments:  . bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com
-# Return: https://discipl.westeurope.cloudapp.azure.com
+# Arguments:  . bfg.bash mm 2 $CERT_HOST_IP
+# Return: https://$CERT_HOST_IP
 ##################################################################
 bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com(){
 cd $GITHUB_DIR
@@ -441,8 +441,8 @@ cd $TT_DIRECTORY
 echo "FROM node:10
 RUN mkdir /app
 ADD package.json package-lock.json /app/
-ENV REACT_APP_EPHEMERAL_ENDPOINT=https://discipl.westeurope.cloudapp.azure.com:443/api/eph
-ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://discipl.westeurope.cloudapp.azure.com:443/api/eph-ws
+ENV REACT_APP_EPHEMERAL_ENDPOINT=https://$CERT_HOST_IP:443/api/eph
+ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://$CERT_HOST_IP:443/api/eph-ws
 WORKDIR /app
 RUN npm install --unsafe-perm
 ADD public /app/public
@@ -667,11 +667,11 @@ http {
         ssl_certificate_key /etc/nginx/certs/org.key;
 
         location /api/eph/ {
-            proxy_pass https://discipl.westeurope.cloudapp.azure.com:3232/;
+            proxy_pass https://$CERT_HOST_IP:3232/;
         }
 
         location /api/eph-ws {
-            proxy_pass https://discipl.westeurope.cloudapp.azure.com:3232;
+            proxy_pass https://$CERT_HOST_IP:3232;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
@@ -701,11 +701,11 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://discipl.westeurope.cloudapp.azure.com:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://discipl.westeurope.cloudapp.azure.com:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://discipl.westeurope.cloudapp.azure.com:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -739,8 +739,8 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://discipl.westeurope.cloudapp.azure.com:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://discipl.westeurope.cloudapp.azure.com:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
   \"NLX_OUTWAY_ENDPOINT\" : \"https://mock-nlx:443\",
@@ -779,8 +779,8 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://discipl.westeurope.cloudapp.azure.com:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://discipl.westeurope.cloudapp.azure.com:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
   \"NLX_OUTWAY_ENDPOINT\" : \"http://mock-nlx:80\",
@@ -908,10 +908,6 @@ type: Microsoft.ContainerInstance/containerGroups" > "${TT_INSPECT_FILE}"
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
-
-
-
-
 
 
 # -----------------------------------
