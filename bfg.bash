@@ -4,7 +4,7 @@
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
-#   Peter Bosch        20200105        bash file generator   
+#   Peter Bosch        20200105        bash file generator.   
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash   
@@ -520,6 +520,29 @@ TT_INSPECT_FILE=Dockerfile
 enter_touch "${FUNCNAME[0]}" $@
 cd $TT_DIRECTORY
 
+#echo "FROM node:10
+#RUN mkdir /app
+#ADD package.json package-lock.json /app/
+#ENV REACT_APP_EPHEMERAL_ENDPOINT=https://${CERT_HOST_IP}:443/api/eph
+#ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://${CERT_HOST_IP}:443/api/eph-ws
+#WORKDIR /app
+#RUN npm install --unsafe-perm
+#ADD public /app/public
+#ADD src /app/src
+#ARG CERTIFICATE_HOST
+#ENV REACT_APP_CERTIFICATE_HOST=http://${CERT_HOST_IP}:8880
+
+#RUN npm run build
+#FROM nginx:1.15.8
+#ADD nginx/nginx.conf /etc/nginx/nginx.conf
+#COPY --from=0 /app/build /usr/share/nginx/html
+##  volumes:
+##    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
+#RUN mkdir /etc/nginx/certs
+#ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
+#ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > "${TT_INSPECT_FILE}" 
+
+
 echo "FROM node:10
 RUN mkdir /app
 ADD package.json package-lock.json /app/
@@ -530,23 +553,20 @@ RUN npm install --unsafe-perm
 ADD public /app/public
 ADD src /app/src
 ARG CERTIFICATE_HOST
-ENV REACT_APP_CERTIFICATE_HOST=http://${CERT_HOST_IP}:8880
-
-$TIMEZONE
-$APT_GET_UPDATE
-$APT_GET_INSTAL
-$APT_GET_INSTALL_IPUTILS_PING
-
+ENV REACT_APP_CERTIFICATE_HOST=${CERTIFICATE_HOST}
 RUN npm run build
-
 FROM nginx:1.15.8
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=0 /app/build /usr/share/nginx/html
-#  volumes:
-#    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
+RUN apt-get update && apt-get install -y iputils-ping
+ENV TZ=Europe/Amsterdam
+RUN ln -snf /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime && echo Europe/Amsterdam > /etc/timezone
+ENV REACT_APP_EPHEMERAL_ENDPOINT=https://${CERT_HOST_IP}:443/api/eph
+ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://${CERT_HOST_IP}:443/api/eph-ws
 RUN mkdir /etc/nginx/certs
 ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
 ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > "${TT_INSPECT_FILE}" 
+
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
@@ -611,7 +631,6 @@ cd $TT_DIRECTORY
 echo "events {
     worker_connections  1024;
 }
-
 
 http {
 
