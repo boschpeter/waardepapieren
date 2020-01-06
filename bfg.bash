@@ -509,7 +509,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
-# Purpose: modify clerk-frontend.Dockerfile
+# Purpose: modify clerk-frontend.Dockerfile 
 # Arguments: 
 # Return: 
 ##################################################################
@@ -604,12 +604,6 @@ ADD configuration/waardepapieren-config-compose.json /app/configuration
 ADD configuration/waardepapieren-config-compose-travis.json /app/configuration
 ADD configuration/waardepapieren-config.json /app/configuration
 ENV WAARDEPAPIEREN_CONFIG /app/configuration/waardepapieren-config.json
-
-$TIMEZONE
-$APT_GET_UPDATE
-$APT_GET_INSTAL
-$APT_GET_INSTALL_IPUTILS_PING
-
 RUN npm install --production
 CMD npm start"  > "${TT_INSPECT_FILE}" 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
@@ -634,7 +628,7 @@ echo "events {
 
 http {
 
-    map $http_upgrade $connection_upgrade {
+    map \$http_upgrade \$connection_upgrade {
         default upgrade;
         '' close;
     }
