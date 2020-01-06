@@ -1055,7 +1055,7 @@ then
  
 echo "| ${LOG_START_DATE_TIME} | "${TT_INSPECT_FILE}"|"                              >> "${LOG_FILE}" 
 echo "| ${LOG_START_DATE_TIME} | ${TT_DIRECTORY} |"                                  >> "${LOG_FILE}"
-echo "<code>"                                                                        >> "${LOG_FILE}"
+echo ">code<"                                                                        >> "${LOG_FILE}"
 cat  "${TT_INSPECT_FILE}"                                                            >> "${LOG_FILE}"
 echo "</code>"                                                                       >> "${LOG_FILE}"
 create_logfile_footer
@@ -1735,13 +1735,13 @@ write_bash_code() {
 echo "====== az_clone_build_ship_deploy.bash ======"                         >> "${LOG_FILE}"
 echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> "${LOG_FILE}"
 echo "| ${LOG_START_DATE_TIME} | az_clone_build_ship_deploy.bash |"          >> "${LOG_FILE}"
-echo  "<code>"                                                               >> "${LOG_FILE}" 
+echo  ">code<"                                                               >> "${LOG_FILE}" 
 cat  ${GITHUB_DIR}/bfg.bash                                                  >> "${LOG_FILE}"
 echo "</code>"                                                               >> "${LOG_FILE}"
 echo "====== menu.bash  ======"                                              >> "${LOG_FILE}"
 echo "| ${LOG_START_DATE_TIME} | ${GITHUB_DIR}|"                             >> "${LOG_FILE}"
 echo "| ${LOG_START_DATE_TIME} | menu.bash |"                                >> "${LOG_FILE}"
-echo  "<code>"                                                               >> "${LOG_FILE}" 
+echo  ">code<"                                                               >> "${LOG_FILE}" 
 cat  ${GITHUB_DIR}/menu.bash                                                 >> "${LOG_FILE}"
 echo "</code>"                                                               >> "${LOG_FILE}"
 
@@ -1835,7 +1835,7 @@ cd $GITHUB_DIR
 ##################################################################
 show_parameters(){
 
-echo "<code>"                                                                          >> "${LOG_FILE}"
+echo ">code<"                                                                          >> "${LOG_FILE}"
 echo "***"                                                                             >> "${LOG_FILE}"  
 echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "                 >> "${LOG_FILE}"  
 echo "***"                                                                             >> "${LOG_FILE}"  
