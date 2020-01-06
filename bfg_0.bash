@@ -1,10 +1,10 @@
-#!s /bin/bash
+#! /bin/bash
 # //////////////////////////////////////////////////////////////////////////////////////////
 #   File Type   :- BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI installed). 
 #  
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date           Description
-#   Peter Bosch       20200101        bash file generator   21:30
+#   Peter Bosch        20200105        bash file generator   
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash   
@@ -44,7 +44,7 @@
 # Alternatively, you can use an offline mock, which replicates the NLX environment.
 #
 # Run docker-compose -f docker-compose-travis.yml up
-# The clerk frontend will be available at https://localhost:443 on your local pc. 
+# The clerk frontend will be available at https://$CERT_HOST_IP:443 on your local pc. 
 # Below the cookbook to deploy your containers as a so called ACI Azure Container Instance. 
 # simular to k8s pod ?
 
@@ -53,7 +53,6 @@
 # Ensure that the validator expo app runs on the same (wifi) network as the clerk frontend. (BSN=663678651)
 # You build a docker on your laptop and then you are the same as in production. That is why you should use containers btw docker is not fast
 # Naming your containers
-
 
 # ===== INSTRUCTIONS ======
 # 1. SET your variable ... from menu
@@ -64,7 +63,7 @@
 # then
 # echo "arg1="$1  # mm 
 # echo "arg2="$2  # 4
-# echo "arg3="$3  # discipl.westeurope.cloudapp.azure.com  (Azure VM)
+# echo "arg3="$3  # $CERT_HOST_IP  (Azure VM)
 #                 # discipl.westeurope.azurecontainer.io   (Azure Container Instance)
 # fi 
 
@@ -89,7 +88,6 @@ DOCKER_USER=boscp08
 AZURE_USER=bosch.peter@outlook.com
 GITHUB_DIR=${PWD}      # /Users/boscp08/Projects/scratch/virtual-insanity/waardepapieren
 
-
 DOUBLE_CHECK=true  
 WRITE_CODE=true
 PROMPT=true # echo parameters
@@ -112,20 +110,7 @@ if [ "$1" = "mm" ]
     CERT_HOST_IP=""            ß
     CERT_HOST_IP_WP_SERVICE_HOSTNAME=""
     echo "~~~~~~~~~~~~~~~~~~~~~"	
-
 fi
-
-# if [ ${PROMPT} = true ] 
-# then
-# echo "MENU ="$MENU
-# echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
-# echo "AZ_RESOURCE_GROUP="$AZ_RESOURCE_GROUP
-# echo "CERT_HOST_IP="$CERT_HOST_IP
-# echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME="$CERT_HOST_IP_WP_SERVICE_HOSTNAME
-# IFS=. url_components=($3##*-})
-# echo "AZ_DNSNAMELABEL="$AZ_DNSNAMELABEL
-# enter_cont
-# fi
 
 MOCK_NLX="mock-nlx"
 WAARDEPAPIEREN_SERVICE="waardepapieren-service"
@@ -147,7 +132,6 @@ EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen
 # Arguments:  
 # Return: 
 ##################################################################
-
 get_curl_bfg() {
 cd $GITHUB_DIR
 curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
@@ -161,7 +145,6 @@ curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/mas
 ##################################################################
 show_main_menu(){
 clear 
-
 # A menu driven shell script 
 #"A menu is nothing but a list of commands presented to a user by a shell script"
 
@@ -185,7 +168,7 @@ show_menus() {
   echo "20. set_docker_compose_travis_yml_without_volumes           "  
   echo "21. set_Dockerfile_mock_nlx                                 " 
   echo "22. set_Dockerfile_clerk_frontend_without_volumes           "
-  echo "23. set_Dockerfile_waardepapieren_without_volumes  " 
+  echo "23. set_Dockerfile_waardepapieren_service_without_volumes   " 
   echo "24. set_clerk_frontend_nginx_conf                           "
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
   echo "30. set_all_Dockerfiles          $CERT_HOST_IP               "                         
@@ -211,7 +194,7 @@ show_menus() {
 	echo "~~~~~~~~~~~~~~~~~~~~~"	
   echo "70  . bfg.bash mm 0 localhost "
   echo "71  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com "
-  echo "72  . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com "
+  echo "72  . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com"
   echo "73  . bfg.bash mm 2 waardepapieren-demo.westeurope.azurecontainer.io"
   echo "74  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
   echo "79.   get_this_batchfile_generator latest from repo " 
@@ -240,7 +223,7 @@ read_options(){
         20) set_docker_compose_travis_yml_without_volumes                          ;;  
         21) set_Dockerfile_mock_nlx                                                ;;
         22) set_Dockerfile_clerk_frontend_without_volumes                          ;;
-        23) set_Dockerfile_waardepapieren_without_volumes  ;; 
+        23) set_Dockerfile_waardepapieren_service_without_volumes                  ;;
         24) set_clerk_frontend_nginx_conf                                          ;;
         25) set_waardepapieren_service_config_compose_travis_json                  ;;  
         30) set_all_Dockerfiles                                                    ;;                        
@@ -263,7 +246,7 @@ read_options(){
         #64) bookmark_open https://portal.azure.com/#@boschpeteroutlook.onmicrosoft.com/resource/subscriptions/cfcb03ea-255b-42f8-beca-2d4ac30779bb/resourceGroups/${AZ_RESOURCE_GROUP}/providers/Microsoft.ContainerInstance/containerGroups/$AZ_RESOURCE_GROUP/containers'  ;;
         70) bfg_bash_mm_0_localhost                                                ;;
         71) bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com        ;;
-        72) bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com        ;;
+        72) bfg_bash_mm_2_discipl_demo_westeurope_cloudapp_azure_com               ;;
         73) bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io         ;;
         74) bfg_bash_mm_4_discipl_westeurope_azurecontainer_io                     ;;
         79) get_curl_bfg                                                           ;;
@@ -293,60 +276,48 @@ done
 }
 
 ##################################################################
-# Purpose: kickstarters localhost
-# Arguments:  . bfg.bash mm 0 localhost
-# Return: https://localhost
-##################################################################
-bfg_bash_mm_0_localhost() {
-cd $GITHUB_DIR
-./bfg.bash mm 0 localhost
-}
-
-##################################################################
-# Purpose: kickstarters  AZURE VM
-# Arguments:  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
-# Return: https://waardepapieren-demo.westeurope.cloudapp.azure.com
-##################################################################
-bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com(){
-cd $GITHUB_DIR
-. bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
-}
-
-##################################################################
-# Purpose: kickstarters AZURE VM
-# Arguments:  . bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com
-# Return: https://discipl.westeurope.cloudapp.azure.com
-##################################################################
-bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com(){
-cd $GITHUB_DIR
-. bfg.bash mm 2 waardepapieren-demo.westeurope.cloudapp.azure.com 
-}
-
-##################################################################
-# Purpose: kickstarters azure ACI Azure Container Instance  
-# Arguments:  . bfg.bash mm 3 waardepapieren-demo.w 
-# Return: https://waardepapieren-demo.westeurepe.azurecontainer.io
-##################################################################
-bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io(){
-cd $GITHUB_DIR
-. bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io
-}
- 
-##################################################################
-# Purpose: kickstarters azure ACI Azure Container Instance  
-# Arguments:  . bfg.bash mm 4 discipl.westeurepe.azurecontainer.io 
-# Return: https://discipl.westeurepe.azurecontainer.io
-##################################################################
-bfg_bash_mm_4_discipl_westeurope_azurecontainer_io(){
-cd $GITHUB_DIR
-. bfg.bash mm 4 discipl.westeurope.azurecontainer.io  
-}
-
-
-##################################################################
-# Purpose: set docker-compose-travis.yml 
-# Arguments: .
+# Purpose: set all docker (configuration) files
+# Arguments: 
 # Return: 
+##################################################################
+set_all_Dockerfiles() {
+echo "Running: "${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
+
+echo "set_docker_compose_travis_yml_without_volumes" 
+echo "set_Dockerfile_clerk_frontend_without_volumes" 
+echo "set_Dockerfile_waardepapieren_service_without_volumes" 
+echo "set_Dockerfile_mock_nlx"       
+echo "set_clerk_frontend_nginx_conf" 
+echo "set_waardepapieren_service_config_compose_travis_json"
+#echo "set_waardepapieren_service_config_compose_json"
+#echo "set_waardepapieren_service_config_json"
+echo "set_azure_deploy_aci_yaml"
+echo "okay ?"
+
+set_docker_compose_travis_yml_without_volumes 
+set_Dockerfile_mock_nlx       
+set_Dockerfile_clerk_frontend_without_volumes 
+set_Dockerfile_waardepapieren_service_without_volumes
+
+#set_docker_compose_travis_yml_with_volumes 
+#set_Dockerfile_clerk_frontend_with_volumes 
+#set_Dockerfile_waardepapieren_service_with_volumes 
+
+set_clerk_frontend_nginx_conf 
+set_waardepapieren_service_config_compose_travis_json
+set_waardepapieren_service_config_compose_json
+set_waardepapieren_service_config_json
+
+set_azure_deploy_aci_yaml
+
+create_logfile_footer "${FUNCNAME[0]}" $@
+}
+
+##################################################################
+# Purpose: set docker-compose-travis.yml  original with volumes  (N/A in ACI k8s ?)
+# Arguments: target 
+# Return:  https://$CERT_HOST_IP
 ##################################################################
 set_docker_compose_travis_yml_with_volumes() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
@@ -359,9 +330,9 @@ echo "version: '3'
 services:
   waardepapieren-service:
     volumes:
-      - ./waardepapieren-service/system-test/certs:/certs:ro
-      - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
-      - ./waardepapieren-service/configuration/:/app/configuration:ro
+    - ./waardepapieren-service/system-test/certs:/certs:ro
+    - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
+    - ./waardepapieren-service/configuration/:/app/configuration:ro
     build: waardepapieren-service/.
     links:
       - mock-nlx
@@ -369,9 +340,9 @@ services:
       - 3232:3232
       - 3233:3233
     environment:
-      - WAARDEPAPIEREN_CONFIG=/app/configuration/waardepapieren-config-compose-travis.json
-      # Ignore self-signed ephemeral cert issues
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    - WAARDEPAPIEREN_CONFIG=/app/configuration/waardepapieren-config-compose.json
+    # Ignore self-signed ephemeral and NLX cert issues
+    - NODE_TLS_REJECT_UNAUTHORIZED=0
   clerk-frontend:
     build:
       context: clerk-frontend/
@@ -380,22 +351,111 @@ services:
     links:
       - waardepapieren-service
     ports:
-      - 443:443
-      - 8880:8880
+    - 443:443
+    - 8880:8880
     healthcheck:
       test: service nginx status
     volumes:
-      - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
+    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
   mock-nlx:
-    build: mock-nlx/
+    image: nlxio/outway:latest
+    volumes:
+      - ./mock-nlx/certs:/certs:ro
+    environment:
+      - DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
+      - TLS_NLX_ROOT_CERT=/certs/root.crt
+      - TLS_ORG_CERT=/certs/org.crt
+      - TLS_ORG_KEY=/certs/org.key
+      - DISABLE_LOGDB=1
     ports:
       - 80:80" >  "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
+
 ##################################################################
-# Purpose: set docker-compose-travis.yml
+# Purpose: modify mock-nlx.Dockerfile
+# Arguments: 
+# Return: 
+##################################################################
+set_Dockerfile_mock_nlx() {  
+echo "Running: "${FUNCNAME[0]}" $@"
+TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
+TT_INSPECT_FILE=Dockerfile
+enter_touch "${FUNCNAME[0]}" $@
+cd $TT_DIRECTORY
+
+echo "FROM node:10
+RUN mkdir /app
+ADD index.js package.json package-lock.json /app/
+WORKDIR /app
+RUN npm install --production
+CMD npm start" > "${TT_INSPECT_FILE}" 
+
+check_check_doublecheck  "${FUNCNAME[0]}" $@
+}
+
+##################################################################
+# Purpose: set clerk-frontend Dockerfile with_volumes  default
+# Arguments: 
+# Return: 
+##################################################################
+set_Dockerfile_clerk_frontend_with_volumes() {
+echo "Running: "${FUNCNAME[0]}" $@"
+TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
+TT_INSPECT_FILE=Dockerfile 
+enter_touch "${FUNCNAME[0]}" $@
+cd $TT_DIRECTORY
+
+echo "FROM node:10
+RUN mkdir /app
+ADD package.json package-lock.json /app/
+ENV REACT_APP_EPHEMERAL_ENDPOINT=https://$CERT_HOST_IP:443/api/eph
+ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://$CERT_HOST_IP:443/api/eph-ws
+WORKDIR /app
+RUN npm install --unsafe-perm
+ADD public /app/public
+ADD src /app/src
+ARG CERTIFICATE_HOST
+ENV REACT_APP_CERTIFICATE_HOST=${CERTIFICATE_HOST}
+RUN npm run build
+
+FROM nginx:1.15.8
+ADD nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=0 /app/build /usr/share/nginx/html" > "${TT_INSPECT_FILE}" 
+
+check_check_doublecheck  "${FUNCNAME[0]}" $@
+
+}
+
+##################################################################
+# Purpose: hack into waardepapieren-servcie Dockerfile with volunes default
+# Arguments: 
+# Return: 
+##################################################################
+set_Dockerfile_waardepapieren_service_with_volumes() {
+echo "Running: "${FUNCNAME[0]}" $@"
+TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
+TT_INSPECT_FILE=Dockerfile
+enter_touch "${FUNCNAME[0]}" $@
+
+cd $TT_DIRECTORY
+echo "FROM node:10
+RUN mkdir /app
+ADD .babelrc package.json package-lock.json /app/
+ADD src/* app/src/
+ADD configuration/* app/configuration/
+ENV WAARDEPAPIEREN_CONFIG /app/configuration/waardepapieren-config.json
+WORKDIR /app
+RUN npm install --production
+CMD npm start"   > "${TT_INSPECT_FILE}" 
+
+check_check_doublecheck  "${FUNCNAME[0]}" $@
+}
+
+##################################################################
+# Purpose: set docker-compose-travis.yml on ACI k8s volume issue
 # Arguments: 
 # Return: 
 ##################################################################
@@ -449,65 +509,6 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
-# Purpose: modify mock-nlx.Dockerfile
-# Arguments: 
-# Return: 
-##################################################################
-set_Dockerfile_mock_nlx() {  
-echo "Running: "${FUNCNAME[0]}" $@"
-TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
-TT_INSPECT_FILE=Dockerfile
-enter_touch "${FUNCNAME[0]}" $@
-cd $TT_DIRECTORY
-
-echo "FROM node:10
-RUN mkdir /app
-ADD index.js package.json package-lock.json /app/
-WORKDIR /app
-$TIMEZONE
-$APT_GET_UPDATE
-$APT_GET_INSTAL
-$APT_GET_INSTALL_IPUTILS_PING
-
-RUN npm install --production" > "${TT_INSPECT_FILE}" 
-
-check_check_doublecheck  "${FUNCNAME[0]}" $@
-}
-
-##################################################################
-# Purpose: set clerk-frontend Dockerfile
-# Arguments: 
-# Return: 
-##################################################################
-set_Dockerfile_clerk_frontend_with_volumes() {
-echo "Running: "${FUNCNAME[0]}" $@"
-TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend
-TT_INSPECT_FILE=Dockerfile 
-enter_touch "${FUNCNAME[0]}" $@
-cd $TT_DIRECTORY
-
-echo "FROM node:10
-RUN mkdir /app
-ADD package.json package-lock.json /app/
-ENV REACT_APP_EPHEMERAL_ENDPOINT=https://${CERT_HOST_IP}:443/api/eph
-ENV REACT_APP_EPHEMERAL_WEBSOCKET_ENDPOINT=wss://${CERT_HOST_IP}:443/api/eph-ws
-WORKDIR /app
-RUN npm install --unsafe-perm
-ADD public /app/public
-ADD src /app/src
-ARG CERTIFICATE_HOST
-ENV REACT_APP_CERTIFICATE_HOST=${CERTIFICATE_HOST}
-RUN npm run build
-
-FROM nginx:1.15.8
-ADD nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=0 /app/build /usr/share/nginx/html" > "${TT_INSPECT_FILE}" 
-
-check_check_doublecheck  "${FUNCNAME[0]}" $@
-
-}
-
-##################################################################
 # Purpose: modify clerk-frontend.Dockerfile
 # Arguments: 
 # Return: 
@@ -544,106 +545,8 @@ COPY --from=0 /app/build /usr/share/nginx/html
 #  volumes:
 #    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
 RUN mkdir /etc/nginx/certs
-RUN apt-get update 
-RUN apt-get install -y iputils-ping
-RUN apt-get install -y net-tools
-
 ADD nginx/certs/org.crt /etc/nginx/certs/org.crt
 ADD nginx/certs/org.key /etc/nginx/certs/org.key"  > "${TT_INSPECT_FILE}" 
-
-check_check_doublecheck  "${FUNCNAME[0]}" $@
-}
-
-##################################################################
-# Purpose: hack into clerk-frontend build in nginx
-# Arguments: 
-# Return: 
-##################################################################
-set_clerk_frontend_nginx_conf() {
-echo "Running: "${FUNCNAME[0]}" $@"
-TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx
-TT_INSPECT_FILE=nginx.conf
-enter_touch "${FUNCNAME[0]}" $@
-
-cd $TT_DIRECTORY
-echo "events {
-    worker_connections  1024;
-}
-
-http {
-
-    map \$http_upgrade \$connection_upgrade {
-        default upgrade;
-        '' close;
-    }
-
-    # Http server to obtain NLX certificate
-    server {
-        listen 8880;
-
-        location / {
-           root /usr/share/nginx/html;
-           include /etc/nginx/mime.types;
-        }
-    }
-
-    server {
-        listen 443 ssl;
-
-        ssl_certificate /etc/nginx/certs/org.crt;
-        ssl_certificate_key /etc/nginx/certs/org.key;
-
-        location /api/eph/ {
-               proxy_pass https://${CERT_HOST_IP_WP_SERVICE_HOSTNAME}:3232/;    #pdf effect
-           #     proxy_pass https://waardepapieren-service:3232/;
-            #     proxy_pass https://172.19.0.3:3232/;
-        }
-
-        location /api/eph-ws {
-           
-              proxy_pass https://${CERT_HOST_IP_WP_SERVICE_HOSTNAME}:3232;   # pdf effect
-             #  proxy_pass https://waardepapieren-service:3232;
-            #  proxy_pass https://172.19.0.3:3232;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade \$http_upgrade;
-            proxy_set_header Connection "Upgrade";
-        }
-        location / {
-            root /usr/share/nginx/html;
-            include /etc/nginx/mime.types;
-        }
-    }
-}" > "${TT_INSPECT_FILE}" 
-
-check_check_doublecheck  "${FUNCNAME[0]}" $@ 
-
-} 
-
-##################################################################
-# Purpose: hack into waardepapieren-servcie Dockerfile
-# Arguments: 
-# Return: 
-##################################################################
-set_Dockerfile_waardepapieren_service_with_volumes() {
-echo "Running: "${FUNCNAME[0]}" $@"
-TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
-TT_INSPECT_FILE=Dockerfile
-enter_touch "${FUNCNAME[0]}" $@
-
-cd $TT_DIRECTORY
-echo "FROM node:10
-RUN mkdir /app
-ADD .babelrc package.json package-lock.json /app/
-ADD src/* app/src/
-ADD configuration/* app/configuration/
-ENV WAARDEPAPIEREN_CONFIG /app/configuration/waardepapieren-config.json
-$TIMEZONE
-$APT_GET_UPDATE
-$APT_GET_INSTAL
-$APT_GET_INSTALL_IPUTILS_PING
-WORKDIR /app
-RUN npm install --production
-CMD npm start"   > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
@@ -653,7 +556,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments: 
 # Return: 
 ##################################################################
-set_Dockerfile_waardepapieren_service_without_volumewithout_volumess() {
+set_Dockerfile_waardepapieren_service_without_volumes() {
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service
 TT_INSPECT_FILE=Dockerfile
@@ -692,28 +595,91 @@ CMD npm start"  > "${TT_INSPECT_FILE}"
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
-#################################################################
-# Purpose: hack 
+
+##################################################################
+# Purpose: hack into clerk-frontend build in nginx
 # Arguments: 
 # Return: 
 ##################################################################
-set_waardepapieren_service_config_compose_travis_json() {
+set_clerk_frontend_nginx_conf() {
 echo "Running: "${FUNCNAME[0]}" $@"
-TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
-TT_INSPECT_FILE=waardepapieren-config-compose-travis.json
+TT_DIRECTORY=${GITHUB_DIR}/clerk-frontend/nginx
+TT_INSPECT_FILE=nginx.conf
 enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
-echo " {
-   \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
-   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
-   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
-   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
+echo "events {
+    worker_connections  1024;
+}
+
+
+http {
+
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        '' close;
+    }
+
+    # Http server to obtain NLX certificate
+    server {
+        listen 8880;
+
+        location / {
+           root /usr/share/nginx/html;
+           include /etc/nginx/mime.types;
+        }
+    }
+
+    server {
+        listen 443 ssl;
+
+        ssl_certificate /etc/nginx/certs/org.crt;
+        ssl_certificate_key /etc/nginx/certs/org.key;
+
+        location /api/eph/ {
+            proxy_pass https://$CERT_HOST_IP:3232/;
+        }
+
+        location /api/eph-ws {
+            proxy_pass https://$CERT_HOST_IP:3232;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade \$http_upgrade;
+            proxy_set_header Connection "Upgrade";
+        }
+        location / {
+            root /usr/share/nginx/html;
+            include /etc/nginx/mime.types;
+        }
+    }
+}" > "${TT_INSPECT_FILE}" 
+
+check_check_doublecheck  "${FUNCNAME[0]}" $@ 
+
+} 
+
+
+##################################################################
+# Purpose: 
+# Arguments: 
+# Return: 
+##################################################################
+set_waardepapieren_service_config_json() {
+echo "Running: "${FUNCNAME[0]}" $@"
+TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
+TT_INSPECT_FILE=waardepapieren-config.json
+enter_touch "${FUNCNAME[0]}" $@
+
+cd $TT_DIRECTORY
+echo "{
+  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
+  \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS},
+  \"EPHEMERAL_RETENTION_TIME\": 86400,
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
@@ -725,7 +691,7 @@ echo " {
     {\"Burgerservicenummer (BSN)\" : \"burgerservicenummer\"},
     {\"Woonplaats verblijfadres\" : \"verblijfadres.woonplaats\"}
   ]
-} " > "${TT_INSPECT_FILE}" 
+}" > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
@@ -742,16 +708,16 @@ TT_INSPECT_FILE=waardepapieren-config-compose.json
 enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
-echo " {
-   \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
-   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
-   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
-   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
+echo "{
+  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
+  \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"https://$CERT_HOST_IP:443\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME_COMPOSE},
+  \"EPHEMERAL_RETENTION_TIME\": 86400,
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
@@ -763,33 +729,35 @@ echo " {
     {\"Burgerservicenummer (BSN)\" : \"burgerservicenummer\"},
     {\"Woonplaats verblijfadres\" : \"verblijfadres.woonplaats\"}
   ]
-} " > "${TT_INSPECT_FILE}" # waardepapieren-config-compose-travis.json
+}" > "${TT_INSPECT_FILE}" # waardepapieren-config-compose-travis.json
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
-##################################################################
-# Purpose: 
+
+
+#################################################################
+# Purpose: hack 
 # Arguments: 
 # Return: 
 ##################################################################
-set_waardepapieren_service_config_json() {
+set_waardepapieren_service_config_compose_travis_json() {
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
-TT_INSPECT_FILE=waardepapieren-config.json
+TT_INSPECT_FILE=waardepapieren-config-compose-travis.json
 enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
-echo " {
-   \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
-   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
-   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
-   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
+echo "{
+  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
+  \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": ${EPHEMERAL_RETENTION_TIME_CONFIG},
+  \"EPHEMERAL_RETENTION_TIME\": 86400,
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
@@ -801,12 +769,49 @@ echo " {
     {\"Burgerservicenummer (BSN)\" : \"burgerservicenummer\"},
     {\"Woonplaats verblijfadres\" : \"verblijfadres.woonplaats\"}
   ]
-} " > "${TT_INSPECT_FILE}" 
+}" > "${TT_INSPECT_FILE}" 
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
+##################################################################
+# Purpose: set all docker (configuration) files
+# Arguments: 
+# Return: 
+##################################################################
+set_all_Dockerfiles() {
+echo "Running: "${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 
+echo "set_docker_compose_travis_yml_without_volumes"
+echo "set_Dockerfile_clerk_frontend_without_volumes"
+echo "set_Dockerfile_waardepapieren_service_without_volumes"
+echo "set_Dockerfile_mock_nlx"       
+echo "set_clerk_frontend_nginx_conf" 
+echo "set_waardepapieren_service_config_compose_travis_json"
+echo "set_waardepapieren_service_config_compose_json"
+echo "set_waardepapieren_service_config_json"
+echo "set_azure_deploy_aci_yaml"
+echo "okay ?"
+echo enter
+
+set_docker_compose_travis_yml_without_volumes 
+set_Dockerfile_clerk_frontend_without_volumes 
+set_Dockerfile_waardepapieren_service_without_volumes
+set_Dockerfile_mock_nlx       
+
+#set_docker_compose_travis_yml_with_volumes      
+#set_Dockerfile_clerk_frontend_with_volumes 
+#set_Dockerfile_waardepapieren_service_with_volumes 
+
+set_clerk_frontend_nginx_conf 
+set_waardepapieren_service_config_compose_travis_json
+set_waardepapieren_service_config_compose_json
+set_waardepapieren_service_config_json
+set_azure_deploy_aci_yaml
+
+create_logfile_footer "${FUNCNAME[0]}" $@
+}
 
 ##################################################################
 # Purpose: hack into azure deploy ACI
@@ -876,9 +881,6 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 
 
 
-
-
-
 # -----------------------------------
 # Main-Menu logic  below
 # ------------------------------------
@@ -904,32 +906,21 @@ clear
 echo "-- Running:"${FUNCNAME[0]}" $@"   >> "${LOG_FILE}"
 curl -o ${GITHUB_DIR}/docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
 stat ${GITHUB_DIR}/docker-compose-travis.yml                           >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/mock-nlx/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
 stat    ${GITHUB_DIR}/mock-nlx/Dockerfile                              >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/clerk-frontend/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
 stat    ${GITHUB_DIR}/clerk-frontend/Dockerfile                        >> "${LOG_FILE}"
-
-
-
 curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/nginx/nginx.conf"
 stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
 stat    ${GITHUB_DIR}/waardepapieren-service/Dockerfile                 >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/discipl/waardepapieren/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
-clear
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json  "https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json                  >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json                           >> "${LOG_FILE}"
-
-
+clear
 create_logfile_footer "${FUNCNAME[0]}" $@
 
 }
@@ -1094,7 +1085,6 @@ enter_cont
 cd $GITHUB_DIR
 
 fi
-
 }
 
 ##################################################################
@@ -1180,13 +1170,13 @@ curl -sL https://packages.microsoft.com/keys/microsoft.asc |
 set_credentials() {
 
 DOCKER_USER=boscp08
-DOCKER_PWD=Peter\!2020
+DOCKER_PWD=P.\!.
 
 AZURE_USER=bosch.peter@outlook.com
-AZURE_PWD=0lifanten
+AZURE_PWD=0l.....n
 
 GIT_USER=boschpeter
-GIT_PWD=Peter\!2020
+GIT_PWD=P...\!...
 
 
 }
@@ -1194,28 +1184,6 @@ GIT_PWD=Peter\!2020
 ##################################################################
 # Purpose: CLONE-FUNCTIONS   
 ##################################################################
-
-##################################################################
-# Purpose: Procedure to stop Running: docker containers
-# Arguments: 
-# Return: 
-##################################################################
-git_init() {
-echo "Running:"${FUNCNAME[0]}" $@"
-
-#boscp08@boscp08-HP-Compaq-8510p:~/Dropbox/Github$ git init
-#Initialized empty Git repository in /home/boscp08/Dropbox/Github/.git/
-#  sudo apt install git 
-# https://www.howtoforge.com/tutorial/install-git-and-github-on-ubuntu/
-git init
-git config --global credential.helper store
-git config --global user.email "bosch.peter@icloud.com"
-git config --global user.name "BoschPeter"
-git config --global user.password "Peter\!2020"
-
-#git clone https://github.com/boschpeter/waardepapieren.git
-#cd into 
-}
 
 #################################################
 # Purpose: Procedure concurrent version system
@@ -1231,10 +1199,9 @@ git init
 git config --global credential.helper store
 git config --global user.email "bosch.peter@icloud.com"
 git config --global user.name "boschpeter"
-git config --global user.password "Peter\!2020"  #mind macos keyring
+#git config --global user.password "P....\!...."  #mind macos keyring
 git config --list
 git config --get remote.origin.Uittreksel
-
 }
 
 ##################################################################
@@ -1318,7 +1285,6 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 # Return: 3 containers  
 ##################################################################
 docker_compose_images() {
-
 cd ${GITHUB_DIR}
 docker-compose -f docker-compose-travis.yml up --build
 
@@ -1411,7 +1377,6 @@ arg1=$1 #${DOCKER_USER}
 arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$4 #${DOCKER_VERSION_TAG}
-
 #docker tag $2:latest $1/$3:$4
 
 }  
@@ -1584,12 +1549,9 @@ sleep 2
 # Return: the whole_sjebang
 ##################################################################
 the_whole_sjebang() {
-
-docker login -u $DOCKER_USER -p $DOCKER_PWD  
-az login -u $AZURE_USER -p $AZURE_PWD  
-
+docker login -u $DOCKER_USER #
+az login -u $AZURE_USER  # -p $AZURE_PWD  
 enter_cont
-
 docker_compose_images
 docker_tag_images
 docker_push_images
@@ -1646,8 +1608,7 @@ fi
 # Return: variables
 ##################################################################
 azure_login() {
-
-az login -u bosch.peter@outlook.com -p 0lifanten 
+az login -u bosch.peter@outlook.com #-p 0l.n 
 
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  az account list
@@ -1801,6 +1762,56 @@ APT_GET_UPDATE="RUN apt-get update"
 APT_GET_INSTALL_NET_TOOLS="RUN apt-get install net-tools"
 APT_GET_INSTALL_IPUTILS_PING="RUN apt-get install iputils-ping"
 
+}
+
+##################################################################
+# Purpose: kickstarters localhost
+# Arguments:  . bfg.bash mm 0 localhost
+# Return: https://localhost
+##################################################################
+bfg_bash_mm_0_localhost() {
+cd $GITHUB_DIR
+. bfg.bash mm 1 localhost
+}
+
+##################################################################
+# Purpose: kickstarters  AZURE VM
+# Arguments:  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
+# Return: https://waardepapieren-demo.westeurope.cloudapp.azure.com
+##################################################################
+bfg_bash_mm_1_waardepapieren_demo_westeurope_cloudapp_azure_com(){
+cd $GITHUB_DIR
+. bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com 
+}
+
+##################################################################
+# Purpose: kickstarters AZURE VM
+# Arguments:  . bfg.bash mm 2 $CERT_HOST_IP
+# Return: https://$CERT_HOST_IP
+##################################################################
+bfg_bash_mm_2_discipl_demo_westeurope_cloudapp_azure_com(){
+cd $GITHUB_DIR
+. bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com 
+}
+
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance  
+# Arguments:  . bfg.bash mm 3 waardepapieren-demo.w 
+# Return: https://waardepapieren-demo.westeurepe.azurecontainer.io
+##################################################################
+bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+. bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io
+}
+ 
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance  
+# Arguments:  . bfg.bash mm 4 discipl.westeurepe.azurecontainer.io 
+# Return: https://discipl.westeurepe.azurecontainer.io
+##################################################################
+bfg_bash_mm_4_discipl_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+. bfg.bash mm 4 discipl.westeurope.azurecontainer.io  
 }
 
 
@@ -1971,8 +1982,6 @@ set_all_Dockerfiles
   fi
 
 }
-
-
 
 
 #######################
