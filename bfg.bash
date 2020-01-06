@@ -841,7 +841,7 @@ properties:
       ports:
       - port: 443
       - port: 8880
-  osType: Linu
+  osType: Linux
   ipAddress:
     type: Public
     # fqdn wordt: discipl_waardepapieren.westeurope.azurecontainer.io
