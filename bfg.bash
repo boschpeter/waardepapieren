@@ -153,8 +153,8 @@ pause(){
 }
 # function to display menus
 show_menus() {
- echo "~~~~~~~~~~~~~~~~~~~~~"
- echo " M A I N - M E N U "
+  echo "~~~~~~~~~~~~~~~~~~~~~"
+  echo " M A I N - M E N U "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "https://$CERT_HOST_IP:443  DOCKER-VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
@@ -1345,7 +1345,10 @@ arg1=$1 #${DOCKER_USER}
 arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$4 #${DOCKER_VERSION_TAG}
-#docker tag $2:latest $1/$3:$4
+docker tag $2:latest $1/$3:$4
+clear
+docker images
+enter_cont
 
 }
 
