@@ -1,4 +1,4 @@
-#! /bin/bash
+#!s /bin/bash
 # //////////////////////////////////////////////////////////////////////////////////////////
 #   File Type   :- BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI installed). 
 #  
@@ -806,44 +806,7 @@ echo " {
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
-##################################################################
-# Purpose: set all docker (configuration) files
-# Arguments: 
-# Return: 
-##################################################################
-set_all_Dockerfiles() {
-echo "Running: "${FUNCNAME[0]}" $@"
-create_logfile_header "${FUNCNAME[0]}" $@
 
-echo "set_docker_compose_travis_yml_without_volumes" 
-echo "set_Dockerfile_clerk_frontend_without_volumes" 
-echo "set_Dockerfile_waardepapieren_service_without_volumewithout_volumess" 
-echo "set_Dockerfile_mock_nlx"       
-echo "set_clerk_frontend_nginx_conf" 
-echo "set_waardepapieren_service_config_compose_travis_json"
-#echo "set_waardepapieren_service_config_compose_json"
-#echo "set_waardepapieren_service_config_json"
-echo "set_azure_deploy_aci_yaml"
-echo "okay ?"
-echo enter
-
-set_docker_compose_travis_yml_without_volumes 
-set_Dockerfile_mock_nlx       
-set_Dockerfile_clerk_frontend_without_volumes 
-set_Dockerfile_waardepapieren_without_volumes
-
-#set_docker_compose_travis_yml_with_volumes 
-#set_Dockerfile_clerk_frontend_with_volumes 
-#set_Dockerfile_waardepapieren_service_with_volumes 
-
-set_clerk_frontend_nginx_conf 
-set_waardepapieren_service_config_compose_travis_json
-#set_waardepapieren_service_config_compose_json
-#set_waardepapieren_service_config_json
-set_azure_deploy_aci_yaml
-
-create_logfile_footer "${FUNCNAME[0]}" $@
-}
 
 ##################################################################
 # Purpose: hack into azure deploy ACI

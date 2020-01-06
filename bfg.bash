@@ -54,7 +54,6 @@
 # You build a docker on your laptop and then you are the same as in production. That is why you should use containers btw docker is not fast
 # Naming your containers
 
-
 # ===== INSTRUCTIONS ======
 # 1. SET your variable ... from menu
 # 2. run this script as follows 
@@ -135,7 +134,6 @@ EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen
 # Arguments:  
 # Return: 
 ##################################################################
-
 get_curl_bfg() {
 cd $GITHUB_DIR
 curl -o bfg.bash https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
@@ -173,7 +171,7 @@ show_menus() {
   echo "20. set_docker_compose_travis_yml_without_volumes           "  
   echo "21. set_Dockerfile_mock_nlx                                 " 
   echo "22. set_Dockerfile_clerk_frontend_without_volumes           "
-  echo "23. set_Dockerfile_waardepapieren_without_volumes  " 
+  echo "23. set_Dockerfile_waardepapieren_service_without_volumes   " 
   echo "24. set_clerk_frontend_nginx_conf                           "
   echo "25. set_waardepapieren_service_config_compose_travis_json   "  
   echo "30. set_all_Dockerfiles          $CERT_HOST_IP               "                         
@@ -228,7 +226,7 @@ read_options(){
         20) set_docker_compose_travis_yml_without_volumes                          ;;  
         21) set_Dockerfile_mock_nlx                                                ;;
         22) set_Dockerfile_clerk_frontend_without_volumes                          ;;
-        23) set_Dockerfile_waardepapieren_without_volumes                          ;; 
+        23  set_Dockerfile_waardepapieren_service_without_volumes                  ;; 
         24) set_clerk_frontend_nginx_conf                                          ;;
         25) set_waardepapieren_service_config_compose_travis_json                  ;;  
         30) set_all_Dockerfiles                                                    ;;                        
@@ -280,8 +278,44 @@ done
 
 }
 
+##################################################################
+# Purpose: set all docker (configuration) files
+# Arguments: 
+# Return: 
+##################################################################
+set_all_Dockerfiles() {
+echo "Running: "${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 
+echo "set_docker_compose_travis_yml_without_volumes" 
+echo "set_Dockerfile_clerk_frontend_without_volumes" 
+echo "set_Dockerfile_waardepapieren_service_without_volumes" 
+echo "set_Dockerfile_mock_nlx"       
+echo "set_clerk_frontend_nginx_conf" 
+echo "set_waardepapieren_service_config_compose_travis_json"
+#echo "set_waardepapieren_service_config_compose_json"
+#echo "set_waardepapieren_service_config_json"
+echo "set_azure_deploy_aci_yaml"
+echo "okay ?"
 
+set_docker_compose_travis_yml_without_volumes 
+set_Dockerfile_mock_nlx       
+set_Dockerfile_clerk_frontend_without_volumes 
+set_Dockerfile_waardepapieren_service_without_volumes
+
+#set_docker_compose_travis_yml_with_volumes 
+#set_Dockerfile_clerk_frontend_with_volumes 
+#set_Dockerfile_waardepapieren_service_with_volumes 
+
+set_clerk_frontend_nginx_conf 
+set_waardepapieren_service_config_compose_travis_json
+set_waardepapieren_service_config_compose_json
+set_waardepapieren_service_config_json
+
+set_azure_deploy_aci_yaml
+
+create_logfile_footer "${FUNCNAME[0]}" $@
+}
 
 ##################################################################
 # Purpose: set docker-compose-travis.yml  original with volumes  (N/A in ACI k8s ?)
@@ -424,7 +458,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
-# Purpose: set docker-compose-travis.yml
+# Purpose: set docker-compose-travis.yml on ACI k8s volume issue
 # Arguments: 
 # Return: 
 ##################################################################
@@ -766,7 +800,7 @@ echo enter
 
 set_docker_compose_travis_yml_without_volumes 
 set_Dockerfile_clerk_frontend_without_volumes 
-set_Dockerfile_waardepapieren_without_volumes
+set_Dockerfile_waardepapieren_service_without_volumes
 set_Dockerfile_mock_nlx       
 
 #set_docker_compose_travis_yml_with_volumes      
@@ -875,32 +909,21 @@ clear
 echo "-- Running:"${FUNCNAME[0]}" $@"   >> "${LOG_FILE}"
 curl -o ${GITHUB_DIR}/docker-compose-travis.yml "https://raw.githubusercontent.com/discipl/waardepapieren/master/docker-compose-travis.yml"
 stat ${GITHUB_DIR}/docker-compose-travis.yml                           >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/mock-nlx/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/mock-nlx/Dockerfile"
 stat    ${GITHUB_DIR}/mock-nlx/Dockerfile                              >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/clerk-frontend/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/Dockerfile"
 stat    ${GITHUB_DIR}/clerk-frontend/Dockerfile                        >> "${LOG_FILE}"
-
-
-
 curl -o ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf "https://raw.githubusercontent.com/discipl/waardepapieren/master/clerk-frontend/nginx/nginx.conf"
 stat    ${GITHUB_DIR}/clerk-frontend/nginx/nginx.conf                  >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/Dockerfile "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/Dockerfile"
 stat    ${GITHUB_DIR}/waardepapieren-service/Dockerfile                 >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json "https://raw.githubusercontent.com/discipl/waardepapieren/master/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose-travis.json            >> "${LOG_FILE}"
-clear
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json  "https://github.com/discipl/waardepapieren/blob/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config-compose.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config-compose.json                  >> "${LOG_FILE}"
-
 curl -o ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json "https://raw.githubusercontent.com/discipl/waardepapieren/ddd9d45750e560b594454cfd3274e2bfa0215208/waardepapieren-service/configuration/waardepapieren-config.json"
 stat    ${GITHUB_DIR}/waardepapieren-service/configuration/waardepapieren-config.json                           >> "${LOG_FILE}"
-
-
+clear
 create_logfile_footer "${FUNCNAME[0]}" $@
 
 }
@@ -1265,7 +1288,6 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 # Return: 3 containers  
 ##################################################################
 docker_compose_images() {
-
 cd ${GITHUB_DIR}
 docker-compose -f docker-compose-travis.yml up --build
 
@@ -1358,7 +1380,6 @@ arg1=$1 #${DOCKER_USER}
 arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$4 #${DOCKER_VERSION_TAG}
-
 #docker tag $2:latest $1/$3:$4
 
 }  
@@ -1531,12 +1552,9 @@ sleep 2
 # Return: the whole_sjebang
 ##################################################################
 the_whole_sjebang() {
-
 docker login -u $DOCKER_USER #
 az login -u $AZURE_USER  # -p $AZURE_PWD  
-
 enter_cont
-
 docker_compose_images
 docker_tag_images
 docker_push_images
@@ -1593,7 +1611,6 @@ fi
 # Return: variables
 ##################################################################
 azure_login() {
-
 az login -u bosch.peter@outlook.com #-p 0l.n 
 
 # //////////////////////////////////////////////////////////////////////////////////////////
