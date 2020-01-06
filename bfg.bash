@@ -115,7 +115,6 @@ if [ "$1" = "mm" ]
 
 fi
 
-
 MOCK_NLX="mock-nlx"
 WAARDEPAPIEREN_SERVICE="waardepapieren-service"
 CLERK_FRONTEND="clerk-frontend"
@@ -613,7 +612,7 @@ http {
         location /api/eph-ws {
             proxy_pass https://$CERT_HOST_IP:3232;
             proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Upgrade \$http_upgrade;
             proxy_set_header Connection "Upgrade";
         }
         location / {
@@ -683,7 +682,7 @@ echo "{
   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"https://mock-nlx:443\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"https://$CERT_HOST_IP:443\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -723,7 +722,7 @@ echo "{
   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://mock-nlx:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -770,7 +769,7 @@ set_Dockerfile_clerk_frontend_without_volumes
 set_Dockerfile_waardepapieren_without_volumes
 set_Dockerfile_mock_nlx       
 
-#set_docker_compose_travis_yml_with_volumes 
+#set_docker_compose_travis_yml_with_volumes      
 #set_Dockerfile_clerk_frontend_with_volumes 
 #set_Dockerfile_waardepapieren_service_with_volumes 
 
@@ -1776,9 +1775,9 @@ cd $GITHUB_DIR
 # Arguments:  . bfg.bash mm 2 $CERT_HOST_IP
 # Return: https://$CERT_HOST_IP
 ##################################################################
-bfg_bash_mm_2_waardepapieren_demo_westeurope_cloudapp_azure_com(){
+bfg_bash_mm_2_discipl_demo_westeurope_cloudapp_azure_com(){
 cd $GITHUB_DIR
-. bfg.bash mm 2 waardepapieren-demo.westeurope.cloudapp.azure.com 
+. bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com 
 }
 
 ##################################################################
