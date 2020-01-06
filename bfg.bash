@@ -1346,9 +1346,6 @@ arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$4 #${DOCKER_VERSION_TAG}
 docker tag $2:latest $1/$3:$4
-clear
-docker images
-enter_cont
 
 }
 
@@ -1363,7 +1360,10 @@ create_logfile_header "${FUNCNAME[0]}" $@
 docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
 docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
 docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
+docker images list
+enter_cont
 docker images | grep  ${DOCKER_VERSION_TAG}
+enter_cont
 docker images | grep  ${DOCKER_VERSION_TAG}     >> ${LOG_DIR}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
