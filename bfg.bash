@@ -1438,7 +1438,6 @@ create_logfile_footer
 azure_create_resourcegroup() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-az login -u $AZURE_USER  -p $AZURE_PWD
 #az group create --name $AZ_RESOURCE_GROUP --location westeurope
 az group create --name $AZ_RESOURCE_GROUP --location westeurope
 enter_cont
@@ -1452,7 +1451,6 @@ enter_cont
 azure_delete_resourcegroup() {
 echo "-- Running:"${FUNCNAME[0]}" $@ "
 create_logfile_header "${FUNCNAME[0]}" $@
-az login -u $AZURE_USER  -p $AZURE_PWD
 #az group delete --name $AZ_RESOURCE_GROUP
 az group delete --name $AZ_RESOURCE_GROUP
 enter_cont
@@ -1466,7 +1464,6 @@ enter_cont
 azure_create_containergroup() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-az login -u $AZURE_USER  -p $AZURE_PWD
 enter_cont
 cd ${GITHUB_DIR}
 
@@ -1520,9 +1517,6 @@ sleep 2
 # Return: the whole_sjebang
 ##################################################################
 the_whole_sjebang() {
-docker login -u $DOCKER_USER #
-az login -u $AZURE_USER  # -p $AZURE_PWD
-enter_cont
 docker_compose_images
 docker_tag_images
 docker_push_images
@@ -1579,7 +1573,7 @@ fi
 # Return: variables
 ##################################################################
 azure_login() {
-az login -u bosch.peter@outlook.com #-p 0l.n
+az login -u bosch.peter@outlook.com 
 
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  az account list
