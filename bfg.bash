@@ -102,6 +102,7 @@ if [ "$1" = "mm" ]
     CERT_HOST_IP_WP_SERVICE_HOSTNAME=$3
     IFS=. url_components=($3##*-})
     AZ_DNSNAMELABEL=${url_components[0]} #discipl (.westeurope.cloudapp.azure.com)
+
    else 
     MENU=true
     echo "~~~~~~~~~~~~~~~~~~~~"
@@ -126,6 +127,19 @@ EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen
 #'********** end of parameters **********
 #'Below the functions that are called by other functions
 # modify at your own peril! because of configuration drift   100% generation
+
+##################################################################
+# Purpose: Procedure to create directories specified
+# Arguments:
+# Return: To check if a directory exists in a shell script you can use the following:
+##################################################################
+create_logdir() {
+if ! [ -d "${LOG_DIR}" ]; then
+  cd $PROJECT_DIR
+  #mkdir  ${LOG_DIR}
+fi
+}
+
 
 ##################################################################
 # Purpose: get latests batch file generator from repo
@@ -722,8 +736,6 @@ echo "{
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
-
-
 #################################################################
 # Purpose: hack
 # Arguments:
@@ -931,17 +943,7 @@ create_logfile_footer() {
     echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
     }
 
-##################################################################
-# Purpose: Procedure to create directories specified
-# Arguments:
-# Return: To check if a directory exists in a shell script you can use the following:
-##################################################################
-create_logdir() {
-if ! [ -d "${LOG_DIR}" ]; then
-  cd $PROJECT_DIR
-  #mkdir  ${LOG_DIR}
-fi
-}
+
 
 ##################################################################
 # Purpose: #echo ${PROJECT_DIR} | awk -F/ '{print "/"$2"/"$3"/"$4"/"$5"/"$6}'
@@ -1372,18 +1374,22 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 
 
 ##################################################################
-# Purpose:  start container from base image
+# Purpose:  start container from base image the docker run command is de the command used to run Docker containers. 
 # Arguments: docker run [image] [ps -f]
-# Return:    docker run -d --name container_name image_name
+# Return:https://linuxhint.com/dockerfile_expose_ports/
 ##################################################################
-docker_run_image() {
+docker_run_images() {
+#59bafc1e5c92        waardepapieren_clerk-frontend           "nginx -g 'daemon of…"   3 days ago          Up 3 days (healthy)   0.0.0.0:443->443/tcp, 80/tcp, 0.0.0.0:8880->8880/tcp   waardepapieren_clerk-frontend_1
+#f8d5b3cfce1f        waardepapieren_waardepapieren-service   "docker-entrypoint.s…"   3 days ago          Up 3 days             0.0.0.0:3232-3233->3232-3233/tcp                       waardepapieren_waardepapieren-service_1
+#e3d88353d30f        waardepapieren_mock-nlx                 "docker-entrypoint.s…"   3 days ago          Up 3 days             0.0.0.0:80->80/tcp                                     waardepapieren_mock-nlx_1
+
 echo "Running:"${FUNCNAME[0]}" $@"
-#-p 8080:80
-#-d detatched 
-# arg = ${GIT_REPO}_${CLERK_FRONTEND}
 create_logfile_header "${FUNCNAME[0]}" $@
 #docker run -it $1 /bin/bash
-docker run -d --name $1  #${GIT_REPO}_${CLERK_FRONTEND} 
+#docker run -d --name $1  #${GIT_REPO}_${CLERK_FRONTEND} 
+docker run -d --name mock-nlx boscp08/waardepapieren_mock-nlx:2 -p 0.0.0.0:80->80/tcp
+
+#docker inspect mock-nlx | grep Address
 
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
@@ -1548,8 +1554,6 @@ sleep 2
 ##################################################################
 the_whole_sjebang() {
   
-create_directories
-create_logdir
 
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
@@ -1975,15 +1979,14 @@ set_all_Dockerfiles
 ## M A I N
 # program starts here actually
 #######################
+LOG_DIR=${GITHUB_DIR}/LOG_DIR
+BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
+LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`
+LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
 create_directories
 create_logdir
 #set_credentials
 clear
-
-BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
-LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`
-LOG_DIR=${GITHUB_DIR}/LOG_DIR
-LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
 
 echo "***"
 echo "***  Welcome to a `uname` docker build  $BATCH_START_DATE_TIME "
