@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020-0107 21:00      bash file generator.   dingo. MOCK_NLX
+#   Peter Bosch        2020-0107 21:30      bash file generator.   dingo. 
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
@@ -305,10 +305,11 @@ echo "set_Dockerfile_waardepapieren_service_without_volumes"
 echo "set_Dockerfile_mock_nlx"
 echo "set_clerk_frontend_nginx_conf"
 echo "set_waardepapieren_service_config_compose_travis_json"
-#echo "set_waardepapieren_service_config_compose_json"
-#echo "set_waardepapieren_service_config_json"
+echo "set_waardepapieren_service_config_compose_json"
+echo "set_waardepapieren_service_config_json"
 echo "set_azure_deploy_aci_yaml"
 echo "okay ?"
+sleep 2
 
 set_docker_compose_travis_yml_without_volumes
 set_Dockerfile_mock_nlx_without_volumes
@@ -716,7 +717,7 @@ echo "{
   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://localhost:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -754,7 +755,7 @@ echo "{
   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"https://$CERT_HOST_IP:443\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"https://localhost:443\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -792,7 +793,7 @@ echo "{
   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://localhost:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
