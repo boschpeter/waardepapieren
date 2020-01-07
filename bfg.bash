@@ -689,7 +689,6 @@ echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/waardepapieren-service/configuration
 TT_INSPECT_FILE=waardepapieren-config.json
 enter_touch "${FUNCNAME[0]}" $@
-
 cd $TT_DIRECTORY
 echo "{
   \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
@@ -700,7 +699,7 @@ echo "{
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
-  \"EPHEMERAL_RETENTION_TIME\": 86400,
+  \"EPHEMERAL_RETENTION_TIME\": 86401,
   \"PRODUCT_NEED\" : \"BRP_UITTREKSEL_NEED\",
   \"SOURCE_NLX_PATH\" : \"/brp/basisregistratie/natuurlijke_personen/bsn/{BSN}\",
   \"SOURCE_ARGUMENT\" : \"BSN\",
