@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020017 1900        bash file generator.   dingo.
+#   Peter Bosch        2020017 1730        bash file generator.   dingo.
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
@@ -1407,8 +1407,7 @@ if  [ "$3" = "clerk-frontend" ] ; then
     docker run -d --p 443:443 -p 8880:8880  --name $3  $1/$2_$3:$4 
 fi
 
-
-#docker inspect mock-nlx | grep Address
+#docker inspect mock-nlx | grep Address 172.17.0.2 3 4
 
 }
 
