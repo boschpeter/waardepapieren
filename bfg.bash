@@ -529,13 +529,6 @@ echo "FROM node:10
 RUN mkdir /app
 ADD index.js package.json package-lock.json /app/
 WORKDIR /app
-ENV DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
-ENV TLS_NLX_ROOT_CERT=/certs/root.crt
-ENV TLS_ORG_CERT=/certs/org.crt
-ENV TLS_ORG_KEY=/certs/org.key
-ENV TZ=Europe/Amsterdam
-ENV DISABLE_LOGDB=1
-ADD certs/root.crt /certs/root.crt
 RUN npm install --production
 CMD npm start" > "${TT_INSPECT_FILE}"
 
