@@ -526,8 +526,6 @@ services:
     ports:
       - 80:80" > "${TT_INSPECT_FILE}"
 
-cat     "${TT_INSPECT_FILE}"
-
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
 
@@ -1288,6 +1286,7 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 docker_compose_images() {
 cd ${GITHUB_DIR}
 docker-compose -f docker-compose-travis.yml up --build
+
 }
 
 ##################################################################
