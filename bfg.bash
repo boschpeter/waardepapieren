@@ -550,6 +550,7 @@ ENV DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
 ENV TLS_NLX_ROOT_CERT=/certs/root.crt
 ENV TLS_ORG_CERT=/certs/org.crt
 ENV TLS_ORG_KEY=/certs/org.key
+ENT TZ=Europe/Amsterdam
 ENV DISABLE_LOGDB=1
 ADD certs/root.crt /certs/root.crt
 RUN npm install --production
