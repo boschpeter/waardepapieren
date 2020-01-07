@@ -1547,6 +1547,10 @@ sleep 2
 # Return: the whole_sjebang
 ##################################################################
 the_whole_sjebang() {
+  
+create_directories
+create_logdir
+
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 
@@ -1975,14 +1979,13 @@ set_all_Dockerfiles
 
 }
 
-
 #######################
 ## M A I N
 # program starts here actually
 #######################
 create_directories
 create_logdir
-set_credentials
+#set_credentials
 clear
 
 BATCH_START_DATE_TIME=`date +%Y%m%d_%H_%M`
