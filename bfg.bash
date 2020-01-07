@@ -393,7 +393,7 @@ check_check_doublecheck  "${FUNCNAME[0]}" $@
 # Arguments:
 # Return:
 ##################################################################
-set_Dockerfile_mock_nlx() {
+set_Dockerfile_mock_nlx_with_volumes() {
 echo "Running: "${FUNCNAME[0]}" $@"
 TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
 TT_INSPECT_FILE=Dockerfile
@@ -512,8 +512,16 @@ services:
       test: service nginx status
   #  volumes:
   #    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
-  mock-nlx:
-    build: mock-nlx/
+   mock-nlx:
+    image: nlxio/outway:latest
+  #  volumes:
+  #    - ./mock-nlx/certs:/certs:ro
+    environment:
+      - DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
+      - TLS_NLX_ROOT_CERT=/certs/root.crt
+      - TLS_ORG_CERT=/certs/org.crt
+      - TLS_ORG_KEY=/certs/org.key
+      - DISABLE_LOGDB=1
     ports:
       - 80:80" > "${TT_INSPECT_FILE}"
 
@@ -521,6 +529,35 @@ cat     "${TT_INSPECT_FILE}"
 
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
+
+##################################################################
+# Purpose: modify mock-nlx.Dockerfile
+# Arguments:
+# Return:
+##################################################################
+set_Dockerfile_mock_nlx_without_volumes() {
+echo "Running: "${FUNCNAME[0]}" $@"
+TT_DIRECTORY=${GITHUB_DIR}/mock-nlx
+TT_INSPECT_FILE=Dockerfile
+enter_touch "${FUNCNAME[0]}" $@
+cd $TT_DIRECTORY
+
+echo "FROM node:10
+RUN mkdir /app
+ADD index.js package.json package-lock.json /app/
+WORKDIR /app
+ENV DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
+ENV TLS_NLX_ROOT_CERT=/certs/root.crt
+ENV TLS_ORG_CERT=/certs/org.crt
+ENV TLS_ORG_KEY=/certs/org.key
+ENV DISABLE_LOGDB=1
+ADD certs/root.crt /certs/root.crt
+RUN npm install --production
+CMD npm start" > "${TT_INSPECT_FILE}"
+
+check_check_doublecheck  "${FUNCNAME[0]}" $@
+}
+
 
 ##################################################################
 # Purpose: modify clerk-frontend.Dockerfile
@@ -580,6 +617,7 @@ ADD .babelrc package.json package-lock.json /app/
 ADD src/* app/src/
 ADD configuration/* app/configuration/
 #- ./waardepapieren-service/system-test/certs:/certs:ro
+ENV WAARDEPAPIEREN_CONFIG=/app/configuration/waardepapieren-config-compose.json
 RUN mkdir /certs
 ADD system-test/certs/org.crt /certs/org.crt
 ADD system-test/certs/org.key /certs/org.key
@@ -598,6 +636,7 @@ RUN npm install --production
 CMD npm start"  > "${TT_INSPECT_FILE}"
 check_check_doublecheck  "${FUNCNAME[0]}" $@
 }
+
 
 ##################################################################
 # Purpose: hack into clerk-frontend build in nginx
@@ -795,9 +834,10 @@ echo "okay ?"
 echo enter
 
 set_docker_compose_travis_yml_without_volumes
+set_Dockerfile_mock_nlx_without_volumes
 set_Dockerfile_clerk_frontend_without_volumes
 set_Dockerfile_waardepapieren_service_without_volumes
-set_Dockerfile_mock_nlx
+
 
 #set_docker_compose_travis_yml_with_volumes  N/A in ACI K8s
 #set_Dockerfile_clerk_frontend_with_volumes
