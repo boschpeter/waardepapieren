@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020-0107 19:00      bash file generator.   dingo.
+#   Peter Bosch        2020-0107 20:00      bash file generator.   dingo.
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
@@ -590,9 +590,9 @@ ADD system-test/ephemeral-certs/org.key /ephemeral-certs/
 #- ./waardepapieren-service/configuration/:/app/configuration:ro
 WORKDIR /app
 RUN mkdir /configuration
-ADD configuration/waardepapieren-config-compose.json /app/configuration
 ADD configuration/waardepapieren-config-compose-travis.json /app/configuration
-ADD configuration/waardepapieren-config.json /app/configuration
+#ADD configuration/waardepapieren-config-compose.json /app/configuration
+#ADD configuration/waardepapieren-config.json /app/configuration
 ENV WAARDEPAPIEREN_CONFIG /app/configuration/waardepapieren-config.json
 RUN npm install --production
 CMD npm start"  > "${TT_INSPECT_FILE}"
@@ -748,8 +748,8 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://$CERT_HOST_IP:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://$CERT_HOST_IP:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://localhost:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
   \"NLX_OUTWAY_ENDPOINT\" : \"http://$CERT_HOST_IP:80\",
