@@ -659,11 +659,11 @@ http {
         ssl_certificate_key /etc/nginx/certs/org.key;
 
         location /api/eph/ {
-            proxy_pass https://waardepapieren-service:3232/;
+            proxy_pass https://52.137.30.115:3232/;
         }
 
         location /api/eph-ws {
-            proxy_pass https://waardepapieren-service:3232;
+            proxy_pass https://52.137.30.115:3232;
             proxy_http_version 1.1;
             proxy_set_header Upgrade \$http_upgrade;
             proxy_set_header Connection "Upgrade";
@@ -772,7 +772,7 @@ echo "{
   \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://localhost:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://52.137.30.115:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
