@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020-0107 21:30      bash file generator.   dingo. 
+#   Peter Bosch        2020-0107 21:30      bash file generator.   dingo. 52.137.30.115
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
@@ -659,11 +659,11 @@ http {
         ssl_certificate_key /etc/nginx/certs/org.key;
 
         location /api/eph/ {
-            proxy_pass https://52.137.30.115:3232/;
+            proxy_pass https://${CERT_HOST_IP}:3232/;
         }
 
         location /api/eph-ws {
-            proxy_pass https://52.137.30.115:3232;
+            proxy_pass https://${CERT_HOST_IP}:3232;
             proxy_http_version 1.1;
             proxy_set_header Upgrade \$http_upgrade;
             proxy_set_header Connection "Upgrade";
@@ -692,11 +692,11 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://localhost:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://localhost:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -730,11 +730,11 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://localhost:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"https://localhost:443\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"https://${CERT_HOST_IP}:443\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
@@ -768,11 +768,11 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://localhost:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
-  \"NLX_OUTWAY_ENDPOINT\" : \"http://52.137.30.115:80\",
+  \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
   \"NLX_CERT\": \"/certs/org.crt\",
   \"NLX_KEY\": \"/certs/org.key\",
   \"LOG_LEVEL\": \"info\",
