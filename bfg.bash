@@ -175,7 +175,7 @@ show_menus() {
   echo "30. docker_compose_images                $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "31. docker_compose_down                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "40. docker_build_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"
+  echo "40. docker_build_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} VERSION=$DOCKER_VERSION_TAG"
   echo "41 docker_build_mock_nlx                ${GIT_REPO}_${MOCK_NLX} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "42 docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "43 docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
@@ -1280,7 +1280,7 @@ arg1=$2 #${DOCKER_USER}
 arg2=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$4 #${DOCKER_VERSION_TAG}
 cd ${GITHUB_DIR}/$1
-docker build -t $2/$3 . -t $2/$3:$4  #mind the dot!
+docker build -t $2/$3:$4 .   #mind the dot!
 cd ${GITHUB_DIR}  #cd -
 }
 
