@@ -175,18 +175,18 @@ show_menus() {
   echo "30. docker_compose_images                $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "31. docker_compose_down                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "40. docker_build_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} VERSION=$DOCKER_VERSION_TAG"
-  echo "41 docker_build_mock_nlx                ${GIT_REPO}_${MOCK_NLX} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
-  echo "42 docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
-  echo "43 docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
-  echo "44. docker_login                        $DOCKER_USER               "
-  echo "45. docker_push_images                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "40. docker_build_images                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} VERSION=$DOCKER_VERSION_TAG"
+  echo "41. docker_build_mock_nlx                ${GIT_REPO}_${MOCK_NLX} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "42. docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "43. docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "44. docker_login                         $DOCKER_USER               "
+  echo "45. docker_push_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "50. azure_restart_containergroup        $AZ_RESOURCE_GROUP         "
-  echo "51. azure_login                         $AZURE_USER                "
-  echo "53. azure_delete_resourcegroup          $AZ_RESOURCE_GROUP         "
-  echo "54. azure_create_resourcegroup          $AZ_RESOURCE_GROUP         "
-  echo "55. azure_create_containergroup         $AZ_RESOURCE_GROUP         "
+  echo "50. azure_restart_containergroup         $AZ_RESOURCE_GROUP         "
+  echo "51. azure_login                          $AZURE_USER                "
+  echo "52. azure_delete_resourcegroup           $AZ_RESOURCE_GROUP         "
+  echo "53. azure_create_resourcegroup           $AZ_RESOURCE_GROUP         "
+  echo "54. azure_create_ACI          Azure Container Instance costcenter;-) = $AZ_RESOURCE_GROUP         "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "60. https://github.com/boschpeter/$GIT_REPO   "
   echo "61. https://hub.docker.com/?ref=login         "
@@ -194,20 +194,17 @@ show_menus() {
   echo "63. https://$CERT_HOST_IP:443                 "
   echo "64. pim https://waardepapieren-demo.discipl.org BSN=663678651"
 	echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "70  . bfg.bash mm 0 localhost "
-  echo "71  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com "
-  echo "72  . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com"
-  echo "73  . bfg.bash mm 2 waardepapieren-demo.westeurope.azurecontainer.io"
-  echo "74  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
-  echo "79.   get_this_batchfile_generator latest from repo "
+  echo "70.  . bfg.bash mm 0 localhost "
+  echo "71.  . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com "
+  echo "72.  . bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com"
+  echo "73.  . bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io"
+  echo "74.  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
+  echo "79.    get_this_bfg_batchfile_generator latest from https://github.com/boschpeter/${GIT_REPO}.git "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "80. the_whole_sjebang "
   echo "81. "
   echo "82. "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "91. set_docker_compose_travis_yml_with_volumes  "
-  echo "92. set_Dockerfile_clerk_frontend_with_volumes  "
-  echo "93. set_Dockerfile_waardepapieren_service_with_volumes "
   echo "99. Exit"
 }
 # read input from the keyboard and take a action
@@ -242,7 +239,7 @@ read_options(){
         51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
         53) azure_create_resourcegroup                                             ;;
-        54) azure_create_containergroup                                            ;;
+        54) azure_create_ACI                                            ;;
         60) bookmark_open https://github.com/boschpeter/$GIT_REPO                  ;;
         61) bookmark_open https://hub.docker.com/?ref=login                        ;;
         62) bookmark_open https://portal.azure.com/\#home                          ;;
@@ -256,9 +253,6 @@ read_options(){
         74) bfg_bash_mm_4_discipl_westeurope_azurecontainer_io                     ;;
         79) get_curl_bfg                                                           ;;
         80) the_whole_sjebang                                                      ;;
-        91) set_docker_compose_travis_yml_with_volumes                             ;;
-        92) set_Dockerfile_clerk_frontend_with_volumes                             ;;
-        93) set_Dockerfile_waardepapieren_service_with_volumes                     ;;
         99) Exit                                                                   ;;
 		*) echo -e "${RED}Error...${STD}" && sleep 1
 	esac
@@ -1491,7 +1485,7 @@ enter_cont
 # Arguments:
 # Return:
 ##################################################################
-azure_create_containergroup() {
+azure_create_ACI() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 enter_cont
@@ -1564,7 +1558,7 @@ docker_push_images
 
 azure_delete_resourcegroup  $AZ_RESOURCE_GROUP
 azure_create_resourcegroup  $AZ_RESOURCE_GROUP
-azure_create_containergroup $AZ_RESOURCE_GROUP
+azure_create_ACI $AZ_RESOURCE_GROUP
 create_logfile_footer
 
 }
@@ -1902,7 +1896,7 @@ if [ "$1" = "" ]
   echo "dpi=docker_push_images"
   echo "adr=azure_delete_resourcegroups"
   echo "acr=azure_create_resourcegroups"
-  echo "acc=azure_create_containergroup"
+  echo "acc=azure_create_ACI"
   echo "arc=azure_restart_containergroup pull again"
   enter_cont
 
@@ -1952,9 +1946,9 @@ set_all_Dockerfiles
   fi
 
   if [ "$1" = "acc" ]
-   then echo "acc=azure_create_containergroup"
+   then echo "acc=azure_create_ACI"
    enter_cont
-   azure_create_containergroup
+   azure_create_ACI
   fi
 
   if [ "$1" = "arc" ]
