@@ -1840,12 +1840,9 @@ echo "GIT_REPO=$GIT_REPO"                                                       
 echo "GITHUB_DIR=$GITHUB_DIR"                                                          >> "${LOG_FILE}"
 echo "DOCKER_USER=$DOCKER_USER"                                                        >> "${LOG_FILE}"
 echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                          >> "${LOG_FILE}"
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> "${LOG_FILE}"
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> "${LOG_FILE}"
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> "${LOG_FILE}"
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                 >> "${LOG_FILE}"
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"     >> "${LOG_FILE}"
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                     >> "${LOG_FILE}"
+echo "MOCK_NLX_IMAGES=${GIT_REPO}_${MOCK_NLX}"                                         >> "${LOG_FILE}"
+echo "WAARDEPAPIEREN-SERVICE_IMAGE=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"              >> "${LOG_FILE}"
+echo "CLERK-FRONTEND_IMAGE=${GIT_REPO}_${CLERK_FRONTEND}"                              >> "${LOG_FILE}"
 echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                          >> "${LOG_FILE}"
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                            >> "${LOG_FILE}"
 echo "AZ_DNSNAMELABEL=$AZ_DNSNAMELABEL"                                                >> "${LOG_FILE}"
@@ -1879,12 +1876,9 @@ echo "GIT_REPO=$GIT_REPO"                                                       
 echo "GITHUB_DIR=$GITHUB_DIR"                                                           #=$PROJECT_DIR/${GIT_REPO}   #git clone https://github.com/ezahr/Waardepapieren-AZURE-ACI.git 
 echo "DOCKER_USER=$DOCKER_USER"                                                         #="boscp08"  #NB repository name must be lowercase
 echo "COMPOSE_BUILD_FLAG=$COMPOSE_BUILD_FLAG"                                           #=" --build"
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                  #=waardepapieren_mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"      #=waardepapieren_waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                      #=waardepapieren_clerk-frontend
-echo "${GIT_REPO}_${MOCK_NLX}=${GIT_REPO}_${MOCK_NLX}"                                  #=waardepapieren-mock-nlx
-echo "${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"      #=waardepapieren-waardepapieren-service
-echo "${GIT_REPO}_${CLERK_FRONTEND}=${GIT_REPO}_${CLERK_FRONTEND}"                      #=waardepapieren-clerk-frontend
+echo "MOCK_NLX_IMAGE=${GIT_REPO}_${MOCK_NLX}"                                           #=waardepapieren_mock-nlx
+echo "WAARDEPAPIEREN_SERVICE_IMAGES=${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}"              #=waardepapieren_waardepapieren-service
+echo "CLERK_FRONTEND_IMAGE=${GIT_REPO}_${CLERK_FRONTEND}"                               #=waardepapieren_clerk-frontend
 echo "DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG"                                           #="4.0"
 echo "AZURE_USER=$AZURE_USER"                                                           #=bosch.peter@outlook.com
 echo "AZ_RESOURCE_GROUP=$AZ_RESOURCE_GROUP"                                             #="Discipl_Wigo4it_DockerGroup4"  #waardepapierenVM
@@ -1895,8 +1889,6 @@ echo "EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=$EPHEMERAL_RETENTION_TIME_COMPOSE_
 #echo "EPHEMERAL_RETENTION_TIME_CONFIG=$EPHEMERAL_RETENTION_TIME_CONFIG"
 echo "CERT_HOST_IP=$CERT_HOST_IP"                                                       #=$AZ_DNSNAMELABEL.westeurope."$AZ_TLD"  #FQDN linux
 echo "CERT_HOST_IP_WP_SERVICE_HOSTNAME=$CERT_HOST_IP_WP_SERVICE_HOSTNAME"               #=$AZ_DNSNAMELABEL.westeurope.$AZ_TLD
-echo "DOUBLE_CHECK=$DOUBLE_CHECK"                                                       #=true  #cat content modified files to ${LOG_DIR}
-echo "MENU=$MENU"                                                                       #=true
 enter_cont
 clear
 }
