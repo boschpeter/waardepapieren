@@ -182,7 +182,7 @@ show_menus() {
   echo "44. docker_login                         $DOCKER_USER               "
   echo "45. docker_push_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "50. azure_restart_ACI         $AZ_RESOURCE_GROUP         "
+  echo "50. azure_restart_ACI                    $AZ_RESOURCE_GROUP         "
   echo "51. azure_login                          $AZURE_USER                "
   echo "52. azure_delete_resourcegroup           $AZ_RESOURCE_GROUP         "
   echo "53. azure_create_resourcegroup           $AZ_RESOURCE_GROUP         "
@@ -235,11 +235,11 @@ read_options(){
         43) docker_build_clerk_frontend                                            ;;
         44) docker_login                                                           ;;
         45) docker_push_images                                                     ;;
-        50) azure_restart_ACI                                           ;;
+        50) azure_restart_ACI                                                      ;;
         51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
         53) azure_create_resourcegroup                                             ;;
-        54) azure_create_ACI                                            ;;
+        54) azure_create_ACI                                                       ;;
         60) bookmark_open https://github.com/boschpeter/$GIT_REPO                  ;;
         61) bookmark_open https://hub.docker.com/?ref=login                        ;;
         62) bookmark_open https://portal.azure.com/\#home                          ;;
@@ -1276,6 +1276,10 @@ arg3=$4 #${DOCKER_VERSION_TAG}
 cd ${GITHUB_DIR}/$1
 docker build -t $2/$3:$4  .   #mind the dot!
 cd ${GITHUB_DIR}  #cd -
+
+create_logfile_footer "${FUNCNAME[0]}" $@
+
+
 }
 
 ##################################################################
@@ -1513,8 +1517,8 @@ cd $GITHUB_DIR
 ##################################################################
 # Purpose: Procedure to clone build run ship and deploy
 # Arguments:
-# Return: the whole_sjebang
-##################################################################
+# Return: t
+#################################################################
 set_docker_tag() {
 
 echo "DOCKER_VERSION_TAG="$DOCKER_VERSION_TAG
@@ -1527,7 +1531,7 @@ sleep 1
 ##################################################################
 # Purpose: Procedure to clone build run ship and deploy
 # Arguments:
-# Return: the whole_sjebang
+# Return: setter 
 ##################################################################
 set_azure_resourcegroup() {
 
@@ -1543,25 +1547,35 @@ sleep 2
 # Return: the whole_sjebang
 ##################################################################
 the_whole_sjebang() {
-docker_compose_images
-docker_tag_images
-docker_push_images
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
 
-#docker_build_image mock-nlx  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}
-#docker_build_image waardepapieren-service ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}
-#docker_build_image clerk-frontend ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}
-#docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}
-#docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}
-#docker_tag_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}
+read -p "docker and auzure login. Are you sure? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    # do dangerous stuff
+    docker_login
+    azure_login
+fi
 
-#docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}
-#docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}
-#docker_push_image  ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}
+read -p "docker system prune -a .. Are you sure? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    # do dangerous stuff
+    docker_system_prune
+fi
+ 
+    show_parameters
+    docker_build_images
+    docker_push_images
+    azure_delete_resourcegroup $AZ_RESOURCE_GROUP
+    azure_create_resourcegroup $AZ_RESOURCE_GROUP
+    azure_create_ACI $AZ_RESOURCE_GROUP
+    #azure_restart_ACI $AZ_RESOURCE_GROUP
 
-azure_delete_resourcegroup  $AZ_RESOURCE_GROUP
-azure_create_resourcegroup  $AZ_RESOURCE_GROUP
-azure_create_ACI $AZ_RESOURCE_GROUP
-create_logfile_footer
+create_logfile_header "${FUNCNAME[0]}" $@
 
 }
 
