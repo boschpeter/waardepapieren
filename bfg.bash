@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020-0107 20:00      bash file generator.   dingo.
+#   Peter Bosch        2020-0107 21:00      bash file generator.   dingo. MOCK_NLX
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
