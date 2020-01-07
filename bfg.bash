@@ -194,7 +194,9 @@ show_menus() {
   echo "42. docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "43. docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "44. docker_login                         $DOCKER_USER               "
-  echo "45. docker_push_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "45. docker_tag_images                    ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "46. docker_commit_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "49. docker_push_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "50. azure_restart_ACI                    $AZ_RESOURCE_GROUP         "
   echo "51. azure_login                          $AZURE_USER                "
@@ -248,7 +250,9 @@ read_options(){
         42) docker_build_waardepapieren_service                                    ;;
         43) docker_build_clerk_frontend                                            ;;
         44) docker_login                                                           ;;
-        45) docker_push_images                                                     ;;
+        45) docker_tag_images                                                      ;;
+        46) docker_commit_images                                                   ;;
+        49) docker_push_images                                                     ;;
         50) azure_restart_ACI                                                      ;;
         51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
@@ -1451,7 +1455,6 @@ arg2=$2 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg4=$4 #${DOCKER_VERSION_TAG}
 docker tag $2:latest $1/$3:$4
-
 }
 
 ##################################################################
