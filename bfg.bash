@@ -346,9 +346,9 @@ echo "version: '3'
 services:
   waardepapieren-service:
     volumes:
-    - ./waardepapieren-service/system-test/certs:/certs:ro
-    - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
-    - ./waardepapieren-service/configuration/:/app/configuration:ro
+      - ./waardepapieren-service/system-test/certs:/certs:ro
+      - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
+      - ./waardepapieren-service/configuration/:/app/configuration:ro
     build: waardepapieren-service/.
     links:
       - mock-nlx
@@ -356,9 +356,9 @@ services:
       - 3232:3232
       - 3233:3233
     environment:
-    - WAARDEPAPIEREN_CONFIG=/app/configuration/waardepapieren-config-compose.json
-    # Ignore self-signed ephemeral and NLX cert issues
-    - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - WAARDEPAPIEREN_CONFIG=/app/configuration/waardepapieren-config-compose-travis.json
+      # Ignore self-signed ephemeral cert issues
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
   clerk-frontend:
     build:
       context: clerk-frontend/
@@ -367,22 +367,14 @@ services:
     links:
       - waardepapieren-service
     ports:
-    - 443:443
-    - 8880:8880
+      - 443:443
+      - 8880:8880
     healthcheck:
       test: service nginx status
     volumes:
-    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
+      - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
   mock-nlx:
-    image: nlxio/outway:latest
-    volumes:
-      - ./mock-nlx/certs:/certs:ro
-    environment:
-      - DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
-      - TLS_NLX_ROOT_CERT=/certs/root.crt
-      - TLS_ORG_CERT=/certs/org.crt
-      - TLS_ORG_KEY=/certs/org.key
-      - DISABLE_LOGDB=1
+    build: mock-nlx/
     ports:
       - 80:80" >  "${TT_INSPECT_FILE}"
 
@@ -486,9 +478,9 @@ echo "version: '3'
 services:
   waardepapieren-service:
     volumes:
-      #- ./waardepapieren-service/system-test/certs:/certs:rw
-      #- ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:rw
-      - ./waardepapieren-service/configuration/:/app/configuration2:rw  #FAKE
+ #     - ./waardepapieren-service/system-test/certs:/certs:ro
+ #     - ./waardepapieren-service/system-test/ephemeral-certs:/ephemeral-certs:ro
+      - ./waardepapieren-service/configuration/:/app/configuration:ro
     build: waardepapieren-service/.
     links:
       - mock-nlx
@@ -503,7 +495,7 @@ services:
     build:
       context: clerk-frontend/
       args:
-        - CERTIFICATE_HOST=
+        - CERTIFICATE_HOST=http://$CERT_HOST_IP:8880
     links:
       - waardepapieren-service
     ports:
@@ -511,18 +503,10 @@ services:
       - 8880:8880
     healthcheck:
       test: service nginx status
-  #  volumes:
-  #    - ./clerk-frontend/nginx/certs:/etc/nginx/certs:rw
-   mock-nlx:
-    image: nlxio/outway:latest
-  #  volumes:
-  #    - ./mock-nlx/certs:/certs:ro
-    environment:
-      - DIRECTORY_INSPECTION_ADDRESS=directory-inspection-api.demo.nlx.io:443
-      - TLS_NLX_ROOT_CERT=/certs/root.crt
-      - TLS_ORG_CERT=/certs/org.crt
-      - TLS_ORG_KEY=/certs/org.key
-      - DISABLE_LOGDB=1
+#    volumes:
+#      - ./clerk-frontend/nginx/certs:/etc/nginx/certs:ro
+  mock-nlx:
+    build: mock-nlx/
     ports:
       - 80:80" > "${TT_INSPECT_FILE}"
 
