@@ -311,7 +311,7 @@ echo "set_azure_deploy_aci_yaml"
 echo "okay ?"
 
 set_docker_compose_travis_yml_without_volumes
-set_Dockerfile_mock_nlx
+set_Dockerfile_mock_nlx_without_volumes
 set_Dockerfile_clerk_frontend_without_volumes
 set_Dockerfile_waardepapieren_service_without_volumes
 
