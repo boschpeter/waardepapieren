@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020017 1730        bash file generator.   dingo.
+#   Peter Bosch        2020-0107 19:00      bash file generator.   dingo.
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
@@ -805,8 +805,8 @@ set_Dockerfile_mock_nlx
 
 set_clerk_frontend_nginx_conf
 set_waardepapieren_service_config_compose_travis_json
-set_waardepapieren_service_config_compose_json
-set_waardepapieren_service_config_json
+#set_waardepapieren_service_config_compose_json
+#set_waardepapieren_service_config_json
 set_azure_deploy_aci_yaml
 
 create_logfile_footer "${FUNCNAME[0]}" $@
@@ -942,8 +942,6 @@ create_logfile_footer() {
     echo ----------------------------------------------------------------------------- >> "${LOG_FILE}"
     }
 
-
-
 ##################################################################
 # Purpose: #echo ${PROJECT_DIR} | awk -F/ '{print "/"$2"/"$3"/"$4"/"$5"/"$6}'
 # Arguments: directory structure  #/home/boscp08/Projects/scratch/virtual-insanity
@@ -1057,7 +1055,7 @@ fi
 # Return: specified directory structure
 ##################################################################
 create_directories() {
-make_folder ${PROJECT_DIR}
+#make_folder ${PROJECT_DIR}
 make_folder ${LOG_DIR}
 }
 
@@ -1280,7 +1278,6 @@ cd ${GITHUB_DIR}  #cd -
 
 create_logfile_footer "${FUNCNAME[0]}" $@
 
-
 }
 
 ##################################################################
@@ -1346,7 +1343,6 @@ create_logfile_header "${FUNCNAME[0]}" $@
 docker_build_image  ${MOCK_NLX}   ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
-
 ##################################################################
 # Purpose:  docker_build_waardepapieren_service
 # Arguments: docker build -t boscp08/waardepapieren-service .   NB [.] periode means from this directory
@@ -1358,7 +1354,6 @@ create_logfile_header "${FUNCNAME[0]}" $@
 docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${DOCKER_VERSION_TAG}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
-
 ##################################################################
 # Purpose:  build custom image
 # Arguments: specify own modifications in Dockerfile
@@ -1453,7 +1448,6 @@ docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX}
 docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
 docker_tag_image  ${DOCKER_USER} ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
 docker images list
-enter_cont
 docker images | grep  ${DOCKER_VERSION_TAG}
 enter_cont
 docker images | grep  ${DOCKER_VERSION_TAG}     >> ${LOG_DIR}
@@ -1490,8 +1484,6 @@ docker_push_image  ${DOCKER_USER} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION
 create_logfile_footer
 }
 
-
-
 ##################################################################
 # DEPLOY-FUNCTIONS 2AZURE FROM DOCKER-HUB
 ##################################################################
@@ -1510,10 +1502,12 @@ enter_cont
 }
 
 ##################################################################
-# Purpose: Procedure to delete azure resource group (a.k.a costcentre )
-# Arguments:
-# Return:
+# Purpose: Clean up deployment (a.k.a costcentre )
+# Arguments:az group delete -n myResourceGroup --no-wait --yes
+# Return:After the procedure has been run,  to remove the resource groups, VMs, and all related resources.Azure CLI
 ##################################################################
+
+
 azure_delete_resourcegroup() {
 echo "-- Running:"${FUNCNAME[0]}" $@ "
 create_logfile_header "${FUNCNAME[0]}" $@
@@ -1524,16 +1518,14 @@ enter_cont
 
 ##################################################################
 # Purpose: Procedure to create the azure containergroup
-# Arguments:
+# Arguments:cd $GITHUB_DIR
+# https://docs.microsoft.com/en-us/azure/container-instances/container-instances-multi-container-yaml
 # Return:
 ##################################################################
 azure_create_ACI() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-enter_cont
 cd ${GITHUB_DIR}
-
-
 FILE=$GITHUB_DIR/deploy-aci.yaml
 if test -f "$FILE"; then
     echo "$FILE exist"
@@ -1542,12 +1534,31 @@ fi
 
 #az container create --resource-group $AZ_RESOURCE_GROUP --file deploy-aci.yaml
 az container create --resource-group $AZ_RESOURCE_GROUP --file $GITHUB_DIR/deploy-aci.yaml
+
+# View deployment state
+echo "View deployment state"
+az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
 enter_cont
-cd $GITHUB_DIR
+}
+
+
+##################################################################
+# Purpose: Procedure to restart the azure containergroup (pulling dockerhub. )
+# Arguments:
+# Return:https://dev.to/expertsinside/start-restart-and-stop-azure-vm-from-azure-cli-41n9
+##################################################################
+azure_restart_ACI() {
+echo "-- Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
+az container restart  --resource-group $AZ_RESOURCE_GROUP
 # https://docs.microsoft.com/en-us/azure/container-instances/container-instances-multi-container-yaml
 # View deployment state
-# az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
+az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
+
+enter_cont 
+
 }
+
 
 
 ##################################################################
@@ -1585,33 +1596,30 @@ sleep 2
 the_whole_sjebang() {
   
 
-echo "Running:"${FUNCNAME[0]}" $@"
-create_logfile_header "${FUNCNAME[0]}" $@
-
-read -p "docker and auzure login. Are you sure? " -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    # do dangerous stuff
-    docker_login
-    azure_login
-fi
-
-read -p "docker system prune -a .. Are you sure? " -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    # do dangerous stuff
-    docker_system_prune
-fi
+#echo "Running:"${FUNCNAME[0]}" $@"
+#create_logfile_header "${FUNCNAME[0]}" $@
+#
+#read -p "docker and auzure login. Are you sure? " -n 1 -r
+#echo    # (optional) move to a new line
+#if [[ $REPLY =~ ^[Yy]$ ]]
+#then
+#    # do dangerous stuff
+#    docker_login
+#    azure_login
+#fi
+#
+#read -p "docker system prune -a .. Are you sure? " -n 1 -r
+#echo    # (optional) move to a new line
+#if [[ $REPLY =~ ^[Yy]$ ]]
+#then
+#    # do dangerous stuff
+#    docker_system_prune
+#fi
  
     show_parameters
     docker_build_images
     docker_push_images
-    azure_delete_resourcegroup $AZ_RESOURCE_GROUP
-    azure_create_resourcegroup $AZ_RESOURCE_GROUP
-    azure_create_ACI $AZ_RESOURCE_GROUP
-    #azure_restart_ACI $AZ_RESOURCE_GROUP
+    azure_restart_ACI $AZ_RESOURCE_GROUP
 
 create_logfile_header "${FUNCNAME[0]}" $@
 
@@ -1645,13 +1653,18 @@ fi
 
 }
 
+
+
 ##################################################################
 # Purpose: azure_login
 # Arguments:
 # Return: variables
 ##################################################################
 azure_login() {
-az login -u bosch.peter@outlook.com 
+echo "azure_login bosch.peter@outlook.com 0l....n"  
+az login -u bosch.peter@outlook.com  
+
+enter_cont
 
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  az account list
@@ -2015,7 +2028,6 @@ LOG_START_DATE_TIME=`date +%Y%m%d_%H_%M`
 LOG_FILE=${LOG_DIR}/LOG_${LOG_START_DATE_TIME}.log
 create_directories
 create_logdir
-#set_credentials
 clear
 
 echo "***"
