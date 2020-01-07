@@ -1285,9 +1285,12 @@ cd ${GITHUB_DIR}  #cd -
 docker_build_images() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-docker_build_image mock-nlx  ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}
-docker_build_image waardepapieren-service ${DOCKER_USER} ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_VERSION_TAG}
-docker_build_image clerk-frontend ${DOCKER_USER} ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_VERSION_TAG}
+
+docker_build_image  ${MOCK_NLX}                ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
+docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
+docker_build_image  ${CLERK_FRONTEND}          ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG
+
+
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
@@ -1399,16 +1402,21 @@ create_logfile_footer
 }
 
 ##################################################################
-# Purpose:  Push an image or a repository to a registry
+# Purpose:  Adding a User and Saving the Image
 # Arguments: docker push -t boscp08/waardepapieren_service 
-# Return: Ship to docker registry docker.hub.com
+# Return: https://blog.codeship.com/using-docker-commit-to-create-and-change-an-image/
 ##################################################################
 docker_commit() {
 echo "Running:"${FUNCNAME[0]}" $@"
 #create_logfile_header "${FUNCNAME[0]}" $@
-#docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
-##docker commit ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG}
-#docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}
+#docker commit ${GIT_REPO}_${MOCK_NLX} ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:${DOCKER_VERSION_TAG}
+
+arg1=$1 #${GIT_REPO}_${MOCK_NLX}
+arg2=$2 #${DOCKER_USER}
+arg3=$3 #${DOCKER_VERSION_TAG}
+
+docker commit $1 $2/$1:$3
+
 create_logfile_footer
 }
 
