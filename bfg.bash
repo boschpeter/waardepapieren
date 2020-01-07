@@ -805,8 +805,8 @@ set_Dockerfile_mock_nlx
 
 set_clerk_frontend_nginx_conf
 set_waardepapieren_service_config_compose_travis_json
-#set_waardepapieren_service_config_compose_json
-#set_waardepapieren_service_config_json
+set_waardepapieren_service_config_compose_json
+set_waardepapieren_service_config_json  #Error: ENOENT: no such file or directory, open '/app/configuration/waardepapieren-config.json'
 set_azure_deploy_aci_yaml
 
 create_logfile_footer "${FUNCNAME[0]}" $@
