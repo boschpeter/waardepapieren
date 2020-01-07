@@ -170,8 +170,8 @@ show_menus() {
   echo "23. set_Dockerfile_clerk_frontend_without_volumes           "
   echo "24. set_Dockerfile_waardepapieren_service_without_volumes   "
   echo "25. set_clerk_frontend_nginx_conf                           "
-  echo "26 set_waardepapieren_service_config_compose_travis_json    "
-  echo "27  set_azure_deploy_aci_yaml            $AZ_DNSNAMELABEL           "
+  echo "26. set_waardepapieren_service_config_compose_travis_json    "
+  echo "27. set_azure_deploy_aci_yaml            $AZ_DNSNAMELABEL           "
   echo "30. docker_compose_images                $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "31. docker_compose_down                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "~~~~~~~~~~~~~~~~~~~~~"
@@ -182,7 +182,7 @@ show_menus() {
   echo "44. docker_login                         $DOCKER_USER               "
   echo "45. docker_push_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "50. azure_restart_containergroup         $AZ_RESOURCE_GROUP         "
+  echo "50. azure_restart_ACI         $AZ_RESOURCE_GROUP         "
   echo "51. azure_login                          $AZURE_USER                "
   echo "52. azure_delete_resourcegroup           $AZ_RESOURCE_GROUP         "
   echo "53. azure_create_resourcegroup           $AZ_RESOURCE_GROUP         "
@@ -235,7 +235,7 @@ read_options(){
         43) docker_build_clerk_frontend                                            ;;
         44) docker_login                                                           ;;
         45) docker_push_images                                                     ;;
-        50) azure_restart_containergroup                                           ;;
+        50) azure_restart_ACI                                           ;;
         51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
         53) azure_create_resourcegroup                                             ;;
@@ -1897,7 +1897,7 @@ if [ "$1" = "" ]
   echo "adr=azure_delete_resourcegroups"
   echo "acr=azure_create_resourcegroups"
   echo "acc=azure_create_ACI"
-  echo "arc=azure_restart_containergroup pull again"
+  echo "arc=azure_restart_ACI pull again"
   enter_cont
 
 fi
@@ -1952,9 +1952,9 @@ set_all_Dockerfiles
   fi
 
   if [ "$1" = "arc" ]
-   then  echo "arc=azure_restart_containergroup pull again"
+   then  echo "arc=azure_restart_ACI pull again"
    enter_cont
-   azure_restart_containergroup
+   azure_restart_ACI
   fi
 
 }
