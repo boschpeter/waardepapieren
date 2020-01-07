@@ -8,10 +8,13 @@
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
-#  version          :20200101 v0
+#  version          :20200101 v7
 #  File Type        :Bash is a command processor that typically runs in a text window
 #                    Bash can also read and execute commands from a file, called a shell script.
-#  Purpose          :download - Clone - Build - Ship - Deploy  @datafluisteraar
+#                    Personally, I tend to build with a small shell script in my folder (build.bash) 
+#                    which passes any args and includes the name of the image there to save typing. 
+#                    And for production, the build is handled by a ci/cd server that has the image name inside this pipeline script.
+#  Purpose          :download - Clone - Build - Ship - Deploy  @datafluisteraar  @sjef van leeuwen
 #  Title:           :cloutuh
 #  Category         :CI CD  bash file genererator
 #  Identificatie    :https://github.com/BoschPeter/AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io
@@ -161,27 +164,29 @@ show_menus() {
   echo "10. docker_system_prune                                     "
   echo "11. get_curl_waardepapieren                                 "
   echo "12  show_parameters                                         "
-  echo "20. set_all_Dockerfiles          $CERT_HOST_IP              "
+  echo "20. set_all_Dockerfiles   $CERT_HOST_IP                     "
   echo "21. set_docker_compose_travis_yml_without_volumes           "
   echo "22. set_Dockerfile_mock_nlx                                 "
   echo "23. set_Dockerfile_clerk_frontend_without_volumes           "
   echo "24. set_Dockerfile_waardepapieren_service_without_volumes   "
   echo "25. set_clerk_frontend_nginx_conf                           "
   echo "26 set_waardepapieren_service_config_compose_travis_json    "
-  echo "27  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           "
-  echo "30. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
-  echo "31. docker_compose_down          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
+  echo "27  set_azure_deploy_aci_yaml            $AZ_DNSNAMELABEL           "
+  echo "30. docker_compose_images                $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
+  echo "31. docker_compose_down                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "40. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"
-  echo "41. docker_tag_images            $DOCKER_VERSION_TAG        "
-  echo "42. docker_login                 $DOCKER_USER               "
-  echo "43. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} "
+  echo "40. docker_build_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"
+  echo "41 docker_build_mock_nlx                ${GIT_REPO}_${MOCK_NLX} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "42 docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "43 docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
+  echo "44. docker_login                        $DOCKER_USER               "
+  echo "45. docker_push_images                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "50. azure_restart_containergroup $AZ_RESOURCE_GROUP         "
-  echo "51. azure_login                  $AZURE_USER                "
-  echo "53. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
-  echo "54. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         "
-  echo "55. azure_create_containergroup  $AZ_RESOURCE_GROUP         "
+  echo "50. azure_restart_containergroup        $AZ_RESOURCE_GROUP         "
+  echo "51. azure_login                         $AZURE_USER                "
+  echo "53. azure_delete_resourcegroup          $AZ_RESOURCE_GROUP         "
+  echo "54. azure_create_resourcegroup          $AZ_RESOURCE_GROUP         "
+  echo "55. azure_create_containergroup         $AZ_RESOURCE_GROUP         "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "60. https://github.com/boschpeter/$GIT_REPO   "
   echo "61. https://hub.docker.com/?ref=login         "
@@ -228,9 +233,11 @@ read_options(){
         30) docker_compose_images                                                  ;;
         31) docker_compose_down                                                    ;;
         40) docker_build_images                                                    ;;
-        41) docker_tag_images                                                      ;;
-        42) docker_login                                                           ;;
-        43) docker_push_images                                                     ;;
+        41) docker_build_mock_nlx                                                  ;;
+        42) docker_build_waardepapieren_service                                    ;;
+        43) docker_build_clerk_frontend                                            ;;
+        44) docker_login                                                           ;;
+        45) docker_push_images                                                     ;;
         50) azure_restart_containergroup                                           ;;
         51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
@@ -274,10 +281,13 @@ done
 
 ##################################################################
 # Purpose: set all docker (configuration) files
+# The Dockerfile is one of the key features to Docker’s success. 
+# The ability to build a new container image from a simple text file changed the technology game.  
 # Arguments:
 # Return:
 ##################################################################
 set_all_Dockerfiles() {
+
 echo "Running: "${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 
@@ -1256,8 +1266,8 @@ docker-compose -f docker-compose-travis.yml down
 }
 
 #################################################################
-# Purpose:  Procedure to build the mock-nlx image
-# Arguments: docker_build_image mock-nlx boscp08 waardepapieren_mock_nlx 1.0
+# Purpose:  
+# docker build -t dude/man:v2 . # Will be named dude/man:v2
 # Arguments: docker_build_image mock-nlx ${DOCKER_USER} ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_VERSION_TAG}
 # Return: image
 ##################################################################
@@ -1270,7 +1280,7 @@ arg1=$2 #${DOCKER_USER}
 arg2=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$4 #${DOCKER_VERSION_TAG}
 cd ${GITHUB_DIR}/$1
-docker build -t $2/$3 .  #mind the dot!
+docker build -t $2/$3 . -t $2/$3:$4  #mind the dot!
 cd ${GITHUB_DIR}  #cd -
 }
 
@@ -1323,17 +1333,28 @@ docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT
 create_logfile_footer
 }
 
-
 ##################################################################
 # Purpose:  Build an image from a Dockerfile
 # Arguments: docker build -t boscp08/waardepapieren-service .   NB [.] periode means from this directory
 # Return:
 ##################################################################
-docker_build_waardepapierenservice()  {
+docker_build_mock_nlx()  {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-cd ${GITHUB_DIR}/waardepapieren-service
-docker build -t ${DOCKER_USER}/waardepapieren-service .  #NB [.] periode means from this directory
+docker_build_image  ${MOCK_NLX}                ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
+create_logfile_footer "${FUNCNAME[0]}" $@
+}
+
+##################################################################
+# Purpose:  docker_build_waardepapieren_service
+# Arguments: docker build -t boscp08/waardepapieren-service .   NB [.] periode means from this directory
+# Return:
+##################################################################
+docker_build_waardepapieren_service()  {
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
+docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
+create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
 ##################################################################
@@ -1341,11 +1362,11 @@ docker build -t ${DOCKER_USER}/waardepapieren-service .  #NB [.] periode means f
 # Arguments: specify own modifications in Dockerfile
 # Return:
 ##################################################################
-docker_build_clerkfrontend() {
+docker_build_clerk_frontend() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 cd ${GITHUB_DIR}/clerk-frontend
-docker build -t ${DOCKER_USER}/clerk-frontend .  #NB [.] directory containing Dockerfile and other files needed in image
+docker_build_image  ${CLERK_FRONTEND}    ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
@@ -1353,14 +1374,17 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 ##################################################################
 # Purpose:  start container from base image
 # Arguments: docker run [image] [ps -f]
-# Return:
+# Return:    docker run -d --name container_name image_name
 ##################################################################
 docker_run_image() {
 echo "Running:"${FUNCNAME[0]}" $@"
 #-p 8080:80
 #-d detatched 
+# arg = ${GIT_REPO}_${CLERK_FRONTEND}
 create_logfile_header "${FUNCNAME[0]}" $@
-docker run -it $1 bash
+#docker run -it $1 /bin/bash
+docker run -d --name $1  #${GIT_REPO}_${CLERK_FRONTEND} 
+
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 #################################################################
