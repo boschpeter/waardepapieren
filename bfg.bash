@@ -588,7 +588,6 @@ RUN mkdir /ephemeral-certs
 ADD system-test/ephemeral-certs/org.crt /ephemeral-certs/
 ADD system-test/ephemeral-certs/org.key /ephemeral-certs/
 #- ./waardepapieren-service/configuration/:/app/configuration:ro
-
 WORKDIR /app
 RUN mkdir /configuration
 ADD configuration/waardepapieren-config-compose.json /app/configuration
