@@ -1274,7 +1274,7 @@ arg1=$2 #${DOCKER_USER}
 arg2=$3 #${${GIT_REPO}_${MOCK_NLX}}
 arg3=$4 #${DOCKER_VERSION_TAG}
 cd ${GITHUB_DIR}/$1
-docker build -t $2/$3:$4 .   #mind the dot!
+docker build -t $2/$3:$4  .   #mind the dot!
 cd ${GITHUB_DIR}  #cd -
 }
 
@@ -1287,9 +1287,9 @@ docker_build_images() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 
-docker_build_image  ${MOCK_NLX}                ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
-docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
-docker_build_image  ${CLERK_FRONTEND}          ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
+docker_build_image  ${MOCK_NLX}                ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX}  ${DOCKER_VERSION_TAG}
+docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}   ${DOCKER_VERSION_TAG}
+docker_build_image  ${CLERK_FRONTEND}          ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND}  ${DOCKER_VERSION_TAG}
 
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
@@ -1304,11 +1304,11 @@ echo "Running:"${FUNCNAME[0]}" $@"
 #create_logfile_header "${FUNCNAME[0]}" $@
 #docker commit ${GIT_REPO}_${MOCK_NLX} ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:${DOCKER_VERSION_TAG}
 
-arg1=$1 #${GIT_REPO}_${MOCK_NLX}
-arg2=$2 #${DOCKER_USER}
+arg1=$1 #${DOCKER_USER} 
+arg2=$2 #${GIT_REPO}_${MOCK_NLX}
 arg3=$3 #${DOCKER_VERSION_TAG}
 
-docker commit $1 $2/$1:$3
+docker commit $2 $1/$2:$3
 
 create_logfile_footer
 }
@@ -1321,9 +1321,11 @@ create_logfile_footer
 docker_commit_containers() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-docker commit ${${GIT_REPO}_${MOCK_NLX}} ${DOCKER_USER}/${${GIT_REPO}_${MOCK_NLX}}:${DOCKER_VERSION_TAG}
-docker commit ${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}} ${DOCKER_USER}/${${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}}:${DOCKER_VERSION_TAG}
-docker commit ${${GIT_REPO}_${CLERK_FRONTEND}} ${DOCKER_USER}/${DOCKER_HUB_${GIT_REPO}_${CLERK_FRONTEND}}:${DOCKER_VERSION_TAG}
+
+docker_commit  ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX}  ${DOCKER_VERSION_TAG}
+docker_commit  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}   ${DOCKER_VERSION_TAG}
+docker_commit  ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND}  ${DOCKER_VERSION_TAG}
+
 create_logfile_footer
 }
 
@@ -1335,7 +1337,7 @@ create_logfile_footer
 docker_build_mock_nlx()  {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-docker_build_image  ${MOCK_NLX}                ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
+docker_build_image  ${MOCK_NLX}   ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
@@ -1347,7 +1349,7 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 docker_build_waardepapieren_service()  {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
+docker_build_image  ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}  ${DOCKER_VERSION_TAG}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
@@ -1360,7 +1362,7 @@ docker_build_clerk_frontend() {
 echo "Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
 cd ${GITHUB_DIR}/clerk-frontend
-docker_build_image  ${CLERK_FRONTEND}    ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
+docker_build_image  ${CLERK_FRONTEND}    ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
