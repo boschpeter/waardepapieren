@@ -1538,22 +1538,25 @@ az container create --resource-group $AZ_RESOURCE_GROUP --file $GITHUB_DIR/deplo
 # View deployment state
 echo "View deployment state"
 az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
+#az container logs --resource-group myResourceGroup --name myContainerGroup --container-name aci-tutorial-app
 enter_cont
 }
 
 
 ##################################################################
 # Purpose: Procedure to restart the azure containergroup (pulling dockerhub. )
-# Arguments:
+# Arguments: AZ_RESOURCE_GROUP="Discipl_Wigo4it_DockerGroupx
 # Return:https://dev.to/expertsinside/start-restart-and-stop-azure-vm-from-azure-cli-41n9
 ##################################################################
 azure_restart_ACI() {
 echo "-- Running:"${FUNCNAME[0]}" $@"
 create_logfile_header "${FUNCNAME[0]}" $@
-az container restart  --resource-group $AZ_RESOURCE_GROUP
+
+# az container restart  --resource-group Discipl_Wigo4it_DockerGroup3  --name Discipl_Wigo4it_DockerGroup3
+az container restart  --resource-group $AZ_RESOURCE_GROUP --name $AZ_RESOURCE_GROUP 
 # https://docs.microsoft.com/en-us/azure/container-instances/container-instances-multi-container-yaml
 # View deployment state
-az container show --resource-group ${AZ_RESOURCE_GROUP} --name myContainerGroup --output table
+az container show --resource-group $AZ_RESOURCE_GROUP  --name $AZ_RESOURCE_GROUP  --output table
 
 enter_cont 
 
@@ -1577,7 +1580,7 @@ sleep 1
 
 ##################################################################
 # Purpose: Procedure to clone build run ship and deploy
-# Arguments:
+# Arguments: a
 # Return: setter 
 ##################################################################
 set_azure_resourcegroup() {
