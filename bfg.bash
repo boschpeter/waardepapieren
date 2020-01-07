@@ -4,7 +4,7 @@
 #
 #   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        20200109 1900        bash file generator.   dingo.
+#   Peter Bosch        2020017 1900        bash file generator.   dingo.
 #
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
@@ -146,7 +146,7 @@ clear
 #"A menu is nothing but a list of commands presented to a user by a shell script"
 
 # ----------------------------------
-# Step: User defined function
+# Step: User defined function  10 20 30 ( 40 50)
 # ----------------------------------
 pause(){
   read -p "Press [Enter] key to continue..." fackEnterKey
@@ -161,27 +161,27 @@ show_menus() {
   echo "10. docker_system_prune                                     "
   echo "11. get_curl_waardepapieren                                 "
   echo "12  show_parameters                                         "
-  echo "20. set_docker_compose_travis_yml_without_volumes           "
-  echo "21. set_Dockerfile_mock_nlx                                 "
-  echo "22. set_Dockerfile_clerk_frontend_without_volumes           "
-  echo "23. set_Dockerfile_waardepapieren_service_without_volumes   "
-  echo "24. set_clerk_frontend_nginx_conf                           "
-  echo "25. set_waardepapieren_service_config_compose_travis_json   "
-  echo "30. set_all_Dockerfiles          $CERT_HOST_IP              "
+  echo "20. set_all_Dockerfiles          $CERT_HOST_IP              "
+  echo "21. set_docker_compose_travis_yml_without_volumes           "
+  echo "22. set_Dockerfile_mock_nlx                                 "
+  echo "23. set_Dockerfile_clerk_frontend_without_volumes           "
+  echo "24. set_Dockerfile_waardepapieren_service_without_volumes   "
+  echo "25. set_clerk_frontend_nginx_conf                           "
+  echo "26 set_waardepapieren_service_config_compose_travis_json    "
+  echo "27  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           "
+  echo "30. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
+  echo "31. docker_compose_down          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "40. docker_compose_images        $COMPOSE_BUILD_FLAG ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
-  echo "41. docker_compose_down          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}  "
-  echo "42. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"
-  echo "43. docker_tag_images            $DOCKER_VERSION_TAG        "
-  echo "44. docker_login                 $DOCKER_USER               "
-  echo "45. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} "
+  echo "40. docker_build_images          ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND}"
+  echo "41. docker_tag_images            $DOCKER_VERSION_TAG        "
+  echo "42. docker_login                 $DOCKER_USER               "
+  echo "43. docker_push_images           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} "
   echo "~~~~~~~~~~~~~~~~~~~~~"
-  echo "50. azure_login                  $AZURE_USER                "
-  echo "51  set_azure_deploy_aci_yaml    $AZ_DNSNAMELABEL           "
-  echo "52. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
-  echo "53. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         "
-  echo "54. azure_create_containergroup  $AZ_RESOURCE_GROUP         "
-  echo "55. azure_restart_containergroup $AZ_RESOURCE_GROUP         "
+  echo "50. azure_restart_containergroup $AZ_RESOURCE_GROUP         "
+  echo "51. azure_login                  $AZURE_USER                "
+  echo "53. azure_delete_resourcegroup   $AZ_RESOURCE_GROUP         "
+  echo "54. azure_create_resourcegroup   $AZ_RESOURCE_GROUP         "
+  echo "55. azure_create_containergroup  $AZ_RESOURCE_GROUP         "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "60. https://github.com/boschpeter/$GIT_REPO   "
   echo "61. https://hub.docker.com/?ref=login         "
@@ -217,25 +217,25 @@ read_options(){
         10) docker_system_prune                                                    ;;
         11) get_curl_waardepapieren                                                ;;
         12) show_parameters                                                        ;;
-        20) set_docker_compose_travis_yml_without_volumes                          ;;
-        21) set_Dockerfile_mock_nlx                                                ;;
-        22) set_Dockerfile_clerk_frontend_without_volumes                          ;;
-        23) set_Dockerfile_waardepapieren_service_without_volumes                  ;;
-        24) set_clerk_frontend_nginx_conf                                          ;;
-        25) set_waardepapieren_service_config_compose_travis_json                  ;;
-        30) set_all_Dockerfiles                                                    ;;
-        40) docker_compose_images                                                  ;;
-        41) docker_compose_down                                                    ;;
-        42) docker_build_images                                                    ;;
-        43) docker_tag_images                                                      ;;
-        44) docker_login                                                           ;;
-        45) docker_push_images                                                     ;;
-        50) azure_login                                                            ;;
-        51) set_azure_deploy_aci_yaml                                              ;;
+        20) set_all_Dockerfiles                                                    ;;
+        21) set_docker_compose_travis_yml_without_volumes                          ;;
+        22) set_Dockerfile_mock_nlx                                                ;;
+        23) set_Dockerfile_clerk_frontend_without_volumes                          ;;
+        24) set_Dockerfile_waardepapieren_service_without_volumes                  ;;
+        25) set_clerk_frontend_nginx_conf                                          ;;
+        26) set_waardepapieren_service_config_compose_travis_json                  ;;
+        27) set_azure_deploy_aci_yaml                                              ;;
+        30) docker_compose_images                                                  ;;
+        31) docker_compose_down                                                    ;;
+        40) docker_build_images                                                    ;;
+        41) docker_tag_images                                                      ;;
+        42) docker_login                                                           ;;
+        43) docker_push_images                                                     ;;
+        50) azure_restart_containergroup                                           ;;
+        51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
         53) azure_create_resourcegroup                                             ;;
         54) azure_create_containergroup                                            ;;
-        55) azure_restart_containergroup                                           ;;
         60) bookmark_open https://github.com/boschpeter/$GIT_REPO                  ;;
         61) bookmark_open https://hub.docker.com/?ref=login                        ;;
         62) bookmark_open https://portal.azure.com/\#home                          ;;
