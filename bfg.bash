@@ -135,8 +135,8 @@ EPHEMERAL_RETENTION_TIME_COMPOSE_TRAVIS=2592020 #30 dagen
 ##################################################################
 create_logdir() {
 if ! [ -d "${LOG_DIR}" ]; then
-  cd $PROJECT_DIR
-  #mkdir  ${LOG_DIR}
+  cd $GITHUB_DIR
+  mkdir  ${LOG_DIR}
 fi
 }
 
@@ -1311,10 +1311,11 @@ echo "Running:"${FUNCNAME[0]}" $@"
 #docker commit ${GIT_REPO}_${MOCK_NLX} ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:${DOCKER_VERSION_TAG}
 
 arg1=$1 #${DOCKER_USER} 
-arg2=$2 #${GIT_REPO}_${MOCK_NLX}
-arg3=$3 #${DOCKER_VERSION_TAG}
+arg2=$2 #${GIT_REPO}
+arg2=$3 #${MOCK_NLX}
+arg3=$4 #${DOCKER_VERSION_TAG}
 
-docker commit $2 $1/$2:$3
+docker commit $2 $1/$2_$3:$4
 
 create_logfile_footer
 }
@@ -1378,21 +1379,52 @@ create_logfile_footer "${FUNCNAME[0]}" $@
 # Arguments: docker run [image] [ps -f]
 # Return:https://linuxhint.com/dockerfile_expose_ports/
 ##################################################################
-docker_run_images() {
+docker_run_image() {
 #59bafc1e5c92        waardepapieren_clerk-frontend           "nginx -g 'daemon of…"   3 days ago          Up 3 days (healthy)   0.0.0.0:443->443/tcp, 80/tcp, 0.0.0.0:8880->8880/tcp   waardepapieren_clerk-frontend_1
 #f8d5b3cfce1f        waardepapieren_waardepapieren-service   "docker-entrypoint.s…"   3 days ago          Up 3 days             0.0.0.0:3232-3233->3232-3233/tcp                       waardepapieren_waardepapieren-service_1
 #e3d88353d30f        waardepapieren_mock-nlx                 "docker-entrypoint.s…"   3 days ago          Up 3 days             0.0.0.0:80->80/tcp                                     waardepapieren_mock-nlx_1
 
 echo "Running:"${FUNCNAME[0]}" $@"
-create_logfile_header "${FUNCNAME[0]}" $@
-#docker run -it $1 /bin/bash
-#docker run -d --name $1  #${GIT_REPO}_${CLERK_FRONTEND} 
-docker run -d --name mock-nlx boscp08/waardepapieren_mock-nlx:2 -p 0.0.0.0:80->80/tcp
+
+arg1=$1 #${DOCKER_USER} 
+arg2=$2 #${GIT_REPO}
+arg2=$3 #${MOCK_NLX}
+arg3=$4 #${DOCKER_VERSION_TAG}
+
+# ...do something interesting...
+if  [ "$3" = "mock-nlx" ] ; then
+     # docker run -d -p 80:80  --name mock-nlx   boscp08/waardepapieren_mock-nlx:2 
+    docker run -d -p 80:80  --name $3  $1/$2_$3:$4
+fi
+
+if  [ "$3" = "waardepapieren-service" ] ; then
+     #docker run -d -p 3232:3232 -p 3233:3233 --name waardepapieren-service boscp08/waardepapieren_waardepapieren-service:2 
+    docker run -d -p 80:80 --name $3  $1/$2_$3:$4
+fi
+
+if  [ "$3" = "clerk-frontend" ] ; then
+     # docker run -d -p 443:443 -p 8880:8880   --name clerk-frontend boscp08/clerk-frontend:2 
+    docker run -d --p 443:443 -p 8880:8880  --name $3  $1/$2_$3:$4 
+fi
+
 
 #docker inspect mock-nlx | grep Address
 
-create_logfile_footer "${FUNCNAME[0]}" $@
 }
+
+##################################################################
+# Purpose:  start container from base image the docker run command is de the command used to run Docker containers. 
+# Arguments: docker run [image] [ps -f]
+# Return:https://linuxhint.com/dockerfile_expose_ports/
+##################################################################
+docker_run_images() {
+
+docker_run_image ${DOCKER_USER}  ${GIT_REPO} ${MOCK_NLX}  ${DOCKER_VERSION_TAG}
+docker_run_image ${DOCKER_USER}  ${GIT_REPO} ${WAARDEPAPIEREN_SERVICE}   ${DOCKER_VERSION_TAG}
+docker_run_image ${DOCKER_USER}  ${GIT_REPO} ${CLERK_FRONTEND}  ${DOCKER_VERSION_TAG}
+
+}
+
 #################################################################
 # Purpose:  Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
 # Arguments: docker_tag boscp08  waardepapieren_mock-nlx 4.0
