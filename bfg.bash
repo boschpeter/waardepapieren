@@ -25,6 +25,9 @@
 # cd waardepapieren
 # curl -o bfg.bash  https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
 # . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com
+# . bfg.bash mm 1 discipl.westeurope.cloudapp.azure.com
+# 10 prune  20 set Docker File 30 docker-compose  https://waardepapieren-demo.westeurope.cloudapp.azure.com
+# mv waardepapieren `date +%Y%m%d_%H_%M`_waardepapieren
 
 #  https://waardepapieren-demo.discipl.org/    BSN=663678651
 #  example Pim Otte
