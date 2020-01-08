@@ -18,7 +18,13 @@
 #  Title:           :cloutuh
 #  Category         :CI CD  bash file genererator
 #  Identificatie    :https://github.com/BoschPeter/AZ_ACI_waardepapieren-demo_westeurope_azurecontainer_io
-#                    curl -o bfg.bash  https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+#                    
+# history -c 
+# boscp08@waardepapierenVM:~/Projects/scratch/virtual-insanity$ rm -rf waardepapieren
+# boscp08@DisciplVM:~/Projects/scratch/virtual-insanity$ git clone https://github.com/discipl/waardepapieren.git
+# cd waardepapieren
+# curl -o bfg.bash  https://raw.githubusercontent.com/boschpeter/waardepapieren/master/bfg.bash
+# . bfg.bash mm 1 waardepapieren-demo.westeurope.cloudapp.azure.com
 
 #  https://waardepapieren-demo.discipl.org/    BSN=663678651
 #  example Pim Otte
@@ -27,6 +33,9 @@
 #  https://waardepapieren-demo.westeurope.cloudapp.azure.com  VM
 #  https://waardepapieren-demo.westeurope.azurecontainer.io ACI
 #  https://waardepapieren-demo.westeurope.azurecontainer.io ACI
+
+#  boscp08@DisciplVM:~/Projects/scratch/virtual-insanity$ git clone httpss://github.comd/discipl/waardepapieren.git
+
 
 # forked from https://github.com/discipl/waardepapieren.git read.ME
 # Running
