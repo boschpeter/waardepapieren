@@ -1,8 +1,8 @@
 #! /bin/bash
 # //////////////////////////////////////////////////////////////////////////////////////////
-#   File Type   :- BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI installed).
+#   File Type   : BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI installed).
 #
-#   Description :- This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
+#   Description : This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
 #   Peter Bosch        2020-0107 21:30      bash file generator.   dingo. 52.137.30.115
 #
@@ -206,8 +206,7 @@ show_menus() {
   echo "42. docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "43. docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "44. docker_login                         $DOCKER_USER               "
-  echo "45. docker_tag_images                    ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
-  echo "46. docker_commit_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
+  echo "46. docker_commit_containers                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
   echo "49. docker_push_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "50. azure_restart_ACI                    $AZ_RESOURCE_GROUP         "
@@ -257,13 +256,8 @@ read_options(){
         27) set_azure_deploy_aci_yaml                                              ;;
         30) docker_compose_images                                                  ;;
         31) docker_compose_down                                                    ;;
-        40) docker_build_images                                                    ;;
-        41) docker_build_mock_nlx                                                  ;;
-        42) docker_build_waardepapieren_service                                    ;;
-        43) docker_build_clerk_frontend                                            ;;
-        44) docker_login                                                           ;;
-        45) docker_tag_images                                                      ;;
-        46) docker_commit_images                                                   ;;
+        40) docker_commit_containers                                                   ;;
+        41) docker_login                                                           ;;
         49) docker_push_images                                                     ;;
         50) azure_restart_ACI                                                      ;;
         51) azure_login                                                            ;;
@@ -703,8 +697,8 @@ TT_INSPECT_FILE=waardepapieren-config.json
 enter_touch "${FUNCNAME[0]}" $@
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://localhost:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
   \"NLX_OUTWAY_ENDPOINT\" : \"http://${CERT_HOST_IP}:80\",
@@ -741,8 +735,8 @@ enter_touch "${FUNCNAME[0]}" $@
 
 cd $TT_DIRECTORY
 echo "{
-  \"EPHEMERAL_ENDPOINT\" : \"https://${CERT_HOST_IP}:3232\",
-  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://${CERT_HOST_IP}:3232\",
+  \"EPHEMERAL_ENDPOINT\" : \"https://localhost:3232\",
+  \"EPHEMERAL_WEBSOCKET_ENDPOINT\" : \"wss://localhost:3232\",
   \"EPHEMERAL_CERT\": \"/ephemeral-certs/org.crt\",
   \"EPHEMERAL_KEY\": \"/ephemeral-certs/org.key\",
   \"NLX_OUTWAY_ENDPOINT\" : \"https://${CERT_HOST_IP}:443\",
@@ -1329,41 +1323,6 @@ docker_build_image  ${CLERK_FRONTEND}          ${DOCKER_USER}  ${GIT_REPO}_${CLE
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
 
-##################################################################
-# Purpose:  Adding a User and Saving the Image
-# Arguments: docker push -t boscp08/waardepapieren_service 
-# Return: https://blog.codeship.com/using-docker-commit-to-create-and-change-an-image/
-##################################################################
-docker_commit() {
-echo "Running:"${FUNCNAME[0]}" $@"
-#create_logfile_header "${FUNCNAME[0]}" $@
-#docker commit ${GIT_REPO}_${MOCK_NLX} ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:${DOCKER_VERSION_TAG}
-
-arg1=$1 #${DOCKER_USER} 
-arg2=$2 #${GIT_REPO}
-arg2=$3 #${MOCK_NLX}
-arg3=$4 #${DOCKER_VERSION_TAG}
-
-docker commit $2 $1/$2_$3:$4
-
-create_logfile_footer
-}
-
-##################################################################
-# Purpose:  Push an image or a repository to a registry
-# Arguments: docker push -t boscp08/waardepapieren_service
-# Return: Ship to docker registry docker.hub.com
-##################################################################
-docker_commit_containers() {
-echo "Running:"${FUNCNAME[0]}" $@"
-create_logfile_header "${FUNCNAME[0]}" $@
-
-docker_commit  ${DOCKER_USER}  ${GIT_REPO}_${MOCK_NLX}  ${DOCKER_VERSION_TAG}
-docker_commit  ${DOCKER_USER}  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}   ${DOCKER_VERSION_TAG}
-docker_commit  ${DOCKER_USER}  ${GIT_REPO}_${CLERK_FRONTEND}  ${DOCKER_VERSION_TAG}
-
-create_logfile_footer
-}
 
 ##################################################################
 # Purpose:  Build an image from a Dockerfile
@@ -1485,6 +1444,45 @@ enter_cont
 docker images | grep  ${DOCKER_VERSION_TAG}     >> ${LOG_DIR}
 create_logfile_footer "${FUNCNAME[0]}" $@
 }
+
+
+##################################################################
+# Purpose:  Adding a User and Saving the Image
+# Arguments: docker push -t boscp08/waardepapieren_service 
+# Return: https://blog.codeship.com/using-docker-commit-to-create-and-change-an-image/
+##################################################################
+docker_commit() {
+echo "Running:"${FUNCNAME[0]}" $@"
+#create_logfile_header "${FUNCNAME[0]}" $@
+#docker commit ${GIT_REPO}_${MOCK_NLX} ${DOCKER_USER}/${GIT_REPO}_${MOCK_NLX}:${DOCKER_VERSION_TAG}
+
+arg1=$1 #${DOCKER_USER} 
+arg2=$2 #${GIT_REPO}
+arg2=$3 #${MOCK_NLX}
+arg3=$4 #${DOCKER_VERSION_TAG}
+
+docker commit $2_$3_1 $1/$2_$3:$4
+
+create_logfile_footer
+}
+
+##################################################################
+# Purpose:  Push an image or a repository to a registry
+# Arguments: docker push -t boscp08/waardepapieren_service
+# Return: Ship to docker registry docker.hub.com
+##################################################################
+
+docker_commit_containers() {
+echo "Running:"${FUNCNAME[0]}" $@"
+create_logfile_header "${FUNCNAME[0]}" $@
+
+docker_commit  ${DOCKER_USER}  ${GIT_REPO} ${MOCK_NLX} ${DOCKER_VERSION_TAG}
+docker_commit  ${DOCKER_USER}  ${GIT_REPO} ${WAARDEPAPIEREN_SERVICE}  ${DOCKER_VERSION_TAG}
+docker_commit  ${DOCKER_USER}  ${GIT_REPO} ${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
+
+create_logfile_footer
+}
+
 
 #################################################################
 # Purpose:  Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
