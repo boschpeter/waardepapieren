@@ -4,8 +4,8 @@
 #
 #   Description : This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
-#   Peter Bosch        2020-0109         bash file generator.   dingo. container commit  52.137.30.115
-#
+#   Peter Bosch        2020-0114 >>         bash file generator.   dingo. container commit  52.137.30.115
+#  ss
 # //////////////////////////////////////////////////////////////////////////////////////////
 #  File:            :bfg.bash
 #  version          :20200101 v7
@@ -1164,7 +1164,7 @@ AZURE_USER=bosch.peter@outlook.com
 AZURE_PWD=0l.....n
 
 GIT_USER=boschpeter
-GIT_PWD=P...\!...
+GIT_PWD=P...\!... 
 }
 
 ##################################################################
