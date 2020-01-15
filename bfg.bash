@@ -1,7 +1,7 @@
 #! /bin/bash
 # //////////////////////////////////////////////////////////////////////////////////////////
 #   File Type   : BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI installed).
-#
+#   test
 #   Description : This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
 #   Peter Bosch        2020-0114 >>         bash file generator.   dingo. container commit  52.137.30.115
