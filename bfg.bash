@@ -205,9 +205,11 @@ show_menus() {
   #echo "41. docker_build_mock_nlx                ${GIT_REPO}_${MOCK_NLX} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   #echo "42. docker_build_waardepapieren_service  ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   #echo "43. docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
-  echo "40. docker_commit_containers           ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
-  echo "41. docker_login                       $DOCKER_USER               "
-  echo "42. docker_push_images                 ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
+  echo "40. docker_tag_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
+  echo "41. docker_run_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
+  echo "42. docker_commit_containers            ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
+  echo "43. docker_login                        $DOCKER_USER               "
+  echo "44. docker_push_images                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "50. azure_restart_ACI                    $AZ_RESOURCE_GROUP         "
   echo "51. azure_login                          $AZURE_USER                "
@@ -256,9 +258,11 @@ read_options(){
         27) set_azure_deploy_aci_yaml                                              ;;
         30) docker_compose_images                                                  ;;
         31) docker_compose_down                                                    ;;
-        40) docker_commit_containers                                               ;;
-        41) docker_login                                                           ;;
-        42) docker_push_images                                                     ;;
+        40) docker_tag_images                                                      ;;
+        41) docker_run_images                                                      ;;
+        42) docker_commit_containers                                               ;;
+        43) docker_login                                                           ;;
+        44) docker_push_images                                                     ;;
         50) azure_restart_ACI                                                      ;;
         51) azure_login                                                            ;;
         52) azure_delete_resourcegroup                                             ;;
@@ -1427,6 +1431,8 @@ arg4=$4 #${DOCKER_VERSION_TAG}
 docker tag $2:latest $1/$3:$4
 }
 
+
+
 ##################################################################
 # Purpose:  Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
 # Arguments: docker tag -t boscp08/waardepapieren_clerk-frontend
@@ -1512,6 +1518,106 @@ docker_push_image  ${DOCKER_USER} ${GIT_REPO}_${MOCK_NLX} ${DOCKER_VERSION_TAG}
 docker_push_image  ${DOCKER_USER} ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} ${DOCKER_VERSION_TAG}
 docker_push_image  ${DOCKER_USER} ${GIT_REPO}_${CLERK_FRONTEND} ${DOCKER_VERSION_TAG}
 create_logfile_footer
+}
+
+##################################################################
+# DEPLOY-FUNCTIONS  waardepapieren to Kubernetes 2LPC Logius-Private-cloud  FROM DOCKER-HUB
+##################################################################
+
+
+#################################################
+# Purpose: Procedure concurrent version system
+# Arguments: 10.127.19.132
+# Return: pbosch
+##################################################################
+
+kjoep_siet_ie_el() {
+echo "Running:"${FUNCNAME[0]}" $@"
+
+#https://github.com/boschpeter/Kubernetes/wiki/kjoep-sie-tie-el
+
+# kubectl -n hack-ontwikkel describe pod $(kubectl get pod -n kubesystem -o name| cut -d/ -f2- |grep dns
+# echo -n "ThisIsCool" |base64
+#networkmanager plus etc/hosts tt.tt.tt.tt api.lpc-ot2.k8s.easi'
+#0  kubectl version --client
+#1 	kubectl plugin list
+#2 	kubectl oidc-login #google-authenticator login
+#3 	kubectl -n hack-ontwikkel cluster-info
+#4 	kubectl -n hack-ontwikkel get pods
+#5 	kubectl -n hack-ontwikkel get services
+#6 	kubectl -n hack-ontwikkel get events
+#7 	https://ezahr.hack-ontwikkel.lpc-ot2.l12m.nl/
+#8 	https://ictu-vvdlaar.hack-ontwikkel.lpc-ot2.l12m.nl
+#9 	https://waardepapieren.hack-ontwikkel.lpc-ot2.l12m.nl/
+
+# git clone 
+
+ # Deploy the pod in k8s
+ #   - kubectl config set-context $(kubectl config current-context) --namespace=${CD_NAMESPACE}
+ #   - kubectl config set-context lpc-ot2 --namespace=hack-ontwikkel
+ #   - kubectl apply -f ./k8s/deployment.yaml # Pod deployment
+ #   - kubectl apply -f ./k8s/service.yaml # service deployment
+ #   - kubectl apply -f ./k8s/ingress.yaml # ingress deployment
+
+# kubectl -n hack-ontwikkel get ingresses. ezahr-ingress -o yaml
+# replica's  in service op 0 zetten is killing the pods. 
+# boscp08@boscp08-dingo:/etc$ kubectl scale deployment waardepapieren --replicas=0 -n hack-ontwikkel
+# deployment.extensions/waardepapieren scaled
+# boscp08@boscp08-dingo:/etc$ kubectl get pods -n hack-ontwikkel
+# NAME                                READY   STATUS        RESTARTS   AGE
+# ezahr-769df97889-6km4t              1/1     Running       0          6d9h
+# ictu-vvdlaar-c8bcd7bfb-lctmb        1/1     Running       0          18d
+# marktplaats-6c5468c9d7-d5tbl        1/1     Running       0          83d
+# marktplaats-fe-cfbcdd5db-2mdft      1/1     Running       1          82d
+# my-test-9d8bc58cc-5brsf             1/1     Running       1          80d
+# nginx-deployment-5754944d6c-t9z5m   1/1     Running       0          24d
+# nginx-deployment-5754944d6c-vwqvf   1/1     Running       0          19d
+# pim-my-test-7d87cdbd6-qzhbv         1/1     Running       0          19d
+# rv-69fdf84d76-55tdh                 1/1     Running       0          19d
+# rv-69fdf84d76-vd4zf                 1/1     Running       0          19d
+# testproject-b4c8766d6-cg68d         1/1     Running       0          82d
+# waardepapieren-595bc779bd-4jzmh     3/3     Terminating   0          4d7h
+# boscp08@boscp08-dingo:/etc$ kubectl scale deployment waardepapieren --replicas=1 -n  hack-ontwikkel
+# deployment.extensions/waardepapieren scaled
+# boscp08@boscp08-dingo:/etc$ kubectl get pods -n hack-ontwikkel
+# NAME                                READY   STATUS              RESTARTS   AGE
+# ezahr-769df97889-6km4t              1/1     Running             0          6d9h
+# ictu-vvdlaar-c8bcd7bfb-lctmb        1/1     Running             0          18d
+# marktplaats-6c5468c9d7-d5tbl        1/1     Running             0          83d
+# marktplaats-fe-cfbcdd5db-2mdft      1/1     Running             1          82d
+# my-test-9d8bc58cc-5brsf             1/1     Running             1          80d
+# nginx-deployment-5754944d6c-t9z5m   1/1     Running             0          24d
+# nginx-deployment-5754944d6c-vwqvf   1/1     Running             0          19d
+# pim-my-test-7d87cdbd6-qzhbv         1/1     Running             0          19d
+# rv-69fdf84d76-55tdh                 1/1     Running             0          19d
+# rv-69fdf84d76-vd4zf                 1/1     Running             0          19d
+# testproject-b4c8766d6-cg68d         1/1     Running             0          82d
+# waardepapieren-595bc779bd-6qnfc     0/3     ContainerCreating   0          3s
+# boscp08@boscp08-dingo:/etc$ kubectl get pods -n hack-ontwikkel
+# NAME                                READY   STATUS    RESTARTS   AGE
+# ezahr-769df97889-6km4t              1/1     Running   0          6d9h
+# ictu-vvdlaar-c8bcd7bfb-lctmb        1/1     Running   0          18d
+# marktplaats-6c5468c9d7-d5tbl        1/1     Running   0          83d
+# marktplaats-fe-cfbcdd5db-2mdft      1/1     Running   1          82d
+# my-test-9d8bc58cc-5brsf             1/1     Running   1          80d
+# nginx-deployment-5754944d6c-t9z5m   1/1     Running   0          24d
+# nginx-deployment-5754944d6c-vwqvf   1/1     Running   0          19d
+# pim-my-test-7d87cdbd6-qzhbv         1/1     Running   0          19d
+# rv-69fdf84d76-55tdh                 1/1     Running   0          19d
+# rv-69fdf84d76-vd4zf                 1/1     Running   0          19d
+# testproject-b4c8766d6-cg68d         1/1     Running   0          82d
+# waardepapieren-595bc779bd-6qnfc     3/3     Running   0          2m46s
+# 11:45
+# waardepapieren-aan-uit toggle
+# kubectl scale deployment waardepapieren --replicas=0 -n hack-ontwikkel
+#   
+# kubectl scale deployment waardepapieren --replicas=1 -n  hack-ontwikkel
+# kubectl get pods -n hack-ontwikkel
+# 
+
+
+
+
 }
 
 ##################################################################
