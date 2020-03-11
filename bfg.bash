@@ -207,7 +207,7 @@ show_menus() {
   #echo "43. docker_build_clerk_frontend          ${GIT_REPO}_${CLERK_FRONTEND} with DOCKER_VERSION_TAG=$DOCKER_VERSION_TAG "
   echo "40. docker_tag_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
   echo "41. docker_run_images                   ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
-  echo "42. docker_commit_containers            ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
+  echo "42. docker_commit_containers            ${GIT_REPO}_${MOCK_NLX}_1 + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE}_1 + ${GIT_REPO}_${CLERK_FRONTEND}_1 TAG=$DOCKER_VERSION_TAG "
   echo "43. docker_login                        $DOCKER_USER               "
   echo "44. docker_push_images                  ${GIT_REPO}_${MOCK_NLX} + ${GIT_REPO}_${WAARDEPAPIEREN_SERVICE} + ${GIT_REPO}_${CLERK_FRONTEND} TAG=$DOCKER_VERSION_TAG "
   echo "~~~~~~~~~~~~~~~~~~~~~"
@@ -228,6 +228,7 @@ show_menus() {
   echo "72.  . bfg.bash mm 2 discipl.westeurope.cloudapp.azure.com"
   echo "73.  . bfg.bash mm 3 waardepapieren-demo.westeurope.azurecontainer.io"
   echo "74.  . bfg.bash mm 4 discipl.westeurope.azurecontainer.io"
+  echo "75.  . bfg.bash mm 5 waardepapieren.hack-ontwikkel.lpc-ot2.l12m.nl "
   echo "79.    get_this_bfg_batchfile_generator latest from https://github.com/boschpeter/${GIT_REPO}.git "
   echo "~~~~~~~~~~~~~~~~~~~~~"
   echo "80. the_whole_sjebang "
@@ -279,6 +280,7 @@ read_options(){
         72) bfg_bash_mm_2_discipl_demo_westeurope_cloudapp_azure_com               ;;
         73) bfg_bash_mm_3_waardepapieren_demo_westeurope_azurecontainer_io         ;;
         74) bfg_bash_mm_4_discipl_westeurope_azurecontainer_io                     ;;
+        75) bfg_bash_mm_5_waardepapieren_hack_ontwikkel_lpc_ot2_l12m_nl            ;;
         79) get_curl_bfg                                                           ;;
         80) the_whole_sjebang                                                      ;;
         99) Exit                                                                   ;;
@@ -1995,6 +1997,16 @@ cd $GITHUB_DIR
 bfg_bash_mm_4_discipl_westeurope_azurecontainer_io(){
 cd $GITHUB_DIR
 . bfg.bash mm 4 discipl.westeurope.azurecontainer.io  
+}
+
+##################################################################
+# Purpose: kickstarters azure ACI Azure Container Instance
+# Arguments:  .  bfg.bash mm 5 waardepapieren.hack-ontwikkel.lpc-ot2.l12m.nl
+# Return: https://waardepapieren.hack-ontwikkel.lpc-ot2.l12m.nl hopefulle
+##################################################################
+bfg_bash_mm_5_discipl_westeurope_azurecontainer_io(){
+cd $GITHUB_DIR
+.  bfg.bash mm 5 waardepapieren.hack-ontwikkel.lpc-ot2.l12m.nl  
 }
 
 
