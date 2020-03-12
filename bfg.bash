@@ -1,6 +1,6 @@
 #! /bin/bash
 # //////////////////////////////////////////////////////////////////////////////////////////
-#   File Type   : BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI installed).
+#   File Type   : BASH Script (needs GIT-CLI,  docker-CLI and AZURE-CLI  kubectl installed  ).
 #   test
 #   Description : This script builds "waardepapieren" containers and ships images to hub.docker.com and beyond to ACI
 #   Modified           Date                 Description
